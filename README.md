@@ -1,2 +1,0 @@
-# largescale cazzohhhh
-# giulio girati
