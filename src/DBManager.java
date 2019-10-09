@@ -18,7 +18,7 @@ public class DBManager{
 	
 	public void start()
 	{
-		String connStr = "jdbc:mysql://localhost:" + this.port + "/" + this.dbname +"?user=" + this.usr + "&password=" + this.pwd + "&useSSL=false";
+		String connStr = "jdbc:mysql://localhost:" + this.port + "/" + this.dbname +"?user=" + this.usr + "&password=" + this.pwd + "&serverTimezone=CET&useSSL=false";
 		try {
 			conn = DriverManager.getConnection(connStr);
 			//System.out.println("Connection established.");
