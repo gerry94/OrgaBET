@@ -2,7 +2,11 @@
 public class GestionBiblioteca {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
+		DBManager dbm = new DBManager(3306, "feanor", "password", "lsdb");
+		
+		dbm.start();
+		dbm.stop();
 
 	}
 
