@@ -43,8 +43,12 @@ public class GestionBiblioteca {
 				{
 				case "!list":
 					List<String> elenco = dbm.list();
-					for(int i=0; i<elenco.size(); i++)
-						System.out.println(elenco.get(i));
+					for(int i=1; i<=elenco.size(); i++)
+					{
+						System.out.print(elenco.get(i-1)+'\t');
+						if(i%4 == 0)
+							System.out.println("");
+					}	
 					break;
 				case "!exit":
 					System.out.println("Closing program...");

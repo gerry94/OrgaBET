@@ -68,7 +68,11 @@ public class DBManager{
 				resultstr.add(rs.getString("idBook"));
 				resultstr.add(rs.getString("Title"));
 				resultstr.add(rs.getString("Author"));
-				resultstr.add(rs.getString("Available"));
+				String aval = "(Available)"; 
+				if(rs.getString("Available").compareTo(Integer.toString(0)) == 0)
+					aval = "(Not Available)";
+				
+				resultstr.add(aval);
 			}
 			
 			return resultstr;
