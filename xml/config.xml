@@ -1,0 +1,4 @@
+<?xml version="1-0" encoding="UTF-8"?>
+
+<XMLConfig port="3306" username="feanor" password="password">
+</XMLConfig>
