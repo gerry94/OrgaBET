@@ -69,7 +69,7 @@ public class DBManager{
 				resultstr.add(rs.getString("Title"));
 				resultstr.add(rs.getString("Author"));
 				String aval = "(Available)"; 
-				if(rs.getString("Available").compareTo(Integer.toString(0)) == 0)
+				if(rs.getString("numCopies").compareTo(Integer.toString(0)) == 0)
 					aval = "(Not Available)";
 				
 				resultstr.add(aval);
@@ -84,7 +84,7 @@ public class DBManager{
 	
 	public int availability(String bookId) //1: success, 0: not avail, -1: invalid code
 	{
-		String query = "SELECT Available FROM Book WHERE idBook=?";
+		String query = "SELECT B.numCopies - COUNT(L.idBook) AS Available FROM Book B LEFT JOIN Loan L 	ON B.idBook = L.idBook WHERE B.idBook=?";
 		
 		try
 		{
@@ -95,9 +95,7 @@ public class DBManager{
 			ResultSet rs = ps.getResultSet();
 			
 			if(rs.next())
-				if(rs.getString("Available").compareTo(Integer.toString(0)) == 0)
-					return 0;
-				else return 1;
+				return rs.getInt("Available");
 			else return -1;
 		}
 		catch(SQLException e) { e.printStackTrace(); }
@@ -133,20 +131,13 @@ public class DBManager{
 	
 	public boolean borrow(String bookId, String usrId)
 	{
-		String query1 = "UPDATE Book SET Available=0 WHERE idBook= ?";
 		String query2 = "INSERT INTO Loan VALUES (?, ?, ?, ?)";
 		
 		Date current = new Date(System.currentTimeMillis());
 		Date delivery = new Date(current.getTime()+31l*24l*60l*60l*1000l); //adding 1 month (in millisec) to borrow date
 		
 		try
-		{
-			PreparedStatement ps1 = conn.prepareStatement(query1);
-			
-			ps1.setString(1, bookId);
-			ps1.executeUpdate();
-			ps1.close();
-			
+		{			
 			PreparedStatement ps2 = conn.prepareStatement(query2);
 			
 			ps2.setString(1, usrId);
@@ -206,15 +197,34 @@ public class DBManager{
 	    return false;
 	}
 	
-	public void add_book(String idBook, String Title, String Author) 
+	public boolean checkBookExistance(String idBook)
 	{
-	    String query = "INSERT INTO Book VALUES (?, ?, ?, 1)";
+		String query = "SELECT * FROM Book WHERE idBook=?";
+		try {
+				  PreparedStatement ps = conn.prepareStatement(query);
+				  ps.setString(1, idBook);
+				  ps.execute();
+				  
+				  ResultSet rs = ps.getResultSet();
+				
+				if(rs.next()) return true;
+				else return false;
+			
+		} catch(SQLException e) { e.printStackTrace(); }
+		return false;
+	}
+	
+	public void addBook(String idBook, String Title, String Author, int numCopies) 
+	{
+	    String query = "INSERT INTO Book VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE numCopies=numCopies+?";
 	    
 	    try {
 		      PreparedStatement ps = conn.prepareStatement(query);
 		      ps.setString(1, idBook);
 		      ps.setString(2, Title);
 		      ps.setString(3, Author);
+		      ps.setInt(4, numCopies);
+		      ps.setInt(5, numCopies);
 		      
 		      int insertedrows = ps.executeUpdate();
 		      if (insertedrows == 1)
@@ -225,24 +235,62 @@ public class DBManager{
 		} catch(SQLException e) { e.printStackTrace(); }
 	 }
 	
-	public void removeBook(String idBook)
+	public int getNumCopies(String idBook)
 	{
-		String query = "DELETE FROM Book WHERE idBook=?";
+		String query = "SELECT numCopies FROM Book WHERE idBook=?";
+		try {
+		      PreparedStatement ps = conn.prepareStatement(query);
+		      ps.setString(1, idBook);
+		      ps.execute();
+		      ResultSet rs = ps.getResultSet();
+		      
+		      if(rs.next())
+		    	  return rs.getInt("numCopies");
+		      else return -1;
+		} catch(SQLException e) { e.printStackTrace(); }
+		return -1;
+	}
+	
+	public void removeBook(String idBook, int removeCopies)
+	{
 	    int avail = availability(idBook);
+	    int totalCopies = getNumCopies(idBook);
 	    
-	    if(avail == 1) {
-	      try {
-				PreparedStatement ps = conn.prepareStatement(query);
-				ps.setString(1, idBook);
+	    if((avail == -1) || (totalCopies == -1)) {
+	    	System.out.println(REDC + "ERROR: Invalid book ID!" + ENDC);
+	    	return;
+	    }
+	    else if(avail == 0) {
+	    	System.out.println(REDC + "ERROR: All copies are currently borrowed." + ENDC);
+	    	return;
+	    }
+	    
+	    String query="";
+	    
+	    if(avail-removeCopies < 0)
+	    	System.out.println(REDC + "ERROR: Not enough copies available right now." + ENDC);
+	    else
+	    {
+	    	try {
+	    		PreparedStatement ps;
+	    		
+	    	if((avail-removeCopies == 0) && (removeCopies == totalCopies))
+	    	{
+	    		query ="DELETE FROM Book WHERE idBook=?";
+	    		ps = conn.prepareStatement(query);
+	    		ps.setString(1, idBook);
+	    	}
+	    	else 
+	    	{
+	    		query = "UPDATE Book SET numCopies=numCopies-? WHERE idBook=?";
+	    		ps = conn.prepareStatement(query);
+	    		ps.setInt(1, removeCopies);
+	    		ps.setString(2, idBook);
+	    	}
 				int rows = ps.executeUpdate();
 				  if (rows == 1)
-					  System.out.println(GREENC + "Successfully removed book from the Catalogue." + ENDC);
-	      } catch(SQLException e) { e.printStackTrace(); }  
+					  System.out.println(GREENC + "Successfully removed book copy from the Catalogue." + ENDC);
+	      } catch(SQLException e) { e.printStackTrace(); }
+	    }
 	    } 
-	    else if(avail == -1)
-	    	System.out.println(REDC + "Invalid book ID!" + ENDC);
-	    else
-	    	System.out.println(REDC + "Book is currently borrowed." + ENDC);	
-	}
-
 }

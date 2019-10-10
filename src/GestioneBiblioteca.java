@@ -133,15 +133,24 @@ public class GestioneBiblioteca {
 							System.out.print(">");
 							idBook = scan.next();
 							
-							System.out.println("Insert Title: ");
-							System.out.print(">");
-							String Title = scan.next();
+							String Title="", Author="";
 							
-							System.out.println("Insert Author: ");
+							if(!dbm.checkBookExistance(idBook))
+							{
+								System.out.println("Insert Title: ");
+								System.out.print(">");
+								Title = scan.next();
+								
+								System.out.println("Insert Author: ");
+								System.out.print(">");
+								Author = scan.next();
+							}
+							else System.out.println(GREENC + "Book is already registered in the Catalogue." + ENDC);
+							System.out.println("How many copies are to be inserted? ");
 							System.out.print(">");
-							String Author = scan.next();
+							int n = scan.nextInt();
 							
-							dbm.add_book(idBook, Title, Author);
+							dbm.addBook(idBook, Title, Author, n);
 							break;
 						}
 					case "!remove":
@@ -149,10 +158,20 @@ public class GestioneBiblioteca {
 						{
 							System.out.println("Insert the ID of the book to be removed: ");
 							System.out.print(">");
-							idBook = scan.next(); //gestire un id di libro non esistente
+							idBook = scan.next();
+							
+							if(!dbm.checkBookExistance(idBook))
+							{
+								System.out.println(REDC + "Invalid book ID." + ENDC);
+								break;
+							}
+							
+							System.out.println("How many copies are to be removed? ");
+							System.out.print(">");
+							int n = scan.nextInt();
 							
 							List<String> bookInfo = dbm.getBookInfo(idBook);
-							System.out.println("You chose to remove: " + bookInfo.get(0) + ", written by " + bookInfo.get(1));
+							System.out.println("You are removing " + n + " copies of " + bookInfo.get(0) + ", written by " + bookInfo.get(1));
 							System.out.println("Confirm this choice? (y/n): ");
 							System.out.print(">");
 							
@@ -160,7 +179,7 @@ public class GestioneBiblioteca {
 							System.out.println("");
 							
 							if(cin.compareTo("y") == 0)
-								dbm.removeBook(idBook);
+								dbm.removeBook(idBook, n);
 							else System.out.println("Operation aborted.");
 							break;
 						}
