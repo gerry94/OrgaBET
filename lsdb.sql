@@ -28,7 +28,7 @@ CREATE TABLE `Book` (
   `idBook` varchar(45) NOT NULL,
   `Title` varchar(255) NOT NULL,
   `Author` varchar(45) NOT NULL,
-  `Available` tinyint(4) NOT NULL DEFAULT '1',
+  `numCopies` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idBook`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -39,7 +39,7 @@ CREATE TABLE `Book` (
 
 LOCK TABLES `Book` WRITE;
 /*!40000 ALTER TABLE `Book` DISABLE KEYS */;
-INSERT INTO `Book` VALUES ('111a','The Lord of The Rings','J.R.R. Tolkien',1),('111b','Manuale del Trapano: Guida per Principianti','Mario Dilaria',1),('111c','1984','George Orwell',1),('111d','Moby Dick','Herman Melville',1),('111e','Don Chisciotte della Mancia','Miguel de Cervantes',1),('111f','Tennis per Dilettanti','Roger Orga',1),('111g','Il Barone Rampante','Italo Calvino',1),('111h','Il Decamerone','Giovanni Boccaccio',1),('111i','Odissea','Omero',0),('111j','Come Scrivere la Tesi','Joseph Pimpinella',0),('111k','Amleto','William Shakespeare',0),('111l','Dalle Porte AND, OR, NOT al Sistema Calcolatore','Paolo Corsini',1),('222a','Leone d\'Argento: Biografia di Mimmo Croce','Alessio Bongiovanni',1);
+INSERT INTO `Book` VALUES ('111a','The Lord of The Rings','J.R.R. Tolkien',3),('111b','Manuale del Trapano: Guida per Principianti','Mario Dilaria',5),('111c','1984','George Orwell',1),('111d','Moby Dick','Herman Melville',3),('111e','Don Chisciotte della Mancia','Miguel de Cervantes',2),('111f','Tennis per Dilettanti','Roger Orga',1),('111g','Il Barone Rampante','Italo Calvino',2),('111h','Il Decamerone','Giovanni Boccaccio',1),('111i','Odissea','Omero',1),('111j','Come Scrivere la Tesi','Joseph Pimpinella',1),('111k','Amleto','William Shakespeare',2),('111l','Dalle Porte AND, OR, NOT al Sistema Calcolatore','Paolo Corsini',1),('111z','Manuale di DataBase NoSQL','Pietro Ducange',2),('222a','Leone d\'Argento: Biografia di Mimmo Croce','Alessio Bongiovanni',2);
 /*!40000 ALTER TABLE `Book` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -104,4 +104,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-10 17:12:19
+-- Dump completed on 2019-10-10 20:11:48
