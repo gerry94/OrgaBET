@@ -52,7 +52,7 @@ public class GestioneBiblioteca {
 	}
 	
 	public static void main(String[] args) {
-		DBManager dbm = new DBManager(3306, "feanor", "password", "lsdb");
+		DBManager dbm = new DBManager(3306, "khaeros", "password", "lsdb");
 		String command;
 		dbm.start();
 		
@@ -137,7 +137,7 @@ public class GestioneBiblioteca {
 						{
 							if(dbm.bookReturn(bookId, idUser))
 								System.out.println("Returned.");
-							else System.out.println("ERROR: Unable to return, please check the bookcode.");
+							else System.out.println(REDC+"You have not borrowed this book, please check the bookcode."+ENDC);
 						}
 						else System.out.println("Operation aborted.");		
 						break;

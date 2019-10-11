@@ -20,7 +20,7 @@ public class DBManager{
 	
 	public void start()
 	{
-		String connStr = "jdbc:mysql://localhost:" + this.port + "/" + this.dbname +"?user=" + this.usr + "&password=" + this.pwd + "&useSSL=false";
+		String connStr = "jdbc:mysql://localhost:" + this.port + "/" + this.dbname +"?user=" + this.usr + "&password=" + this.pwd + "&useSSL=false&allowPublicKeyRetrieval=true";
 		try {
 			conn = DriverManager.getConnection(connStr);
 		} catch (SQLException e) { e.printStackTrace(); }
@@ -158,7 +158,7 @@ public class DBManager{
 	
 	public boolean bookReturn (String bookId, String usrId)
 	{
-		String query = "DELETE FROM Loan WHERE userId=? AND bookId=?)";
+		String query = "DELETE FROM Loan WHERE idUser=? AND idBook=?";
 		
 		try
 		{			

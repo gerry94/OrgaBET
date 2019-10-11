@@ -3,22 +3,38 @@
 	<groupId>largescale</groupId>
 	<artifactId>largescale</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
 	<dependencies>
 		<dependency>
-			<groupId>mysql</groupId>
-	 		<artifactId>mysql-connector-java</artifactId>
-	 		<version>8.0.17</version>
-	 	</dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.17</version>
+		</dependency>
 	</dependencies>
 	<build>
+		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
 	         </plugin>
+	    <plugin>
+	      <!-- Build an executable JAR -->
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-jar-plugin</artifactId>
+	      <version>3.1.0</version>
+	      <configuration>
+	        <archive>
+	          <manifest>
+	            <mainClass>GestioneBiblioteca</mainClass>
+	          </manifest>
+	        </archive>
+	      </configuration>
+	    </plugin>
 		</plugins>
-		<finalName>Task0-0.0.1-SNAPSHOT</finalName>
 	</build>
 </project>
