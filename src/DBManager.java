@@ -145,13 +145,33 @@ public class DBManager{
 			ps2.setString(3, current.toString());
 			ps2.setString(4, delivery.toString());
 			
-			ps2.executeUpdate();
+			int check = ps2.executeUpdate();
 			ps2.close();
-			return true;
+			if (check==1)
+				return true;
 		}
 		catch(SQLIntegrityConstraintViolationException e) { 
-			System.out.println(REDC + "ERROR: Conficting Keys. Operation aborted." + ENDC);
+			System.out.println(REDC + "ERROR: You already borrowed this book." + ENDC);
 		} catch(SQLException e) { e.printStackTrace(); }
+		return false;
+	}
+	
+	public boolean bookReturn (String bookId, String usrId)
+	{
+		String query = "DELETE FROM Loan WHERE userId=? AND bookId=?)";
+		
+		try
+		{			
+			PreparedStatement ps = conn.prepareStatement(query);
+			
+			ps.setString(1, usrId);
+			ps.setString(2, bookId);
+			
+			int check=ps.executeUpdate();
+			ps.close();
+			if (check==1)
+					return true;
+		}catch(SQLException e) { e.printStackTrace(); }
 		return false;
 	}
 	

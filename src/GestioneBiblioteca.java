@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.*;
 
 public class GestioneBiblioteca {
@@ -19,23 +20,19 @@ public class GestioneBiblioteca {
 			System.out.println("!borrow --> request to borrow a specific book.");
 			System.out.println("!return --> return to the library a previously borrowed book.");
 		}
-		System.out.println("!list --> visualize the catalog for this library.");
+		System.out.println("!list --> visualize the catalogue for this library.");
+		System.out.println("!logout --> logout from the program.");
 		System.out.println("!exit --> logout and close the program.");
 		System.out.println("");
 	}
 	
-	public static void main(String[] args) {
-		//cleans the terminal prompt
-		System.out.print("\033[H\033[2J");  
-	    System.out.flush();
-	    
-		DBManager dbm = new DBManager(3306, "feanor", "password", "lsdb");
-		String command;
-		
-		dbm.start();
-		
-		Scanner scan = new Scanner(System.in).useDelimiter("\n");
-		
+	public static String login(DBManager dbm, Scanner scan)
+	{	
+		try {
+			Runtime.getRuntime().exec("clear");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		System.out.println("====================== Welcome in BibliOS ======================");
 		String user_name = "", idUser = "";
 		
@@ -43,7 +40,6 @@ public class GestioneBiblioteca {
 			System.out.println("Please, insert your access code found in your library card:");
 			System.out.print(">");
 			idUser = scan.next();
-			
 			user_name = dbm.login(idUser);
 			if(user_name == "")
 				System.out.println("Incorrect credentials: please try again or contact a librarian for help.");
@@ -51,7 +47,18 @@ public class GestioneBiblioteca {
 		
 		System.out.println("Welcome " + user_name +". The following commands are available: ");
 		System.out.println("");
+		return idUser;
 		
+	}
+	
+	public static void main(String[] args) {
+		DBManager dbm = new DBManager(3306, "feanor", "password", "lsdb");
+		String command;
+		dbm.start();
+		
+		Scanner scan = new Scanner(System.in).useDelimiter("\n");
+		
+		String idUser=login(dbm,scan);
 		boolean privilege = dbm.check_privilege(idUser);
 		printMsg(privilege);
 		
@@ -93,7 +100,7 @@ public class GestioneBiblioteca {
 						
 						if(code == 0)
 							System.out.println("Book not available. Please check availability by using the !list command.");
-						else if(code == 1)
+						else if(code >=1)
 						{
 							//1) stampo titolo e autore e chiedo conferma del prestito
 							List<String> bookInfo = dbm.getBookInfo(idBook);
@@ -117,8 +124,29 @@ public class GestioneBiblioteca {
 						break;
 					
 					case "!return":
+						System.out.println("Please insert the code of the book you wish to return:");
+						System.out.print(">");
+						String bookId= scan.next();
+						List<String> bookinf = dbm.getBookInfo(bookId);
+						System.out.println("You are returning: " + bookinf.get(0) + ", written by " + bookinf.get(1));
+						System.out.println("Confirm this choice? (y/n): ");
+						System.out.print(">");
+						String cin = scan.next();
+						System.out.println("");
+						if(cin.compareTo("y") == 0)
+						{
+							if(dbm.bookReturn(bookId, idUser))
+								System.out.println("Returned.");
+							else System.out.println("ERROR: Unable to return, please check the bookcode.");
+						}
+						else System.out.println("Operation aborted.");		
 						break;
-
+					
+					case "!logout":
+						idUser=login(dbm,scan);
+						privilege = dbm.check_privilege(idUser);
+						printMsg(privilege);
+						break;
 					case "!exit":
 						System.out.println("Closing program...");
 						dbm.stop();
@@ -175,7 +203,7 @@ public class GestioneBiblioteca {
 							System.out.println("Confirm this choice? (y/n): ");
 							System.out.print(">");
 							
-							String cin = scan.next();
+							cin = scan.next();
 							System.out.println("");
 							
 							if(cin.compareTo("y") == 0)
@@ -205,6 +233,7 @@ public class GestioneBiblioteca {
 						System.out.println(REDC + "Invalid command." + ENDC + "Type '!help' to view available commands.");
 						break;
 			}
+		
 		}
 	}
 
