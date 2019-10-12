@@ -35,7 +35,7 @@ public class DBManager{
 	
 	public String login(String userid)
 	{
-		String query = "SELECT Name FROM User WHERE idUser = ?";
+		String query = "SELECT Name FROM user WHERE idUser = ?";
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, userid);
@@ -53,7 +53,7 @@ public class DBManager{
 	
 	public List<String> list(boolean privilege)
 	{
-		String query = "SELECT B.idBook, B.Title, B.Author, B.numCopies - COUNT(L.idBook) AS Available, B.numCopies AS Total FROM Book B LEFT JOIN Loan L ON B.idBook = L.idBook GROUP BY B.idBook ORDER BY B.idBook;";
+		String query = "SELECT B.idBook, B.Title, B.Author, B.numCopies - COUNT(L.idBook) AS Available, B.numCopies AS Total FROM book B LEFT JOIN loan L ON B.idBook = L.idBook GROUP BY B.idBook ORDER BY B.idBook;";
 		List<String> resultstr = new ArrayList<String>();
 		
 		try
@@ -90,7 +90,7 @@ public class DBManager{
 	
 	public int availability(String bookId) //1: success, 0: not avail, -1: invalid code
 	{
-		String query = "SELECT B.numCopies - COUNT(L.idBook) AS Available FROM Book B LEFT JOIN Loan L 	ON B.idBook = L.idBook WHERE B.idBook=?";
+		String query = "SELECT B.numCopies - COUNT(L.idBook) AS Available FROM book B LEFT JOIN loan L 	ON B.idBook = L.idBook WHERE B.idBook=?";
 		
 		try
 		{
@@ -110,7 +110,7 @@ public class DBManager{
 	
 	public List<String> getBookInfo(String bookId)
 	{
-		String query = "SELECT Title, Author FROM Book WHERE idBook=?";
+		String query = "SELECT Title, Author FROM book WHERE idBook=?";
 		List<String> resultstr = new ArrayList<String>();
 		
 		try
@@ -137,7 +137,7 @@ public class DBManager{
 	
 	public boolean borrow(String bookId, String usrId)
 	{
-		String query2 = "INSERT INTO Loan VALUES (?, ?, ?, ?)";
+		String query2 = "INSERT INTO loan VALUES (?, ?, ?, ?)";
 		
 		Date current = new Date(System.currentTimeMillis());
 		Date delivery = new Date(current.getTime()+31l*24l*60l*60l*1000l); //adding 1 month (in millisec) to borrow date
@@ -164,7 +164,7 @@ public class DBManager{
 	
 	public boolean bookReturn (String bookId, String usrId)
 	{
-		String query = "DELETE FROM Loan WHERE idUser=? AND idBook=?";
+		String query = "DELETE FROM loan WHERE idUser=? AND idBook=?";
 		
 		try
 		{			
@@ -183,7 +183,7 @@ public class DBManager{
 	
 	public void createuser(String idUser, String name, String surname)
 	{
-			String query = "INSERT INTO User VALUES (?, ?, ?, 0)";
+			String query = "INSERT INTO user VALUES (?, ?, ?, 0)";
 			
 			try
 			{
@@ -205,7 +205,7 @@ public class DBManager{
 	
 	public boolean check_privilege(String userid) 
 	{
-	    String query = "SELECT Privilege FROM User WHERE idUser = ?";
+	    String query = "SELECT Privilege FROM user WHERE idUser = ?";
 	    try
 	    {
 		      PreparedStatement ps = conn.prepareStatement(query);
@@ -225,7 +225,7 @@ public class DBManager{
 	
 	public boolean checkBookExistance(String idBook)
 	{
-		String query = "SELECT * FROM Book WHERE idBook=?";
+		String query = "SELECT * FROM book WHERE idBook=?";
 		try {
 				  PreparedStatement ps = conn.prepareStatement(query);
 				  ps.setString(1, idBook);
@@ -242,7 +242,7 @@ public class DBManager{
 	
 	public void addBook(String idBook, String Title, String Author, int numCopies) 
 	{
-	    String query = "INSERT INTO Book VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE numCopies=numCopies+?";
+	    String query = "INSERT INTO book VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE numCopies=numCopies+?";
 	    
 	    try {
 		      PreparedStatement ps = conn.prepareStatement(query);
@@ -263,7 +263,7 @@ public class DBManager{
 	
 	public int getNumCopies(String idBook)
 	{
-		String query = "SELECT numCopies FROM Book WHERE idBook=?";
+		String query = "SELECT numCopies FROM book WHERE idBook=?";
 		try {
 		      PreparedStatement ps = conn.prepareStatement(query);
 		      ps.setString(1, idBook);
@@ -302,13 +302,13 @@ public class DBManager{
 	    		
 	    	if((avail-removeCopies == 0) && (removeCopies == totalCopies))
 	    	{
-	    		query ="DELETE FROM Book WHERE idBook=?";
+	    		query ="DELETE FROM book WHERE idBook=?";
 	    		ps = conn.prepareStatement(query);
 	    		ps.setString(1, idBook);
 	    	}
 	    	else 
 	    	{
-	    		query = "UPDATE Book SET numCopies=numCopies-? WHERE idBook=?";
+	    		query = "UPDATE book SET numCopies=numCopies-? WHERE idBook=?";
 	    		ps = conn.prepareStatement(query);
 	    		ps.setInt(1, removeCopies);
 	    		ps.setString(2, idBook);
