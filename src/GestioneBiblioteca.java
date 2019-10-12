@@ -37,10 +37,19 @@ public class GestioneBiblioteca {
 			System.out.println("Please, insert your access code found in your library card:");
 			System.out.print(">");
 			idUser = scan.next();
-			user_name = dbm.login(idUser);
-			if(user_name == "")
-				System.out.println("Incorrect credentials: please try again or contact a librarian for help.");
-		} while(user_name == "");
+			
+			if(!idUser.matches("[a-zA-Z0-9]+") || idUser.contentEquals("")) //checks that input is alphanumeric only
+			{
+				System.out.println(REDC + "Invalid input: please try again or contact a librarian for help." + ENDC);
+				continue;
+			}
+			else
+			{
+				user_name = dbm.login(idUser);
+				if(user_name.contentEquals(""))
+					System.out.println("Incorrect credentials: please try again or contact a librarian for help.");
+			}
+		} while(user_name.equals(""));
 		
 		System.out.println("Welcome " + user_name +". The following commands are available: ");
 		System.out.println("");
@@ -63,9 +72,14 @@ public class GestioneBiblioteca {
 		{
 			System.out.print(">");
 			command = scan.next();
-			
+			if(command.matches("[a-zA-Z!]+")) //only a-z character and ! are allowed
+			{
 				switch(command)
 				{
+					case "!help":
+						printMsg(privilege);
+						break;
+
 					case "!list":
 						System.out.println("Books in the Catalogue:\n");
 						System.out.println("========================================================================================================================");
@@ -108,7 +122,7 @@ public class GestioneBiblioteca {
 							cin = scan.next();
 							System.out.println("");
 							
-							if(cin.compareTo("y") == 0)
+							if(cin.matches("[yY]{1}")) //only lowercase or uppercase y allowed, 1 char long
 							{
 								if(dbm.borrow(idBook, idUser))
 									System.out.println("Borrowed.");
@@ -125,11 +139,11 @@ public class GestioneBiblioteca {
 						System.out.print(">");
 						String bookId= scan.next();
 						
-						int availCode = dbm.availability(bookId);
-						
-						if(availCode == 0)
-							System.out.println("Book not available. Please check availability by using the !list command.");
-						else if(availCode >= 1)
+						if(!bookId.matches("[a-zA-Z0-9]+"))
+							System.out.println("ERROR: Book not found. Check the Book Code.");
+						else if(!dbm.checkIfBorrowed(bookId, idUser)) //(availCode >= 1)
+							System.out.println("ERROR: You haven't borrowed this book. Check the Book Code.");
+						else
 						{
 							List<String> bookinf = dbm.getBookInfo(bookId);
 							System.out.println("You are returning: " + bookinf.get(0) + ", written by " + bookinf.get(1));
@@ -138,7 +152,7 @@ public class GestioneBiblioteca {
 							cin = scan.next();
 							
 							System.out.println("");
-							if(cin.compareTo("y") == 0)
+							if(cin.matches("[yY]{1}")) //only lowercase or uppercase y allowed, 1 char long
 							{
 								if(dbm.bookReturn(bookId, idUser))
 									System.out.println("Returned.");
@@ -146,7 +160,6 @@ public class GestioneBiblioteca {
 							}
 							else System.out.println("Operation aborted.");
 						}
-						else System.out.println("ERROR: Book not found. Check the Book Code.");
 						break;
 					
 					case "!logout":
@@ -181,11 +194,18 @@ public class GestioneBiblioteca {
 								Author = scan.next();
 							}
 							else System.out.println(GREENC + "Book is already registered in the Catalogue." + ENDC);
+							
 							System.out.println("How many copies are to be inserted? ");
 							System.out.print(">");
 							int n = scan.nextInt();
 							
-							dbm.addBook(idBook, Title, Author, n);
+							if(n <= 0)
+							{
+								System.out.println(REDC + "ERROR: Invalid input." + ENDC);
+								break;
+							}
+							else dbm.addBook(idBook, Title, Author, n);
+							
 							break;
 						}
 					case "!remove":
@@ -195,15 +215,26 @@ public class GestioneBiblioteca {
 							System.out.print(">");
 							idBook = scan.next();
 							
-							if(!dbm.checkBookExistance(idBook))
+							if(!idBook.matches("[a-zA-Z0-9]+"))
 							{
 								System.out.println(REDC + "Invalid book ID." + ENDC);
+								break;
+							}
+							else if(!dbm.checkBookExistance(idBook))
+							{
+								System.out.println("Book ID doesn't match any in the Catalogue.");
 								break;
 							}
 							
 							System.out.println("How many copies are to be removed? ");
 							System.out.print(">");
 							int n = scan.nextInt();
+							
+							if(n <= 0)
+							{
+								System.out.println(REDC + "ERROR: Invalid input." + ENDC);
+								break;
+							}
 							
 							List<String> bookInfo = dbm.getBookInfo(idBook);
 							System.out.println("You are removing " + n + " copies of " + bookInfo.get(0) + ", written by " + bookInfo.get(1));
@@ -213,7 +244,7 @@ public class GestioneBiblioteca {
 							cin = scan.next();
 							System.out.println("");
 							
-							if(cin.compareTo("y") == 0)
+							if(cin.matches("[yY]{1}")) //only lowercase or uppercase y allowed, 1 char long
 								dbm.removeBook(idBook, n);
 							else System.out.println("Operation aborted.");
 							break;
@@ -224,14 +255,29 @@ public class GestioneBiblioteca {
 							System.out.println("Insert the user id:");
 							System.out.print(">");
 							String newid = scan.next();
+							if(!newid.matches("[a-zA-Z0-9]+"))
+							{
+								System.out.println(REDC + "Invalid User ID format." + ENDC);
+								break;
+							}
 							
 							System.out.println("Insert the user's name:");
 							System.out.print(">");
 							String newname = scan.next();
+							if(!newname.matches("[a-zA-Z]+"))
+							{
+								System.out.println(REDC + "Invalid Name format." + ENDC);
+								break;
+							}
 							
 							System.out.println("Insert the user's surname:");
 							System.out.print(">");
 							String newsurname = scan.next();
+							if(!newsurname.matches("[a-zA-Z]+"))
+							{
+								System.out.println(REDC + "Invalid surname format." + ENDC);
+								break;
+							}
 							
 							dbm.createuser(newid, newname, newsurname);
 							break;
@@ -239,7 +285,10 @@ public class GestioneBiblioteca {
 					default:
 						System.out.println(REDC + "Invalid command." + ENDC + "Type '!help' to view available commands.");
 						break;
-			}
+			} //switch
 		}
-	}
+		else System.out.println(REDC + "Invalid command." + ENDC + "Type '!help' to view available commands.");
+		}
+			
+	} //while
 }
