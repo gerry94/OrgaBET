@@ -20,7 +20,7 @@ public class DBManager{
 	
 	public void start()
 	{
-		String connStr = "jdbc:mysql://localhost:" + this.port + "/" + this.dbname +"?user=" + this.usr + "&password=" + this.pwd + "&useSSL=false&allowPublicKeyRetrieval=true";
+		String connStr = "jdbc:mysql://localhost:" + this.port + "/" + this.dbname +"?user=" + this.usr + "&password=" + this.pwd + "&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 		try {
 			conn = DriverManager.getConnection(connStr);
 		} catch (SQLException e) { e.printStackTrace(); }
@@ -51,9 +51,9 @@ public class DBManager{
 		return "";
 	}
 	
-	public List<String> list()
+	public List<String> list(boolean privilege)
 	{
-		String query = "SELECT * FROM Book";
+		String query = "SELECT B.idBook, B.Title, B.Author, B.numCopies - COUNT(L.idBook) AS Available, B.numCopies AS Total FROM Book B LEFT JOIN Loan L ON B.idBook = L.idBook GROUP BY B.idBook ORDER BY B.idBook;";
 		List<String> resultstr = new ArrayList<String>();
 		
 		try
@@ -68,9 +68,15 @@ public class DBManager{
 				resultstr.add(rs.getString("idBook"));
 				resultstr.add(rs.getString("Title"));
 				resultstr.add(rs.getString("Author"));
-				String aval = "(Available)"; 
-				if(rs.getString("numCopies").compareTo(Integer.toString(0)) == 0)
+				
+				String aval=""; 
+				if(rs.getString("Available").compareTo(Integer.toString(0)) == 0)
 					aval = "(Not Available)";
+				else
+				{
+					if(privilege) aval = "("+rs.getInt("Available")+"/"+rs.getString("Total")+" Available)";
+					else aval = "(Available)";
+				}
 				
 				resultstr.add(aval);
 			}

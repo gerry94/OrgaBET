@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.*;
 
 public class GestioneBiblioteca {
@@ -27,12 +26,10 @@ public class GestioneBiblioteca {
 	}
 	
 	public static String login(DBManager dbm, Scanner scan)
-	{	
-		try {
-			Runtime.getRuntime().exec("clear");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	{		
+		System.out.print("\033[H\033[2J");  //"clear" the screen
+	    System.out.flush(); 
+	    
 		System.out.println("====================== Welcome in BibliOS ======================");
 		String user_name = "", idUser = "";
 		
@@ -52,8 +49,8 @@ public class GestioneBiblioteca {
 	}
 	
 	public static void main(String[] args) {
-		DBManager dbm = new DBManager(3306, "khaeros", "password", "lsdb");
-		String command;
+		DBManager dbm = new DBManager(3306, "feanor", "password", "lsdb");
+		String command, cin;
 		dbm.start();
 		
 		Scanner scan = new Scanner(System.in).useDelimiter("\n");
@@ -75,14 +72,14 @@ public class GestioneBiblioteca {
 						System.out.printf("%-15s %-60s %-25s %-15s %n", "Book Code", "Title", "Author", "Availability");
 						System.out.println("========================================================================================================================");
 						
-						List<String> elenco = dbm.list();
+						List<String> elenco = dbm.list(privilege);
 						String avail;
 						
 						for(int i=0; i<elenco.size(); i+=4)
 						{
-							if(elenco.get(i+3) == "(Available)")
-								avail = GREENC + elenco.get(i+3) + ENDC;
-							else avail = REDC + elenco.get(i+3) + ENDC;
+							if(elenco.get(i+3) == "(Not Available)")
+								avail = REDC + elenco.get(i+3) + ENDC;
+							else avail = GREENC + elenco.get(i+3) + ENDC;
 							
 							System.out.printf("%-15s %-60s %-25s %-15s %n", elenco.get(i), elenco.get(i+1), elenco.get(i+2), avail);
 						}
@@ -108,7 +105,7 @@ public class GestioneBiblioteca {
 							System.out.println("Confirm this choice? (y/n): ");
 							System.out.print(">");
 							
-							String cin = scan.next();
+							cin = scan.next();
 							System.out.println("");
 							
 							if(cin.compareTo("y") == 0)
@@ -127,19 +124,29 @@ public class GestioneBiblioteca {
 						System.out.println("Please insert the code of the book you wish to return:");
 						System.out.print(">");
 						String bookId= scan.next();
-						List<String> bookinf = dbm.getBookInfo(bookId);
-						System.out.println("You are returning: " + bookinf.get(0) + ", written by " + bookinf.get(1));
-						System.out.println("Confirm this choice? (y/n): ");
-						System.out.print(">");
-						String cin = scan.next();
-						System.out.println("");
-						if(cin.compareTo("y") == 0)
+						
+						int availCode = dbm.availability(bookId);
+						
+						if(availCode == 0)
+							System.out.println("Book not available. Please check availability by using the !list command.");
+						else if(availCode >= 1)
 						{
-							if(dbm.bookReturn(bookId, idUser))
-								System.out.println("Returned.");
-							else System.out.println(REDC+"You have not borrowed this book, please check the bookcode."+ENDC);
+							List<String> bookinf = dbm.getBookInfo(bookId);
+							System.out.println("You are returning: " + bookinf.get(0) + ", written by " + bookinf.get(1));
+							System.out.println("Confirm this choice? (y/n): ");
+							System.out.print(">");
+							cin = scan.next();
+							
+							System.out.println("");
+							if(cin.compareTo("y") == 0)
+							{
+								if(dbm.bookReturn(bookId, idUser))
+									System.out.println("Returned.");
+								else System.out.println(REDC+"You have not borrowed this book, please check the bookcode."+ENDC);
+							}
+							else System.out.println("Operation aborted.");
 						}
-						else System.out.println("Operation aborted.");		
+						else System.out.println("ERROR: Book not found. Check the Book Code.");
 						break;
 					
 					case "!logout":
@@ -233,8 +240,6 @@ public class GestioneBiblioteca {
 						System.out.println(REDC + "Invalid command." + ENDC + "Type '!help' to view available commands.");
 						break;
 			}
-		
 		}
 	}
-
 }
