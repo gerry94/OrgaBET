@@ -193,18 +193,26 @@ public class GestioneBiblioteca {
 								System.out.print(">");
 								Author = scan.next();
 							}
-							else System.out.println(GREENC + "Book is already registered in the Catalogue." + ENDC);
+							else System.out.println("Book is already registered in the Catalogue.");
 							
 							System.out.println("How many copies are to be inserted? ");
 							System.out.print(">");
-							int n = scan.nextInt();
+							int n = 0;
+							
+							try {
+							  n = scan.nextInt();
+							} catch (InputMismatchException e) { System.out.println(REDC + "ERROR: value is not an integer" + ENDC); break;}
 							
 							if(n <= 0)
 							{
 								System.out.println(REDC + "ERROR: Invalid input." + ENDC);
 								break;
 							}
-							else dbm.addBook(idBook, Title, Author, n);
+							else
+							{
+								dbm.addBook(idBook, Title, Author, n);
+								System.out.println(GREENC + "Operation completed correctly." + ENDC);
+							}
 							
 							break;
 						}
@@ -228,7 +236,11 @@ public class GestioneBiblioteca {
 							
 							System.out.println("How many copies are to be removed? ");
 							System.out.print(">");
-							int n = scan.nextInt();
+							int n = 0;
+							
+							try {
+								n = scan.nextInt();
+							} catch(InputMismatchException e) { System.out.println(REDC + "ERROR: value is not an integer" + ENDC); break;}
 							
 							if(n <= 0)
 							{

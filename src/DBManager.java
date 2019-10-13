@@ -53,7 +53,7 @@ public class DBManager{
 	
 	public List<String> list(boolean privilege)
 	{
-		String query = "SELECT B.idBook, B.Title, B.Author, B.numCopies - COUNT(L.idBook) AS Available, B.numCopies AS Total FROM book B LEFT JOIN loan L ON B.idBook = L.idBook GROUP BY B.idBook ORDER BY B.idBook;";
+		String query = "SELECT B.idBook, B.Title, B.Author, B.numCopies - COUNT(L.idBook) AS Available, B.numCopies AS Total FROM book B LEFT JOIN loan L ON B.idBook = L.idBook GROUP BY B.idBook ORDER BY B.Title;";
 		List<String> resultstr = new ArrayList<String>();
 		
 		try
