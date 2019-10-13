@@ -37,6 +37,7 @@ public class GestioneBiblioteca {
 		do {
 			System.out.println("Please, insert your access code found in your library card:");
 			System.out.print(">");
+			System.out.flush(); 
 			idUser = scan.next();
 			
 			if(!idUser.matches("[a-zA-Z0-9]+") || idUser.contentEquals("")) //checks that input is alphanumeric only
@@ -59,7 +60,7 @@ public class GestioneBiblioteca {
 	}
 	
 	public static void main(String[] args) {
-		DBManager dbm = new DBManager(3306, "gerry", "kittycoco", "lsdb");
+		DBManager dbm = new DBManager(3306, "feanor", "password", "lsdb");
 		String command, cin;
 		dbm.start();
 		
@@ -72,6 +73,8 @@ public class GestioneBiblioteca {
 		while(true)
 		{
 			System.out.print(">");
+			System.out.flush();
+			
 			command = scan.next();
 			if(command.matches("[a-zA-Z!]+")) //only a-z character and ! are allowed
 			{
@@ -105,6 +108,7 @@ public class GestioneBiblioteca {
 					case "!borrow":
 						System.out.println("Please insert the code of the book you wish to borrow:");
 						System.out.print(">");
+						System.out.flush();
 						
 						String idBook = scan.next();
 						
@@ -119,6 +123,7 @@ public class GestioneBiblioteca {
 							System.out.println("You chose to borrow: " + bookInfo.get(0) + ", written by " + bookInfo.get(1));
 							System.out.println("Confirm this choice? (y/n): ");
 							System.out.print(">");
+							System.out.flush();
 							
 							cin = scan.next();
 							System.out.println("");
@@ -138,6 +143,8 @@ public class GestioneBiblioteca {
 					case "!return":
 						System.out.println("Please insert the code of the book you wish to return:");
 						System.out.print(">");
+						System.out.flush();
+						
 						String bookId= scan.next();
 						
 						if(!bookId.matches("[a-zA-Z0-9]+"))
@@ -150,6 +157,8 @@ public class GestioneBiblioteca {
 							System.out.println("You are returning: " + bookinf.get(0) + ", written by " + bookinf.get(1));
 							System.out.println("Confirm this choice? (y/n): ");
 							System.out.print(">");
+							System.out.flush();
+							
 							cin = scan.next();
 							
 							System.out.println("");
@@ -181,6 +190,8 @@ public class GestioneBiblioteca {
 						{
 							System.out.println("Insert book ID: ");
 							System.out.print(">");
+							System.out.flush();
+							
 							idBook = scan.next();
 							
 							String Title="", Author="";
@@ -189,16 +200,22 @@ public class GestioneBiblioteca {
 							{
 								System.out.println("Insert Title: ");
 								System.out.print(">");
+								System.out.flush();
+								
 								Title = scan.next();
 								
 								System.out.println("Insert Author: ");
 								System.out.print(">");
+								System.out.flush();
+								
 								Author = scan.next();
 							}
 							else System.out.println("Book is already registered in the Catalogue.");
 							
 							System.out.println("How many copies are to be inserted? ");
 							System.out.print(">");
+							System.out.flush();
+							
 							int n = 0;
 							
 							try {
@@ -223,6 +240,8 @@ public class GestioneBiblioteca {
 						{
 							System.out.println("Insert the ID of the book to be removed: ");
 							System.out.print(">");
+							System.out.flush();
+							
 							idBook = scan.next();
 							
 							if(!idBook.matches("[a-zA-Z0-9]+"))
@@ -238,6 +257,8 @@ public class GestioneBiblioteca {
 							
 							System.out.println("How many copies are to be removed? ");
 							System.out.print(">");
+							System.out.flush();
+							
 							int n = 0;
 							
 							try {
@@ -254,6 +275,7 @@ public class GestioneBiblioteca {
 							System.out.println("You are removing " + n + " copies of " + bookInfo.get(0) + ", written by " + bookInfo.get(1));
 							System.out.println("Confirm this choice? (y/n): ");
 							System.out.print(">");
+							System.out.flush();
 							
 							cin = scan.next();
 							System.out.println("");
@@ -268,6 +290,8 @@ public class GestioneBiblioteca {
 						{
 							System.out.println("Insert the user id:");
 							System.out.print(">");
+							System.out.flush();
+							
 							String newid = scan.next();
 							if(!newid.matches("[a-zA-Z0-9]+"))
 							{
@@ -277,6 +301,8 @@ public class GestioneBiblioteca {
 							
 							System.out.println("Insert the user's name:");
 							System.out.print(">");
+							System.out.flush();
+							
 							String newname = scan.next();
 							if(!newname.matches("[a-zA-Z]+"))
 							{
@@ -286,6 +312,8 @@ public class GestioneBiblioteca {
 							
 							System.out.println("Insert the user's surname:");
 							System.out.print(">");
+							System.out.flush();
+							
 							String newsurname = scan.next();
 							if(!newsurname.matches("[a-zA-Z]+"))
 							{
