@@ -10,9 +10,9 @@ public class GestioneBiblioteca {
 		
 		if(privilege)
 		{
-		      System.out.println("!add --> add a new book in the library's Catalogue.");
-		      System.out.println("!remove --> remove a book from the library's Catalogue.");
-		      System.out.println("!create --> register a new user in BibliOS.");
+			System.out.println("!add --> add a new book in the library's Catalogue.");
+			System.out.println("!remove --> remove a book from the library's Catalogue.");
+			System.out.println("!create --> register a new user in BibliOS.");
 		}
 		else
 		{
@@ -21,7 +21,8 @@ public class GestioneBiblioteca {
 		}
 		System.out.println("!list --> visualize the catalogue for this library.");
 		System.out.println("!logout --> logout from the program.");
-		System.out.println("!exit --> logout and close the program.");
+		if(privilege)
+			System.out.println("!exit --> logout and close the program.");
 		System.out.println("");
 	}
 	
@@ -58,7 +59,7 @@ public class GestioneBiblioteca {
 	}
 	
 	public static void main(String[] args) {
-		DBManager dbm = new DBManager(3306, "feanor", "password", "lsdb");
+		DBManager dbm = new DBManager(3306, "gerry", "kittycoco", "lsdb");
 		String command, cin;
 		dbm.start();
 		
@@ -168,12 +169,13 @@ public class GestioneBiblioteca {
 						printMsg(privilege);
 						break;
 					case "!exit":
-						System.out.println("Closing program...");
-						dbm.stop();
-						scan.close();
-						System.exit(0);
-						break;
-					
+						if(privilege){
+							System.out.println("Closing program...");
+							dbm.stop();
+							scan.close();
+							System.exit(0);
+							break;
+						}
 					case "!add":
 						if(privilege)
 						{
