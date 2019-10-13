@@ -1,15 +1,15 @@
-CREATE DATABASE  IF NOT EXISTS `lsdb` /*!40100 DEFAULT CHARACTER SET latin1 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE  IF NOT EXISTS `lsdb` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `lsdb`;
--- MySQL dump 10.13  Distrib 8.0.17, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.26, for Linux (x86_64)
 --
 -- Host: localhost    Database: lsdb
 -- ------------------------------------------------------
--- Server version	8.0.17
+-- Server version	5.7.26-0ubuntu0.18.10.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -23,7 +23,7 @@ USE `lsdb`;
 
 DROP TABLE IF EXISTS `book`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `book` (
   `idBook` varchar(45) NOT NULL,
   `Title` varchar(255) NOT NULL,
@@ -49,13 +49,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `loan`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `loan` (
   `idUser` varchar(45) NOT NULL,
   `idBook` varchar(45) NOT NULL,
   `startDate` date NOT NULL,
   `deliveryDate` date NOT NULL,
-  PRIMARY KEY (`idUser`,`idBook`)
+  PRIMARY KEY (`idUser`,`idBook`),
+  KEY `fk_loan_2_idx` (`idBook`),
+  CONSTRAINT `fk_loan_1` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`) ON DELETE NO ACTION,
+  CONSTRAINT `fk_loan_2` FOREIGN KEY (`idBook`) REFERENCES `book` (`idBook`) ON DELETE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -75,7 +78,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `idUser` varchar(45) NOT NULL,
   `Name` varchar(45) NOT NULL,
@@ -104,4 +107,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-13 15:41:42
+-- Dump completed on 2019-10-13 16:28:56
