@@ -18,13 +18,13 @@ USE `lsdb`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `Book`
+-- Table structure for table `book`
 --
 
-DROP TABLE IF EXISTS `Book`;
+DROP TABLE IF EXISTS `book`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `Book` (
+CREATE TABLE `book` (
   `idBook` varchar(45) NOT NULL,
   `Title` varchar(255) NOT NULL,
   `Author` varchar(45) NOT NULL,
@@ -34,23 +34,23 @@ CREATE TABLE `Book` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Book`
+-- Dumping data for table `book`
 --
 
-LOCK TABLES `Book` WRITE;
-/*!40000 ALTER TABLE `Book` DISABLE KEYS */;
-INSERT INTO `Book` VALUES ('111a','The Lord of The Rings','J.R.R. Tolkien',3),('111b','Manuale del Trapano: Guida per Principianti','Mario Dilaria',5),('111c','1984','George Orwell',1),('111d','Moby Dick','Herman Melville',3),('111e','Don Chisciotte della Mancia','Miguel de Cervantes',2),('111f','Tennis per Dilettanti','Roger Orga',1),('111g','Il Barone Rampante','Italo Calvino',2),('111h','Il Decamerone','Giovanni Boccaccio',1),('111i','Odissea','Omero',1),('111j','Come Scrivere la Tesi','Joseph Pimpinella',1),('111k','Amleto','William Shakespeare',2),('111l','Dalle Porte AND, OR, NOT al Sistema Calcolatore','Paolo Corsini',1),('111z','Manuale di DataBase NoSQL','Pietro Ducange',2),('222a','Leone d\'Argento: Biografia di Mimmo Croce','Alessio Bongiovanni',2);
-/*!40000 ALTER TABLE `Book` ENABLE KEYS */;
+LOCK TABLES `book` WRITE;
+/*!40000 ALTER TABLE `book` DISABLE KEYS */;
+INSERT INTO `book` VALUES ('111a','The Lord of The Rings','J.R.R. Tolkien',3),('111b','Manuale del Trapano: Guida per Principianti','Mario Dilaria',5),('111c','1984','George Orwell',1),('111d','Moby Dick','Herman Melville',3),('111e','Don Chisciotte della Mancia','Miguel de Cervantes',2),('111f','Tennis per Dilettanti','Roger Orga',1),('111g','Il Barone Rampante','Italo Calvino',2),('111h','Il Decamerone','Giovanni Boccaccio',1),('111i','Odissea','Omero',1),('111j','Come Scrivere la Tesi','Joseph Pimpinella',1),('111k','Amleto','William Shakespeare',2),('111l','Dalle Porte AND, OR, NOT al Sistema Calcolatore','Paolo Corsini',1),('111z','Manuale di DataBase NoSQL','Pietro Ducange',2),('222a','Leone d\'Argento: Biografia di Mimmo Croce','Alessio Bongiovanni',2);
+/*!40000 ALTER TABLE `book` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `Loan`
+-- Table structure for table `loan`
 --
 
-DROP TABLE IF EXISTS `Loan`;
+DROP TABLE IF EXISTS `loan`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `Loan` (
+CREATE TABLE `loan` (
   `idUser` varchar(45) NOT NULL,
   `idBook` varchar(45) NOT NULL,
   `startDate` date NOT NULL,
@@ -60,23 +60,23 @@ CREATE TABLE `Loan` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Loan`
+-- Dumping data for table `loan`
 --
 
-LOCK TABLES `Loan` WRITE;
-/*!40000 ALTER TABLE `Loan` DISABLE KEYS */;
-INSERT INTO `Loan` VALUES ('bbb1','111i','2019-10-05','2019-11-05'),('ggg1','111j','2019-10-06','2019-11-06'),('lll1','111k','2019-10-07','2019-11-07');
-/*!40000 ALTER TABLE `Loan` ENABLE KEYS */;
+LOCK TABLES `loan` WRITE;
+/*!40000 ALTER TABLE `loan` DISABLE KEYS */;
+INSERT INTO `loan` VALUES ('bbb1','111i','2019-10-05','2019-11-05'),('ggg1','111j','2019-10-06','2019-11-06'),('lll1','111k','2019-10-07','2019-11-07');
+/*!40000 ALTER TABLE `loan` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `User`
+-- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `User`;
+DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `User` (
+CREATE TABLE `user` (
   `idUser` varchar(45) NOT NULL,
   `Name` varchar(45) NOT NULL,
   `Surname` varchar(45) NOT NULL,
@@ -86,13 +86,13 @@ CREATE TABLE `User` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `User`
+-- Dumping data for table `user`
 --
 
-LOCK TABLES `User` WRITE;
-/*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('aaa1','Gerardo','Bongiovanni',0),('abcd1','Daniele','Matonti',0),('bbb1','Riccardo','Alvaro',0),('ccc1','Marco','Silvestri',1),('ddd1','Giulio','Polini',0),('eee1','Francesco','Barbarulo',1),('fff1','Daniela','Comola',1),('ggg1','Giulia','Amerighi',0),('hhh1','Mario','Dilaria',0),('jjj1','Giuseppe','Pimpinella',0),('kkk1','Ciccio','Fornaini',0),('lll1','Daniele','Orgallo',0),('xxx1','Giuseppe','Macchi',0);
-/*!40000 ALTER TABLE `User` ENABLE KEYS */;
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES ('aaa1','Gerardo','Bongiovanni',0),('abcd1','Daniele','Matonti',0),('bbb1','Riccardo','Alvaro',0),('ccc1','Marco','Silvestri',1),('ddd1','Giulio','Polini',0),('eee1','Francesco','Barbarulo',1),('fff1','Daniela','Comola',1),('ggg1','Giulia','Amerighi',0),('hhh1','Mario','Dilaria',0),('jjj1','Giuseppe','Pimpinella',0),('kkk1','Ciccio','Fornaini',0),('lll1','Daniele','Orgallo',0),('xxx1','Giuseppe','Macchi',0);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -104,4 +104,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-10 20:11:48
+-- Dump completed on 2019-10-13 15:41:42
