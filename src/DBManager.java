@@ -87,27 +87,7 @@ public class DBManager{
 		
 		return null;
 	}
-	
-	public boolean checkIfBorrowed(String bookId, String usrId) //checks if a usr has actually borrowed a book he/she wishes to return
-	{
-		String query = "SELECT * FROM loan WHERE idBook=? AND idUser=?";
-		
-		try
-		{
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, bookId);
-			ps.setString(2, usrId);
-			ps.execute();
-			
-			ResultSet rs = ps.getResultSet();
-			
-			if(rs.next())
-				return true;
-			else return false;
-			
-		} catch(SQLException e) { e.printStackTrace(); }
-		return false;
-	}
+
 	public int availability(String bookId) //1: success, 0: not avail, -1: invalid code
 	{
 		String query = "SELECT B.numCopies - COUNT(L.idBook) AS Available FROM book B LEFT JOIN loan L 	ON B.idBook = L.idBook WHERE B.idBook=?";
@@ -195,8 +175,10 @@ public class DBManager{
 			
 			int check=ps.executeUpdate();
 			ps.close();
+			//if the book was actually borrowed and the row cancelled the function returns true
 			if (check==1)
 					return true;
+
 		}catch(SQLException e) { e.printStackTrace(); }
 		return false;
 	}

@@ -60,7 +60,7 @@ public class GestioneBiblioteca {
 	}
 	
 	public static void main(String[] args) {
-		DBManager dbm = new DBManager(3306, "feanor", "password", "lsdb");
+		DBManager dbm = new DBManager(3306, "khaeros", "password", "lsdb");
 		String command, cin;
 		dbm.start();
 		
@@ -147,10 +147,8 @@ public class GestioneBiblioteca {
 						
 						String bookId= scan.next();
 						
-						if(!bookId.matches("[a-zA-Z0-9]+"))
-							System.out.println("ERROR: Book not found. Check the Book Code.");
-						else if(!dbm.checkIfBorrowed(bookId, idUser)) //(availCode >= 1)
-							System.out.println("ERROR: You haven't borrowed this book. Check the Book Code.");
+						if(!bookId.matches("[a-zA-Z0-9]+")||!dbm.checkBookExistance(bookId))
+							System.out.println(REDC+"ERROR: Book not found. Check the Book Code."+ENDC);
 						else
 						{
 							List<String> bookinf = dbm.getBookInfo(bookId);
