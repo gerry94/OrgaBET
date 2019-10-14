@@ -1,9 +1,0 @@
-SE NON AVETE MAVEN:
-	sudo apt install maven
-
-PER COMPILARE & ESEGUIRE IL PROGETTO
-	1) Aprire terminale nella cartella 'largescale'
-	2) Eseguire il comando 'make'
-
-PER ESEGUIRE SOLTANTO (Se non avete modificato i sorgenti e avevate già compilato)
-	make run
