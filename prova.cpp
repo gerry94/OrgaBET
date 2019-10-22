@@ -2,6 +2,10 @@
 
 using namespace std;
 
+void pippo()
+{
+	return;
+}
 
 void stampa_gay(){
 	cout<<"girati"<<endl;
@@ -11,7 +15,6 @@ void stampa_shit()
 {
 	cout<<"pogrsttbruvaicàwRT4VQPOIZFEJÒSKOEMVOGD"<<endl;
 }
-
 
 int main()
 {
