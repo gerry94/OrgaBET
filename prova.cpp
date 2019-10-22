@@ -15,7 +15,7 @@ void stampa_shit()
 
 int main()
 {
-
+	cout<<"pll"<<endl;
 	cout<<"ciao pollo."<<endl;
 	cout<<"come va?"<<endl;
 	
