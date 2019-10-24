@@ -60,7 +60,7 @@ public class GestioneBiblioteca {
 	}
 	
 	public static void main(String[] args) {
-		DBManager dbm = new DBManager(3306, "khaeros", "password", "lsdb");
+		DBManager dbm = new DBManager(3306, "test", "password", "lsdb");
 		String command, cin;
 		dbm.start();
 		
