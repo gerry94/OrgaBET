@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+  <children>
+    <AnchorPane fx:id="output_txt" maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+      <children>
+            <Text layoutX="286.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BibliOS">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+            </Text>
+            <Text layoutX="150.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter your personal code to access the system:" />
+            <TextField fx:id="login_code" layoutX="241.0" layoutY="175.0" />
+            <Button fx:id="login_but" layoutX="297.0" layoutY="216.0" mnemonicParsing="false" onAction="#login" text="Login" />
+            <Label fx:id="output_text" layoutX="153.0" layoutY="89.0" prefHeight="47.0" prefWidth="334.0" textAlignment="CENTER" />
+      </children>
+    </AnchorPane>
+  </children>
+</VBox>
