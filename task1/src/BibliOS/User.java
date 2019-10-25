@@ -57,12 +57,14 @@ public class User {
 	public void addLoan(Book book) {
 		Loan loan = new Loan(this, book);
 		loans.add(loan);
+		book.getLoans().add(loan);
 	}
 	
 	//helper method to sync a loan removal
 	public void removeLoan(Book book) {
 		Loan loan = new Loan(this, book);
 		loans.remove(loan);
+		book.getBorrowers().remove(loan);
 		loan.setUser( null );
 		loan.setBook( null );
 	}

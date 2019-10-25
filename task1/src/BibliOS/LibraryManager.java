@@ -1,4 +1,5 @@
 package BibliOS;
+import java.awt.print.Book;
 import java.util.List;
 import javax.persistence.*;
 
@@ -98,7 +99,7 @@ public class LibraryManager {
 		}
 	}
 	//da implementare
-	public void findBook() {
+	public Book findBook() {
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
@@ -110,6 +111,7 @@ public class LibraryManager {
 		}
 		finally {
 			entityManager.close();
+			return book;
 		}
 	}
 	//da implementare
@@ -149,41 +151,49 @@ public class LibraryManager {
 	}
 	//da implementare
 	public void getAvailableCopies(long bookId) {
+		Book book=findBook(bookId);
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
-			
+			Book book = entityManager.find(Book.class, bookId);
+			int available= book.getCopies() - book.getLoans().size();
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
-			System.out.println("A problem occurred with the login!");
+			System.out.println("A problem occurred while getting the number of available copies.");
 		}
 		finally {
 			entityManager.close();
+			return available;
 		}
 	}
 	
-	public void removeBook(long bookId) {
+	public void removeBook(Book book) {
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
 			Book book = entityManager.find(Book.class, bookId);
 			entityManager.remove(book);
-			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
-			System.out.println("A problem occurred with the login!");
+			System.out.println("A problem occurred while removing the book");
 		}
 		finally {
 			entityManager.close();
 		}
 	}
-	//da implementare, deve decidere se rimuovere il libro o rimuovere copie e controllare se si puo' fare.
-	public void removeCopies(long bookId, int numCopies) {
+
+	public void removeCopies(long bookId, int numCopies, boolean delete=false) {
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
-			
+			Book book = entityManager.find(Book.class, bookId);
+			int available= book.getCopies() - book.getLoans().size();
+			if(numCopies<=available){
+				if(numcopies==book.getCopies() || delete) {
+					
+				}
+			}	
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();

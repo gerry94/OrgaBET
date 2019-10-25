@@ -1,4 +1,7 @@
 package BibliOS;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 @Entity
 public class Book {
@@ -13,7 +16,9 @@ public class Book {
 	private String author;
 	private int numCopies;
 
-	 
+	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Loan> loans= new ArrayList<>();
+	
 	public Book() {
 	}
 	    
@@ -49,4 +54,11 @@ public class Book {
 		this.numCopies=num;
 	}
 	
+	//return lista dei prestiti attivi sul libro in questione
+	public List<loan> getLoans()
+	{
+			return this.loans;
+	}
+	
+	}
 }
