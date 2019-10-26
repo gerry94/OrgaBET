@@ -14,11 +14,10 @@ public class LibraryManager {
 		factory.close();
 	}
 	
-	public void login(String id) {	
+	public String login(String id) {	
 		if (loggedUser!=null)
-			return;
+			return null;
 		String name=null;
-		String surname=null;
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
@@ -26,8 +25,8 @@ public class LibraryManager {
 			entityManager.getTransaction().commit();
 			loggedUser=user.getUserId();
 			privilege=user.getPrivilege();
-			name=user.getName();
-			surname=user.getSurname();
+			name=user.getName()+" ";
+			name=name.concat(user.getSurname());
 		}catch (Exception ex) {
     		ex.printStackTrace();
     		System.out.println("A problem occurred with the login.");
@@ -36,8 +35,9 @@ public class LibraryManager {
 			entityManager.close();
 		}
 		if(loggedUser!=null) {
-			System.out.println("Welcome, "+name+" "+surname);		
+			return name;	
 		}
+		return null;
 	}
 	
 	public void logout() {

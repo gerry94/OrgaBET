@@ -8,10 +8,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
-
-    private DBManager dbm = new DBManager(3306, "test", "password", "lsdb");
-
-
+    LibraryManager lm = new LibraryManager();;
     @FXML
     private AnchorPane output_txt;
     @FXML
@@ -23,8 +20,8 @@ public class Controller implements Initializable {
 
     @FXML
     void login(ActionEvent event) {
-        String username = dbm.login(login_code.getText());
-        if (username == "") {
+        String username = lm.login(login_code.getText());
+        if (username == null) {
             output_text.setTextFill(Color.RED);
             output_text.setText("ERROR: wrong id. Please check your personal code and retry.");
         } else {
@@ -35,6 +32,6 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        dbm.start();
+        lm.setup();
     }
 }

@@ -7,14 +7,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception
-    {
+    {	
         primaryStage.setTitle("BibliOS");
         Parent root = FXMLLoader.load(getClass().getResource("BibliosLogin.fxml"));
         primaryStage.setScene(new Scene(root, 640, 300));
         primaryStage.show();
 
-        DBManager dbm = new DBManager(3306, "test", "password", "lsdb");
-        dbm.start();
 
     }
 
