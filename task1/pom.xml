@@ -13,6 +13,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 </properties>
 
 <dependencies>
+	
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-core</artifactId>
+		<version>5.4.7.Final</version>
+	</dependency>
+
 
 	<dependency>
 		<groupId>org.openjfx</groupId>
@@ -31,11 +38,19 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 		<artifactId>javafx-fxml</artifactId>
 		<version>13</version>
 	</dependency>
+
+	<dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-entitymanager</artifactId>
+	    <version>5.4.7.Final</version>
+	</dependency>
+
 	
 </dependencies>
 
 <build>
 	<plugins>
+		
 		<plugin>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-maven-plugin</artifactId>
@@ -44,6 +59,36 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 				<mainClass>Main</mainClass>
 			</configuration>
 		</plugin>
+		
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>3.5.1</version>
+			<configuration>
+			<source>1.8</source>
+			<target>1.8</target>
+			</configuration>
+        </plugin>
+        <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-jar-plugin</artifactId>
+			<version>3.1.0</version>
+			<configuration>
+				<archive>
+					<manifest>
+						<mainClass>Main</mainClass>
+					</manifest>
+				</archive>
+			</configuration>
+		</plugin>
+		<plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.2.1</version>
+            <configuration>
+                <mainClass>Main</mainClass>
+            </configuration>
+        </plugin>
 	</plugins>
 </build>
 </project>
