@@ -3,7 +3,8 @@ import javax.persistence.*;
 public class LibraryManager {
 	private static EntityManager entityManager;
 	private static EntityManagerFactory factory;
-	private User loggedUser=null;
+	private String loggedUser=null;
+	int privilege;
 	
 	public void setup()	{
 		factory = Persistence.createEntityManagerFactory("bibliosDB");
@@ -13,12 +14,20 @@ public class LibraryManager {
 		factory.close();
 	}
 	
-	public int login(String id) {	
+	public void login(String id) {	
+		if (loggedUser!=null)
+			return;
+		String name=null;
+		String surname=null;
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
-			loggedUser = entityManager.find(User.class, id);
+			User user = entityManager.find(User.class, id);
 			entityManager.getTransaction().commit();
+			loggedUser=user.getUserId();
+			privilege=user.getPrivilege();
+			name=user.getName();
+			surname=user.getSurname();
 		}catch (Exception ex) {
     		ex.printStackTrace();
     		System.out.println("A problem occurred with the login.");
@@ -27,11 +36,8 @@ public class LibraryManager {
 			entityManager.close();
 		}
 		if(loggedUser!=null) {
-			System.out.println("Welcome, "+loggedUser.getName()+" "+loggedUser.getSurname());
-			return loggedUser.getPrivilege();		
+			System.out.println("Welcome, "+name+" "+surname);		
 		}
-		else
-			return -1;
 	}
 	
 	public void logout() {
@@ -44,28 +50,58 @@ public class LibraryManager {
 		return false;
 	}
 	
+//Loan Operations	
+	
+	//For user to request a book
 	public void borrowBook(long bookId)	{
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
-			Book book = entityManager.find(Book.class, bookId);
-			loggedUser.addLoan(book);
+			LoanId loanid= new LoanId(loggedUser,bookId);
+			Loan loan=entityManager.find(Loan.class, loanid);
+			if(loan!=null)
+				System.out.println("You already borrowed this book.");
+			else {	
+				Book book = entityManager.find(Book.class, bookId);
+				User user = entityManager.find(User.class, loggedUser);
+				if(Available(book)>0) {
+					user.addLoan(book);
+					System.out.println("Book borrowed.");
+				}
+				else
+					System.out.println("This book is not available.");
+			}
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
-			System.out.println("A problem occurred with the borrow request.");
+			System.out.println("A problem occurred with the loan request.");
 		}
 		finally {
 			entityManager.close();
 		}
 	}
 	
+	
+	//for user to request a return
 	public void returnBook(long bookId) {
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
-			Book book = entityManager.find(Book.class, bookId);
-			loggedUser.removeLoan(book);
+			LoanId loanid= new LoanId(loggedUser,bookId);
+			Loan loan=entityManager.find(Loan.class, loanid);
+			if(loan!=null) {
+				if(loan.getStatus()==1) {
+					loan.setStatus(2);
+					System.out.println("Book queried for return");
+				}
+				else if(loan.getStatus()==0)
+				{
+					User user = entityManager.find(User.class, loggedUser);
+					user.removeLoan(loan.getBook());
+					System.out.println("Loan removed");
+				}
+			}else
+				System.out.println("Loan not present");
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
     		ex.printStackTrace();
@@ -76,6 +112,8 @@ public class LibraryManager {
 		}
 			
 	}
+
+//User table operations
 	
 	public void addUser(String id,String name, String surname) {
 		User user=new User();
@@ -85,10 +123,16 @@ public class LibraryManager {
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
-			entityManager.persist(user);
+			User exists=entityManager.find(User.class, id);
+			if(exists!=null)
+				System.out.println("User already registered.");
+			else {
+				entityManager.persist(user);
+				System.out.println("User added.");
+			}
 			entityManager.getTransaction().commit();
+
 		}catch (Exception ex) {
-			//controllare che succede se provo ad aggiungere duplicato.
 			ex.printStackTrace();
 			System.out.println("A problem occurred with the user registration.");
 		}
@@ -130,6 +174,8 @@ public class LibraryManager {
 		}
 	}
 	*/
+//book table operations
+	
 	public void addBook(long isbn, String author, String title, int numCopies) {
 		Book book=new Book();
 		book.setBookId(isbn);
@@ -139,36 +185,29 @@ public class LibraryManager {
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
-			entityManager.persist(book);
+			Book exists=entityManager.find(Book.class, isbn);
+			if(exists!=null)
+				System.out.println("Book already registered.");
+			else {
+				entityManager.persist(book);
+				System.out.println("Book added.");
+			}
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
-			System.out.println("A problem occurred while trying to add a book.");
+			System.out.println("A problem occurred with the book addition.");
 		}
 		finally {
 			entityManager.close();
 		}
 	}
-	/*
-	//da implementare
-	public void getAvailableCopies(long bookId) {
-		Book book=findBook(bookId);
-		try {
-			entityManager=factory.createEntityManager();
-			entityManager.getTransaction().begin();
-			Book book = entityManager.find(Book.class, bookId);
-			int available= book.getCopies() - book.getLoans().size();
-			entityManager.getTransaction().commit();
-		}catch (Exception ex) {
-			ex.printStackTrace();
-			System.out.println("A problem occurred while getting the number of available copies.");
-		}
-		finally {
-			entityManager.close();
-			return available;
-		}
+
+	public int Available(Book book) {
+		int copies=book.getCopies();
+		int available= copies - book.getLoans().size();
+		return available;
 	}
-	*/
+
 	public void removeBook(long bookId) {
 		try {
 			entityManager=factory.createEntityManager();
@@ -189,8 +228,7 @@ public class LibraryManager {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
 			Book book = entityManager.find(Book.class, bookId);
-			int copies=book.getCopies();
-			int available= copies - book.getLoans().size();
+			int available= Available(book);
 			if(numCopies<=available){
 				if(numCopies==book.getCopies()) {
 					entityManager.getTransaction().commit();
@@ -199,7 +237,7 @@ public class LibraryManager {
 					return;
 				}
 				else
-					book.setCopies(copies-numCopies);
+					book.setCopies(book.getCopies()-numCopies);
 			}
 			else
 				System.out.println("There are not enough copies to be removed");
@@ -223,7 +261,7 @@ public class LibraryManager {
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
-			System.out.println("A problem occurred with the login!");
+			System.out.println("A problem occurred while adding copies");
 		}
 		finally {
 			entityManager.close();

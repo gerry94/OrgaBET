@@ -1,10 +1,13 @@
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
+
 import javax.persistence.*;
 
 @Entity
-public class User implements Serializable{
+public class User{
 
 	@Id
 	//The id variable is linked to the column of the table with the name userId 
@@ -17,7 +20,10 @@ public class User implements Serializable{
 	
 	@Column(columnDefinition = "tinyint(4) default 0")
 	private int privilege;
-	//private String document;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Loan> loans = new ArrayList<>();
+	
 	
 	public User() {
 	}
@@ -50,8 +56,11 @@ public class User implements Serializable{
 		return privilege;
 	}
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Loan> loans = new ArrayList<>();
+	public List<Loan> getLoans()
+	{
+			return this.loans;
+	}
+	
 	
 	//helper method to sync a loan addition
 	public void addLoan(Book book) {
@@ -62,10 +71,28 @@ public class User implements Serializable{
 	
 	//helper method to sync a loan removal
 	public void removeLoan(Book book) {
-		Loan loan = new Loan(this, book);
-		loans.remove(loan);
-		book.getLoans().remove(loan);
-		loan.setUser( null );
-		loan.setBook( null );
+		for (Iterator<Loan> iterator = loans.iterator(); iterator.hasNext(); ) 
+		{
+			Loan loan = iterator.next();
+	            if (loan.getUser().equals(this) &&
+	                    loan.getBook().equals(book)) {
+	            			iterator.remove();
+							book.getLoans().remove(loan);
+							loan.setUser( null );
+							loan.setBook( null );
+	            }
+		}
 	}
+	
+	public boolean equals(Object o) {
+		if ( this == o ) {
+			return true;
+		}
+		if ( o == null || getClass() != o.getClass() ) {
+			return false;
+		}
+		User that = (User) o;
+		return Objects.equals( id, that.id );
+	}
+
 }

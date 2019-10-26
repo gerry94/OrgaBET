@@ -4,12 +4,15 @@ import java.util.Objects;
 import javax.persistence.*;
 @Entity
 public class Loan implements Serializable{
-	@Id
+	@EmbeddedId
+	private LoanId id;
+
 	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("userId")
 	private User user;
 
-	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("bookId")
 	private Book book;
 	
 	@Column(columnDefinition = "int default 0")
@@ -19,8 +22,12 @@ public class Loan implements Serializable{
 	}
 	
 	public Loan(User user, Book book) {
+		this.id=new LoanId(user.getUserId(),book.getBookId());
 		this.user=user;
 		this.book=book;
+	}
+	public void setId(LoanId id){
+		this.id=id;
 	}
 	public User getUser() {
 		return user;

@@ -1,10 +1,12 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import javax.persistence.*;
 
 @Entity
-public class Book implements Serializable{
+public class Book{
 
 	@Id
 	//The id variable is linked to the column of the table with the name bookId 
