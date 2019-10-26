@@ -87,7 +87,7 @@ public class LibraryManager {
 			entityManager.getTransaction().begin();
 			LoanId loanid= new LoanId(loggedUser,bookId);
 			Loan loan=entityManager.find(Loan.class, loanid);
-			if(loan!=null&&loan.getStatus()==0)
+			if(loan.getStatus()==0)
 				loan.setStatus(1);
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
@@ -109,16 +109,13 @@ public class LibraryManager {
 			if(loan!=null) {
 				if(loan.getStatus()==1) {
 					loan.setStatus(2);
-					System.out.println("Book queried for return");
 				}
 				else if(loan.getStatus()==0)
 				{
 					User user = entityManager.find(User.class, loggedUser);
 					user.removeLoan(loan.getBook());
-					System.out.println("Loan removed");
 				}
-			}else
-				System.out.println("Loan not present");
+			}
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
     		ex.printStackTrace();
@@ -128,6 +125,24 @@ public class LibraryManager {
 			entityManager.close();
 		}
 			
+	}
+	
+	public void validateReturn(String userid, long bookId) {
+		try {
+			entityManager=factory.createEntityManager();
+			entityManager.getTransaction().begin();
+			LoanId loanid= new LoanId(loggedUser,bookId);
+			Loan loan=entityManager.find(Loan.class, loanid);
+			if(loan.getStatus()==2)
+				loan.getUser().removeLoan(loan.getBook());
+			entityManager.getTransaction().commit();
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("A problem occurred with the loan validation!");
+		}
+		finally {
+			entityManager.close();
+		}
 	}
 
 //User table operations
@@ -142,11 +157,9 @@ public class LibraryManager {
 			entityManager.getTransaction().begin();
 			User exists=entityManager.find(User.class, id);
 			if(exists!=null)
-				System.out.println("User already registered.");
-			else {
+				System.out.println("Book already registered.");
+			else
 				entityManager.persist(user);
-				System.out.println("User added.");
-			}
 			entityManager.getTransaction().commit();
 
 		}catch (Exception ex) {
