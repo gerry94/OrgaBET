@@ -54,8 +54,10 @@ CREATE TABLE `Loan` (
   `user_idUser` varchar(255) NOT NULL,
   PRIMARY KEY (`book_ISBN`,`user_idUser`),
   KEY `FK8jk80wd9xe4pei6m4t08juhyb` (`user_idUser`),
+  KEY `fk_Loan_1_idx` (`status`),
   CONSTRAINT `FK8jk80wd9xe4pei6m4t08juhyb` FOREIGN KEY (`user_idUser`) REFERENCES `User` (`idUser`),
-  CONSTRAINT `FKdqrn59ir0vyvhvk2aiebukj3e` FOREIGN KEY (`book_ISBN`) REFERENCES `Book` (`ISBN`)
+  CONSTRAINT `FKdqrn59ir0vyvhvk2aiebukj3e` FOREIGN KEY (`book_ISBN`) REFERENCES `Book` (`ISBN`),
+  CONSTRAINT `fk_Loan_1` FOREIGN KEY (`status`) REFERENCES `LoanStatus` (`idLoanStatus`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -70,6 +72,54 @@ INSERT INTO `Loan` VALUES (0,0,'AR5050101');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `LoanStatus`
+--
+
+DROP TABLE IF EXISTS `LoanStatus`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `LoanStatus` (
+  `idLoanStatus` int(11) NOT NULL,
+  `description` varchar(45) NOT NULL,
+  PRIMARY KEY (`idLoanStatus`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `LoanStatus`
+--
+
+LOCK TABLES `LoanStatus` WRITE;
+/*!40000 ALTER TABLE `LoanStatus` DISABLE KEYS */;
+INSERT INTO `LoanStatus` VALUES (0,'Requested'),(1,'Granted'),(2,'Returning');
+/*!40000 ALTER TABLE `LoanStatus` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Privilege`
+--
+
+DROP TABLE IF EXISTS `Privilege`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Privilege` (
+  `id` tinyint(4) NOT NULL,
+  `description` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Privilege`
+--
+
+LOCK TABLES `Privilege` WRITE;
+/*!40000 ALTER TABLE `Privilege` DISABLE KEYS */;
+INSERT INTO `Privilege` VALUES (0,'Customer'),(1,'Bibliotecary');
+/*!40000 ALTER TABLE `Privilege` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `User`
 --
 
@@ -81,7 +131,9 @@ CREATE TABLE `User` (
   `name` varchar(255) DEFAULT NULL,
   `surname` varchar(255) DEFAULT NULL,
   `privilege` tinyint(4) DEFAULT '0',
-  PRIMARY KEY (`idUser`)
+  PRIMARY KEY (`idUser`),
+  KEY `fk_User_1_idx` (`privilege`),
+  CONSTRAINT `fk_User_1` FOREIGN KEY (`privilege`) REFERENCES `Privilege` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -104,4 +156,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-26 22:44:56
+-- Dump completed on 2019-10-26 23:00:54

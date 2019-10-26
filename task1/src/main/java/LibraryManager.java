@@ -81,6 +81,23 @@ public class LibraryManager {
 		}
 	}
 	
+	public void validateBorrow(String userid, long bookId) {
+		try {
+			entityManager=factory.createEntityManager();
+			entityManager.getTransaction().begin();
+			LoanId loanid= new LoanId(loggedUser,bookId);
+			Loan loan=entityManager.find(Loan.class, loanid);
+			if(loan!=null&&loan.getStatus()==0)
+				loan.setStatus(1);
+			entityManager.getTransaction().commit();
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("A problem occurred with the loan validation!");
+		}
+		finally {
+			entityManager.close();
+		}
+	}
 	
 	//for user to request a return
 	public void returnBook(long bookId) {
