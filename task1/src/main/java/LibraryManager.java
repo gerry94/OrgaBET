@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 public class LibraryManager {
@@ -51,6 +54,23 @@ public class LibraryManager {
 	}
 	
 //Loan Operations	
+	
+	public List<Loan> browseLoans(String userid,int offset) {
+		User user=null;
+		try {
+			entityManager=factory.createEntityManager();
+			entityManager.getTransaction().begin();
+			user=entityManager.find(User.class, userid);
+			entityManager.getTransaction().commit();
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("A problem occurred with the login!");
+		}
+		finally {
+			entityManager.close();
+		}
+		return user.getLoans();
+	}
 	
 	//For user to request a book
 	public void borrowBook(long bookId)	{
@@ -187,13 +207,19 @@ public class LibraryManager {
 			return book;
 		}
 	}
+	*/	
+
+
+//book table operations
 	
-	//da implementare
-	public void browseBook() {
+	public List<Book> browseBooks(int offset) {
+		List<Book> books =new ArrayList<>();
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
-			
+			Query q = entityManager.createNativeQuery("SELECT b.id, b.title, b.author, b.numcopies FROM Book b ORDER BY b.id LIMIT 10 OFFSET ? ", Book.class);
+			q.setParameter(1, offset);
+			books = q.getResultList();
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
@@ -202,9 +228,8 @@ public class LibraryManager {
 		finally {
 			entityManager.close();
 		}
+		return books;
 	}
-	*/
-//book table operations
 	
 	public void addBook(long isbn, String author, String title, int numCopies) {
 		Book book=new Book();
