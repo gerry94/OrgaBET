@@ -9,7 +9,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
-    LibraryManager lm = new LibraryManager();
+    //LibraryManager lm = new LibraryManager();
     @FXML
     private AnchorPane output_txt;
     @FXML
@@ -23,7 +23,7 @@ public class Controller implements Initializable {
 
     @FXML
     void login(ActionEvent event) throws IOException {
-        username = lm.login(login_code.getText());
+        username = Main.lm.login(login_code.getText());
         if (username == null) {
             output_text.setTextFill(Color.RED);
             output_text.setText("ERROR: wrong id. Please check your personal code and retry.");
@@ -38,6 +38,5 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        lm.setup();
     }
 }

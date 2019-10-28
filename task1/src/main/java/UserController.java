@@ -1,14 +1,9 @@
 import javafx.application.Platform;
+import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,18 +26,22 @@ public class UserController implements Initializable {
     @FXML
     private TextArea output_field;
     @FXML
-    private TableView<?> list_table;
+    private TableView<Book> list_table;
     @FXML
     private MenuButton search_filter;
 
     @FXML
     void logout(ActionEvent event) throws IOException {
+        Main.lm.logout();
         Main.changeScene(0);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         welcome_msg.setText("Welcome " + Controller.getUsername());
+
+        ObservableList<Book> bookList = FXCollections.observableArrayList();
+        setItems(bookList);
     }
 
 }

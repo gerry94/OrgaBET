@@ -54,13 +54,32 @@ public class LibraryManager {
 	}
 	
 //Loan Operations	
-	
-	public List<Loan> browseLoans(String userid,int offset) {
+
+	//browses a specific user's loans (reserved to librarians only)
+	public List<Loan> browseUserLoans(String userid) {
 		User user=null;
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
 			user=entityManager.find(User.class, userid);
+			entityManager.getTransaction().commit();
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("A problem occurred with the login!");
+		}
+		finally {
+			entityManager.close();
+		}
+		return user.getLoans();
+	}
+
+	//browses the user's personal loans
+	public List<Loan> browseLoans() {
+		User user=null;
+		try {
+			entityManager=factory.createEntityManager();
+			entityManager.getTransaction().begin();
+			user=entityManager.find(User.class, loggedUser);
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
