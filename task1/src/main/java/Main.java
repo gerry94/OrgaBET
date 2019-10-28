@@ -9,7 +9,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception
     {	
         primaryStage.setTitle("BibliOS");
-        Parent root = FXMLLoader.load(getClass().getResource("BibliosLogin.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/BibliosLogin.fxml"));
         primaryStage.setScene(new Scene(root, 640, 300));
         primaryStage.show();
 
