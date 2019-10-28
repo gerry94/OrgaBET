@@ -15,7 +15,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class UserController implements Initializable {
-
+	LibraryManager lm= new LibraryManager();
     @FXML
     private Label welcome_msg;
     @FXML
@@ -37,6 +37,7 @@ public class UserController implements Initializable {
 
     @FXML
     void logout(ActionEvent event) throws IOException {
+		lm.logout();
         Main.changeScene(0);
     }
 
