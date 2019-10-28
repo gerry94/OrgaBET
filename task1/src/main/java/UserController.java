@@ -32,6 +32,7 @@ public class UserController implements Initializable {
 
     @FXML
     void logout(ActionEvent event) throws IOException {
+
         Main.lm.logout();
         Main.changeScene(0);
     }
@@ -41,7 +42,6 @@ public class UserController implements Initializable {
         welcome_msg.setText("Welcome " + Controller.getUsername());
 
         ObservableList<Book> bookList = FXCollections.observableArrayList();
-        setItems(bookList);
     }
 
 }
