@@ -10,7 +10,19 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.scene.text.Text;
 
-public class LibrarianUIController implements Initializable {
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
+
+public class LibrarianLoansController implements Initializable {
+
+	@FXML
+    private Button search_but;
 
     @FXML
     private Button loan_but;
@@ -22,13 +34,30 @@ public class LibrarianUIController implements Initializable {
     private Button logout_but;
 
     @FXML
-    private Button book_but;
+    private Button back_but;
+
+    @FXML
+    private MenuButton search_filter;
+
+    @FXML
+    private Button return_but;
+
+    @FXML
+    private TableView<?> return_table;
+
+    @FXML
+    private TableView<?> loan_table;
 
     @FXML
     private Text welcome_msg;
 
     @FXML
-    private Button user_but;
+    private TextArea search_field;
+
+    @FXML
+    void ffffff00(ActionEvent event) {
+
+    }
 
     @FXML
     void logout(ActionEvent event) throws IOException {
@@ -43,18 +72,11 @@ public class LibrarianUIController implements Initializable {
 
         ObservableList<Book> bookList = FXCollections.observableArrayList();
     }
-    @FXML
-    void books(ActionEvent event) throws IOException {
-    	Main.changeScene(3);
-    }
+
 
     @FXML
-    void users(ActionEvent event) throws IOException {
-    	Main.changeScene(4);
+    void back(ActionEvent event) throws IOException {
+    	Main.changeScene(2);
     }
 
-    @FXML
-    void loans(ActionEvent event) throws IOException {
-    	Main.changeScene(5);
-    }
 }

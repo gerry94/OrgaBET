@@ -35,10 +35,19 @@ public class Main extends Application {
             case 2:
             	root = FXMLLoader.load(Main.class.getResource("/LibrarianUI.fxml"));
             	break;
+            case 3:
+            	root = FXMLLoader.load(Main.class.getResource("/LibrarianBooks.fxml"));
+            	break;
+            case 4:
+            	root = FXMLLoader.load(Main.class.getResource("/LibrarianUser.fxml"));
+            	break;
+            case 5:
+            	root = FXMLLoader.load(Main.class.getResource("/LibrarianLoans.fxml"));
+            	break;
             default:
                 break;
         }
-        stage.setScene(new Scene(root, 640, 400));
+        stage.setScene(new Scene(root, 1366, 715));
         stage.show();
     }
 }
