@@ -22,7 +22,7 @@ public class Loan implements Serializable{
 	}
 	
 	public Loan(User user, Book book) {
-		this.id=new LoanId(user.getUserId(),book.getBookId());
+		this.id=new LoanId(user.getUserId(),book.getId());
 		this.user=user;
 		this.book=book;
 	}

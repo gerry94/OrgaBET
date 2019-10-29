@@ -1,3 +1,5 @@
+import javafx.collections.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -235,14 +237,19 @@ public class LibraryManager {
 
 //book table operations
 	
-	public List<Book> browseBooks(int offset) {
-		List<Book> books =new ArrayList<>();
+	public ObservableList<Book> browseBooks(int offset) {
+		ObservableList<Book> books = FXCollections.observableArrayList();
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
-			Query q = entityManager.createNativeQuery("SELECT b.ISBN, b.title, b.author, b.numcopies FROM Book b ORDER BY b.ISBN LIMIT 10 OFFSET ? ", Book.class);
+
+			Query q = entityManager.createNativeQuery("SELECT b.ISBN, b.title, b.author, b.numCopies FROM Book b ORDER BY b.ISBN LIMIT 10 OFFSET ? ", Book.class);
 			q.setParameter(1, offset);
-			books = q.getResultList();
+
+			List<Book> tmpBook = q.getResultList();
+			for(Book b: tmpBook)
+				books.add(b);
+
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
@@ -281,7 +288,7 @@ public class LibraryManager {
 	}
 
 	public int Available(Book book) {
-		int copies=book.getCopies();
+		int copies=book.getNumCopies();
 		int available= copies - book.getLoans().size();
 		return available;
 	}
@@ -308,14 +315,14 @@ public class LibraryManager {
 			Book book = entityManager.find(Book.class, bookId);
 			int available= Available(book);
 			if(numCopies<=available){
-				if(numCopies==book.getCopies()) {
+				if(numCopies==book.getNumCopies()) {
 					entityManager.getTransaction().commit();
 					entityManager.close();
 					removeBook(bookId);
 					return;
 				}
 				else
-					book.setCopies(book.getCopies()-numCopies);
+					book.setCopies(book.getNumCopies()-numCopies);
 			}
 			else
 				System.out.println("There are not enough copies to be removed");
@@ -334,7 +341,7 @@ public class LibraryManager {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
 			Book book = entityManager.find(Book.class, bookId);
-			int newNumCopies=book.getCopies()+numCopies;
+			int newNumCopies=book.getNumCopies()+numCopies;
 			book.setCopies(newNumCopies);
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {

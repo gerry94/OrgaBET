@@ -47,7 +47,7 @@ public class Main extends Application {
             default:
                 break;
         }
-        stage.setScene(new Scene(root, 1366, 715));
+        stage.setScene(new Scene(root, 640, 400));
         stage.show();
     }
 }

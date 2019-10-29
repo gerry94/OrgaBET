@@ -1,9 +1,9 @@
-import javafx.application.Platform;
 import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,6 +28,16 @@ public class UserController implements Initializable {
     @FXML
     private TableView<Book> list_table;
     @FXML
+    private TableColumn idCol;
+    @FXML
+    private TableColumn titleCol;
+    @FXML
+    private TableColumn authorCol;
+    //@FXML
+    //private TableColumn categoryCol;
+    @FXML
+    private TableColumn availabilityCol;
+    @FXML
     private MenuButton search_filter;
 
     @FXML
@@ -41,7 +51,14 @@ public class UserController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         welcome_msg.setText("Welcome " + Controller.getUsername());
 
-        ObservableList<Book> bookList = FXCollections.observableArrayList();
+        //associating the table's column with the corresponding attributes of the book class
+        idCol.setCellValueFactory(new PropertyValueFactory<Book, Long>("id"));
+        titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
+        authorCol.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
+        availabilityCol.setCellValueFactory(new PropertyValueFactory<Book, Integer>("numCopies"));
+
+        //filling the table with the list returned by the query
+        list_table.setItems(Main.lm.browseBooks(0));
     }
 
 }

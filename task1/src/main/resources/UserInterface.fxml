@@ -42,11 +42,11 @@
             <TextArea fx:id="output_field" disable="true" editable="false" layoutX="27.0" layoutY="423.0" prefHeight="78.0" prefWidth="455.0" />
             <TableView fx:id="list_table" layoutX="27.0" layoutY="177.0" prefHeight="200.0" prefWidth="589.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="ID" />
-                <TableColumn prefWidth="192.0" text="TITLE" />
-                  <TableColumn minWidth="0.0" prefWidth="116.0" text="AUTHOR" />
-                  <TableColumn prefWidth="89.0" text="CATEGORY" />
-                  <TableColumn prefWidth="116.0" text="AVAILABILITY" />
+                <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="titleCol" prefWidth="192.0" text="TITLE" />
+                  <TableColumn fx:id="authorCol" minWidth="0.0" prefWidth="116.0" text="AUTHOR" />
+                  <!--<TableColumn fx:id="categoryCol" prefWidth="89.0" text="CATEGORY" />-->
+                  <TableColumn fx:id="availabilityCol" prefWidth="116.0" text="AVAILABILITY" />
               </columns>
             </TableView>
             <MenuButton fx:id="search_filter" layoutX="255.0" layoutY="117.0" mnemonicParsing="false" text="Search by...">
