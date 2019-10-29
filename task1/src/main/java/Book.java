@@ -6,7 +6,7 @@ import java.util.Objects;
 import javax.persistence.*;
 
 @Entity
-public class Book{
+public class Book implements Serializable{
 
 	@Id
 	//The id variable is linked to the column of the table with the name bookId 
@@ -29,7 +29,7 @@ public class Book{
 		return id;
 	}
 	
-	public void setBookId(long id) {
+	public void setId(long id) {
 		this.id=id;
 	}
 	 
@@ -61,7 +61,7 @@ public class Book{
 		return numCopies;
 	}
 	
-	public void setCopies(int num) {
+	public void setNumCopies(int num) {
 		this.numCopies=num;
 	}
 	

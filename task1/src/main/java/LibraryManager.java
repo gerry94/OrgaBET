@@ -263,11 +263,11 @@ public class LibraryManager {
 	
 	public void addBook(long isbn, String author, String title, String category, int numCopies) {
 		Book book=new Book();
-		book.setBookId(isbn);
+		book.setId(isbn);
 		book.setAuthor(author);
 		book.setTitle(title);
 		book.setCategory(category);
-		book.setCopies(numCopies);
+		book.setNumCopies(numCopies);
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
@@ -323,7 +323,7 @@ public class LibraryManager {
 					return;
 				}
 				else
-					book.setCopies(book.getNumCopies()-numCopies);
+					book.setNumCopies(book.getNumCopies()-numCopies);
 			}
 			else
 				System.out.println("There are not enough copies to be removed");
@@ -343,7 +343,7 @@ public class LibraryManager {
 			entityManager.getTransaction().begin();
 			Book book = entityManager.find(Book.class, bookId);
 			int newNumCopies=book.getNumCopies()+numCopies;
-			book.setCopies(newNumCopies);
+			book.setNumCopies(newNumCopies);
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
