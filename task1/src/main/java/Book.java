@@ -16,6 +16,7 @@ public class Book{
 
 	private String title;
 	private String author;
+	private String category;
 	private int numCopies;
 
 	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -48,6 +49,14 @@ public class Book{
 		this.author=author;
 	}
 	
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category=category;
+	}
+	
 	public int getCopies() {
 		return numCopies;
 	}
@@ -60,6 +69,20 @@ public class Book{
 	public List<Loan> getLoans()
 	{
 			return this.loans;
+	}
+	
+	public boolean equals(Object o) {
+		if ( this == o ) {
+			return true;
+		}
+		if ( o == null || getClass() != o.getClass() ) {
+			return false;
+		}
+		Book that = (Book) o;
+		return Objects.equals( title, that.title ) &&
+				Objects.equals( author, that.author )&&
+				Objects.equals( category, that.category )&&
+				Objects.equals( numCopies, that.numCopies );
 	}
 	
 }

@@ -254,11 +254,12 @@ public class LibraryManager {
 		return books;
 	}
 	
-	public void addBook(long isbn, String author, String title, int numCopies) {
+	public void addBook(long isbn, String author, String title, String category, int numCopies) {
 		Book book=new Book();
 		book.setBookId(isbn);
 		book.setAuthor(author);
 		book.setTitle(title);
+		book.setCategory(category);
 		book.setCopies(numCopies);
 		try {
 			entityManager=factory.createEntityManager();
