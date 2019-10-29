@@ -21,7 +21,7 @@ public class LibraryManager {
 		if (loggedUser!=null)
 			return null;
 		String name = null;
-		List<String> result = new ArrayList();
+		List<String> result = new ArrayList<String>();
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
@@ -30,6 +30,7 @@ public class LibraryManager {
 			loggedUser=user.getUserId();
 			privilege=user.getPrivilege();
 			name=user.getName();
+			name=name.concat(" ");
 			name=name.concat(user.getSurname());
 			result.add(name);
 			result.add(Integer.toString(privilege));

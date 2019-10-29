@@ -26,15 +26,18 @@ public class Controller implements Initializable {
 
     @FXML
     void login(ActionEvent event) throws IOException {
-    	List<String> result = new ArrayList();
+    	List<String> result = new ArrayList<String>();
     	result = Main.lm.login(login_code.getText());
+    	
+        if (result == null) {
+            output_text.setTextFill(Color.RED);
+            output_text.setText("ERROR: wrong id. Please check your personal code and retry.");
+        }
+        
         username = result.get(0);
         privilege =  Integer.parseInt(result.get(1));
         
-        if (username == null) {
-            output_text.setTextFill(Color.RED);
-            output_text.setText("ERROR: wrong id. Please check your personal code and retry.");
-        } else if (privilege == 0){
+        if (privilege == 0){
             /*output_text.setTextFill(Color.GREEN);
             output_text.setText("Login successful. Welcome " + username + ".");*/
             Main.changeScene(1);
