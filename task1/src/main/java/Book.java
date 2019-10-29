@@ -6,7 +6,7 @@ import java.util.Objects;
 import javax.persistence.*;
 
 @Entity
-public class Book{
+public class Book implements Serializable {
 
 	@Id
 	//The id variable is linked to the column of the table with the name bookId 

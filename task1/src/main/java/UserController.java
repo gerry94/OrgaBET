@@ -59,6 +59,17 @@ public class UserController implements Initializable {
 
         //filling the table with the list returned by the query
         list_table.setItems(Main.lm.browseBooks(0));
+
+        //defines what happens whe the "search button" is pressed
+        search_but.setOnAction((ActionEvent ev) -> {
+            String text = search_field.getText();
+
+        });
+    }
+
+    public void updateTable(ObservableList<Book> list)
+    {
+        list_table.setItems(list);
     }
 
 }

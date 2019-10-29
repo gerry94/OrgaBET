@@ -216,24 +216,6 @@ public class LibraryManager {
 		}
 	}
 	//da implementare
-	/*
-	public Book findBook() {
-		try {
-			entityManager=factory.createEntityManager();
-			entityManager.getTransaction().begin();
-			
-			entityManager.getTransaction().commit();
-		}catch (Exception ex) {
-			ex.printStackTrace();
-			System.out.println("A problem occurred with the login!");
-		}
-		finally {
-			entityManager.close();
-			return book;
-		}
-	}
-	*/	
-
 
 //book table operations
 	

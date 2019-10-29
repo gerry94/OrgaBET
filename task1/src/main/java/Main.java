@@ -28,26 +28,32 @@ public class Main extends Application {
         switch(type) {
             case 0:
                 root = FXMLLoader.load(Main.class.getResource("/BibliosLogin.fxml"));
+                stage.setScene(new Scene(root, 640, 400));
                 break;
             case 1:
                 root = FXMLLoader.load(Main.class.getResource("/UserInterface.fxml"));
+                stage.setScene(new Scene(root, 800, 640));
                 break;
             case 2:
             	root = FXMLLoader.load(Main.class.getResource("/LibrarianUI.fxml"));
+                stage.setScene(new Scene(root, 800, 640));
             	break;
             case 3:
             	root = FXMLLoader.load(Main.class.getResource("/LibrarianBooks.fxml"));
+                stage.setScene(new Scene(root, 800, 640));
             	break;
             case 4:
             	root = FXMLLoader.load(Main.class.getResource("/LibrarianUser.fxml"));
+                stage.setScene(new Scene(root, 800, 640));
             	break;
             case 5:
             	root = FXMLLoader.load(Main.class.getResource("/LibrarianLoans.fxml"));
+                stage.setScene(new Scene(root, 800, 640));
             	break;
             default:
                 break;
         }
-        stage.setScene(new Scene(root, 640, 400));
+
         stage.show();
     }
 }
