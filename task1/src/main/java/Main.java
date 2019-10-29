@@ -32,11 +32,11 @@ public class Main extends Application {
                 break;
             case 1:
                 root = FXMLLoader.load(Main.class.getResource("/UserInterface.fxml"));
-                stage.setScene(new Scene(root, 800, 640));
+                stage.setScene(new Scene(root, 800, 540));
                 break;
             case 2:
             	root = FXMLLoader.load(Main.class.getResource("/LibrarianUI.fxml"));
-                stage.setScene(new Scene(root, 800, 640));
+                stage.setScene(new Scene(root, 230, 360));
             	break;
             case 3:
             	root = FXMLLoader.load(Main.class.getResource("/LibrarianBooks.fxml"));

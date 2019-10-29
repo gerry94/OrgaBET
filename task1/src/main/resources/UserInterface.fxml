@@ -14,16 +14,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="537.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserController">
+<VBox prefHeight="537.0" prefWidth="776.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserController">
   <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="512.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="537.0" prefWidth="721.0" VBox.vgrow="ALWAYS">
       <children>
         <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
           <font>
             <Font size="18.0" />
           </font>
         </Label>
-            <Text layoutX="281.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BibliOS">
+            <Text layoutX="363.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BibliOS">
                <font>
                   <Font size="22.0" />
                </font>
@@ -31,29 +31,27 @@
             <Label fx:id="welcome_msg" layoutX="27.0" layoutY="74.0" text="Welcome &lt;username&gt;" />
             <Button fx:id="logout_but" layoutX="194.0" layoutY="69.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
             <TextField fx:id="search_field" layoutX="27.0" layoutY="117.0" prefHeight="26.0" prefWidth="204.0" promptText="Search..." />
-            <CheckBox fx:id="available_check" layoutX="402.0" layoutY="123.0" mnemonicParsing="false" text="Show if Available">
+            <CheckBox fx:id="available_check" disable="true" layoutX="402.0" layoutY="123.0" mnemonicParsing="false" text="Show if Available">
                <font>
                   <Font size="10.0" />
                </font>
             </CheckBox>
-            <Button fx:id="search_but" layoutX="552.0" layoutY="117.0" mnemonicParsing="false" text="Search" />
-            <Button fx:id="borrow_but" layoutX="490.0" layoutY="390.0" mnemonicParsing="false" text="Borrow selected" />
+            <Button fx:id="search_but" layoutX="552.0" layoutY="117.0" mnemonicParsing="false" onAction="#search" text="Search" />
+            <Button fx:id="borrow_but" layoutX="609.0" layoutY="390.0" mnemonicParsing="false" text="Borrow selected" />
             <Text layoutX="27.0" layoutY="408.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System output area:" />
             <TextArea fx:id="output_field" disable="true" editable="false" layoutX="27.0" layoutY="423.0" prefHeight="78.0" prefWidth="455.0" />
-            <TableView fx:id="list_table" layoutX="27.0" layoutY="177.0" prefHeight="200.0" prefWidth="589.0">
+            <TableView fx:id="list_table" layoutX="26.0" layoutY="177.0" prefHeight="200.0" prefWidth="728.0">
               <columns>
-                <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
-                <TableColumn fx:id="titleCol" prefWidth="192.0" text="TITLE" />
-                  <TableColumn fx:id="authorCol" minWidth="0.0" prefWidth="116.0" text="AUTHOR" />
-                  <!--<TableColumn fx:id="categoryCol" prefWidth="89.0" text="CATEGORY" />-->
-                  <TableColumn fx:id="availabilityCol" prefWidth="116.0" text="AVAILABILITY" />
+                <TableColumn fx:id="idCol" prefWidth="51.0" text="ID" />
+                <TableColumn fx:id="titleCol" prefWidth="360.0" text="TITLE" />
+                  <TableColumn fx:id="authorCol" minWidth="0.0" prefWidth="205.0" text="AUTHOR" />
+                  <TableColumn fx:id="availabilityCol" prefWidth="111.0" text="AVAILABILITY" />
               </columns>
             </TableView>
             <MenuButton fx:id="search_filter" layoutX="255.0" layoutY="117.0" mnemonicParsing="false" text="Search by...">
               <items>
-                <MenuItem mnemonicParsing="false" text="Title" />
-                <MenuItem mnemonicParsing="false" text="Author" />
-                  <MenuItem mnemonicParsing="false" text="Category" />
+                <MenuItem fx:id="m1" mnemonicParsing="false" onAction="#setMenuOption" text="Title" />
+                <MenuItem fx:id="m2" mnemonicParsing="false" onAction="#setMenuOption" text="Author" />
               </items>
             </MenuButton>
       </children>

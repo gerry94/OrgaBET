@@ -271,7 +271,7 @@ public class LibraryManager {
 		return books;
 	}
 	
-	public ObservableList<Book> searchBooksByCategory(String category,int offset) {
+	/*public ObservableList<Book> searchBooksByCategory(String category,int offset) {
 		ObservableList<Book> books = FXCollections.observableArrayList();
 		try {
 			entityManager=factory.createEntityManager();
@@ -294,9 +294,9 @@ public class LibraryManager {
 			entityManager.close();
 		}
 		return books;
-	}
+	}*/
 	
-	public ObservableList<Book> searchBooksByTitle(String title,int offset) {
+	public ObservableList<Book> searchBooksByTitle(String title,int offset) { //option 0: title, 1:author
 		ObservableList<Book> books = FXCollections.observableArrayList();
 		title = "%"+title+"%";
 		try {
@@ -304,6 +304,7 @@ public class LibraryManager {
 			entityManager.getTransaction().begin();
 
 			Query q = entityManager.createNativeQuery("SELECT b.ISBN, b.title, b.author, b.category, b.numCopies FROM Book b WHERE b.title LIKE ? ORDER BY b.title LIMIT 10 OFFSET ? ", Book.class);
+
 			q.setParameter(1, title);
 			q.setParameter(2, offset);
 
@@ -321,7 +322,33 @@ public class LibraryManager {
 		}
 		return books;
 	}
-		
+
+	public ObservableList<Book> searchBooksByAuthor(String title,int offset) { //option 0: title, 1:author
+		ObservableList<Book> books = FXCollections.observableArrayList();
+		title = "%"+title+"%";
+		try {
+			entityManager=factory.createEntityManager();
+			entityManager.getTransaction().begin();
+
+			Query q = entityManager.createNativeQuery("SELECT b.ISBN, b.title, b.author, b.category, b.numCopies FROM Book b WHERE b.author LIKE ? ORDER BY b.title LIMIT 10 OFFSET ? ", Book.class);
+
+			q.setParameter(1, title);
+			q.setParameter(2, offset);
+
+			List<Book> tmpBook = q.getResultList();
+			for(Book b: tmpBook)
+				books.add(b);
+
+			entityManager.getTransaction().commit();
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("A problem occurred with the search by title!");
+		}
+		finally {
+			entityManager.close();
+		}
+		return books;
+	}
 	public void addBook(long isbn, String author, String title, String category, int numCopies) {
 		Book book=new Book();
 		book.setId(isbn);

@@ -25,6 +25,12 @@ public class Controller implements Initializable {
     public static int privilege;
 
     @FXML
+    void logout(ActionEvent event) throws IOException {
+        Main.lm.logout();
+        Main.changeScene(0);
+    }
+
+    @FXML
     void login(ActionEvent event) throws IOException {
     	List<String> result = new ArrayList<String>();
     	result = Main.lm.login(login_code.getText());
@@ -38,8 +44,6 @@ public class Controller implements Initializable {
         privilege =  Integer.parseInt(result.get(1));
         
         if (privilege == 0){
-            /*output_text.setTextFill(Color.GREEN);
-            output_text.setText("Login successful. Welcome " + username + ".");*/
             Main.changeScene(1);
         } else if (privilege == 1)
         	Main.changeScene(2);
