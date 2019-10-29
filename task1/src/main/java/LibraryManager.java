@@ -240,7 +240,7 @@ public class LibraryManager {
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
-			Query q = entityManager.createNativeQuery("SELECT b.id, b.title, b.author, b.numcopies FROM Book b ORDER BY b.id LIMIT 10 OFFSET ? ", Book.class);
+			Query q = entityManager.createNativeQuery("SELECT b.ISBN, b.title, b.author, b.numcopies FROM Book b ORDER BY b.ISBN LIMIT 10 OFFSET ? ", Book.class);
 			q.setParameter(1, offset);
 			books = q.getResultList();
 			entityManager.getTransaction().commit();
