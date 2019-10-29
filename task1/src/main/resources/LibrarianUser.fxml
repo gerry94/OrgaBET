@@ -33,9 +33,9 @@
             </Text>
             <TableView fx:id="user_table" layoutX="89.0" layoutY="255.0" prefHeight="258.0" prefWidth="1164.0">
                <columns>
-                  <TableColumn prefWidth="97.0" text="USERID" />
-                  <TableColumn minWidth="0.0" prefWidth="359.0" text="Name" />
-                  <TableColumn prefWidth="362.0" text="Surname" />
+                  <TableColumn fx:id="idCol" prefWidth="97.0" text="USERID" />
+                  <TableColumn fx:id="nameCol" minWidth="0.0" prefWidth="359.0" text="Name" />
+                  <TableColumn fx:id="surnameCol" prefWidth="362.0" text="Surname" />
                </columns>
             </TableView>
             <TextArea fx:id="userid_field" layoutX="89.0" layoutY="571.0" prefHeight="32.0" prefWidth="209.0" promptText="UserID..." />

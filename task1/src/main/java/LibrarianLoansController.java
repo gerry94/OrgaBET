@@ -70,7 +70,8 @@ public class LibrarianLoansController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         welcome_msg.setText("Welcome " + Controller.getUsername());
 
-        ObservableList<Book> bookList = FXCollections.observableArrayList();
+        ObservableList<Loan> requestList = FXCollections.observableArrayList();
+        ObservableList<Loan> returnList = FXCollections.observableArrayList();
     }
 
 

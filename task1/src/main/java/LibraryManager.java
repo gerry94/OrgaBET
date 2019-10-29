@@ -59,6 +59,8 @@ public class LibraryManager {
 		return false;
 	}
 	
+
+	
 //Loan Operations	
 
 	//browses a specific user's loans (reserved to librarians only)
@@ -191,6 +193,31 @@ public class LibraryManager {
 	}
 
 //User table operations
+	//browse user list
+	
+	public ObservableList<User> browseUsers(int offset) {
+		ObservableList<User> users = FXCollections.observableArrayList();
+		try {
+			entityManager=factory.createEntityManager();
+			entityManager.getTransaction().begin();
+
+			Query q = entityManager.createNativeQuery("SELECT u.idUser, u.name, u.surname, u.privilege FROM User u ORDER BY u.idUser LIMIT 10 OFFSET ? ", User.class);
+			q.setParameter(1, offset);
+
+			List<User> tmpUser = q.getResultList();
+			for(User u: tmpUser)
+				users.add(u);
+
+			entityManager.getTransaction().commit();
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("A problem occurred with the login!");
+		}
+		finally {
+			entityManager.close();
+		}
+		return users;
+	}
 	
 	public void addUser(String id,String name, String surname) {
 		User user=new User();
@@ -243,7 +270,7 @@ public class LibraryManager {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
 
-			Query q = entityManager.createNativeQuery("SELECT b.ISBN, b.title, b.author, b.numCopies FROM Book b ORDER BY b.ISBN LIMIT 10 OFFSET ? ", Book.class);
+			Query q = entityManager.createNativeQuery("SELECT b.ISBN, b.title, b.author, b.numCopies, b.category FROM Book b ORDER BY b.ISBN LIMIT 10 OFFSET ? ", Book.class);
 			q.setParameter(1, offset);
 
 			List<Book> tmpBook = q.getResultList();
@@ -260,7 +287,7 @@ public class LibraryManager {
 		}
 		return books;
 	}
-	
+		
 	public void addBook(long isbn, String author, String title, String category, int numCopies) {
 		Book book=new Book();
 		book.setId(isbn);
