@@ -64,6 +64,7 @@ public class UserController implements Initializable {
         search_but.setOnAction((ActionEvent ev) -> {
             String text = search_field.getText();
 
+            updateTable(Main.lm.searchBooksByTitle(text, 0));
         });
     }
 

@@ -298,7 +298,7 @@ public class LibraryManager {
 	
 	public ObservableList<Book> searchBooksByTitle(String title,int offset) {
 		ObservableList<Book> books = FXCollections.observableArrayList();
-		title=title+"%";
+		title = "%"+title+"%";
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
