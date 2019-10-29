@@ -6,6 +6,8 @@ import javafx.event.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -20,18 +22,24 @@ public class Controller implements Initializable {
     private Label output_text;
 
     public static String username;
+    public static int privilege;
 
     @FXML
     void login(ActionEvent event) throws IOException {
-        username = Main.lm.login(login_code.getText());
+    	List<String> result = new ArrayList();
+    	result = Main.lm.login(login_code.getText());
+        username = result.get(0);
+        privilege =  Integer.parseInt(result.get(1));
+        
         if (username == null) {
             output_text.setTextFill(Color.RED);
             output_text.setText("ERROR: wrong id. Please check your personal code and retry.");
-        } else {
+        } else if (privilege == 0){
             /*output_text.setTextFill(Color.GREEN);
             output_text.setText("Login successful. Welcome " + username + ".");*/
             Main.changeScene(1);
-        }
+        } else if (privilege == 1)
+        	Main.changeScene(2);
     }
 
     public static String getUsername() { return username; }

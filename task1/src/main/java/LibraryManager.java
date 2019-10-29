@@ -17,10 +17,11 @@ public class LibraryManager {
 		factory.close();
 	}
 	
-	public String login(String id) {	
+	public List<String> login(String id) {	
 		if (loggedUser!=null)
 			return null;
-		String name=null;
+		String name = null;
+		List<String> result = new ArrayList();
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
@@ -28,8 +29,10 @@ public class LibraryManager {
 			entityManager.getTransaction().commit();
 			loggedUser=user.getUserId();
 			privilege=user.getPrivilege();
-			name=user.getName()+" ";
+			name=user.getName();
 			name=name.concat(user.getSurname());
+			result.add(name);
+			result.add(Integer.toString(privilege));
 		}catch (Exception ex) {
     		ex.printStackTrace();
     		System.out.println("A problem occurred with the login.");
@@ -38,7 +41,7 @@ public class LibraryManager {
 			entityManager.close();
 		}
 		if(loggedUser!=null) {
-			return name;	
+			return result;	
 		}
 		return null;
 	}

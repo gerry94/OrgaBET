@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="715.0" prefWidth="1366.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="search_but" layoutX="531.0" layoutY="187.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="152.0" style="-fx-background-color: lightgrey; -fx-border-color: grey;" text="Search" />
+      <MenuButton fx:id="search_filter" layoutX="341.0" layoutY="188.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="149.0" style="-fx-background-color: #191970;" textFill="#ffffff00">
+         <items>
+            <MenuItem mnemonicParsing="false" text="UserID" />
+            <MenuItem mnemonicParsing="false" text="BookID" />
+         </items>
+      </MenuButton>
+      <Button fx:id="logout_but" layoutX="241.0" layoutY="129.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #FF6347; -fx-border-color: #8B0000;" text="Logout" />
+      <Text layoutX="9.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BibliOS" textAlignment="CENTER" wrappingWidth="1348.22265625">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <Text fx:id="welcome_msg" layoutX="91.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome, &lt;username&gt;" />
+      <TextArea fx:id="search_field" layoutX="91.0" layoutY="188.0" prefHeight="32.0" prefWidth="209.0" promptText="Search. . ." />
+      <Text layoutX="341.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Searched By:" wrappingWidth="149.0">
+         <font>
+            <Font size="9.0" />
+         </font>
+      </Text>
+      <TableView fx:id="loan_table" layoutX="91.0" layoutY="295.0" prefHeight="258.0" prefWidth="535.0">
+         <columns>
+            <TableColumn prefWidth="255.0" text="UserID" />
+            <TableColumn minWidth="0.0" prefWidth="279.0" text="BookID" />
+         </columns>
+      </TableView>
+      <Button fx:id="return_but" layoutX="1101.0" layoutY="570.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="152.0" style="-fx-background-color: lightgrey; -fx-border-color: grey;" text="Confirm Selected Return" />
+      <Text fill="#000000ba" layoutX="89.0" layoutY="624.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Output Message Box" />
+      <TextField fx:id="output_msg" disable="true" layoutX="87.0" layoutY="628.0" prefHeight="67.0" prefWidth="866.0" />
+      <ImageView fx:id="back" fitHeight="64.0" fitWidth="64.0" layoutX="1189.0" layoutY="173.0">
+         <image>
+            <Image url="@download.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="refresh" fitHeight="64.0" fitWidth="64.0" layoutX="1113.0" layoutY="173.0">
+         <image>
+            <Image url="@refresh-512.png" />
+         </image>
+      </ImageView>
+      <TableView fx:id="return_table" layoutX="718.0" layoutY="295.0" prefHeight="258.0" prefWidth="535.0">
+         <columns>
+            <TableColumn prefWidth="255.0" text="UserID" />
+            <TableColumn minWidth="0.0" prefWidth="279.0" text="BookID" />
+         </columns>
+      </TableView>
+      <Text layoutX="91.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Loan Request" wrappingWidth="535.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="718.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Return Request" wrappingWidth="535.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Button fx:id="loan_but" layoutX="474.0" layoutY="570.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="152.0" style="-fx-background-color: lightgrey; -fx-border-color: grey;" text="Confirm Selected Loan" />
+   </children>
+</Pane>

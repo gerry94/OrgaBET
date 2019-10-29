@@ -32,6 +32,9 @@ public class Main extends Application {
             case 1:
                 root = FXMLLoader.load(Main.class.getResource("/UserInterface.fxml"));
                 break;
+            case 2:
+            	root = FXMLLoader.load(Main.class.getResource("/LibrarianUI.fxml"));
+            	break;
             default:
                 break;
         }
