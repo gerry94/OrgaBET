@@ -35,11 +35,11 @@
             </Text>
             <TableView fx:id="book_table" layoutX="89.0" layoutY="255.0" prefHeight="258.0" prefWidth="1188.0">
                <columns>
-                  <TableColumn prefWidth="97.0" text="ID" />
-                  <TableColumn minWidth="0.0" prefWidth="280.0" text="Title" />
-                  <TableColumn prefWidth="288.0" text="Author" />
-                  <TableColumn minWidth="0.0" prefWidth="295.0" text="Category" />
-                  <TableColumn minWidth="0.0" prefWidth="191.0" text="# Copies" />
+                  <TableColumn fx:id="idCol" prefWidth="97.0" text="ID" />
+                  <TableColumn fx:id="titleCol" minWidth="0.0" prefWidth="280.0" text="Title" />
+                  <TableColumn fx:id="authorCol" prefWidth="288.0" text="Author" />
+                  <TableColumn fx:id="categoryCol" minWidth="0.0" prefWidth="295.0" text="Category" />
+                  <TableColumn fx:id="copiesCol" minWidth="0.0" prefWidth="191.0" text="# Copies" />
                   <TableColumn prefWidth="36.0" />
                </columns>
             </TableView>

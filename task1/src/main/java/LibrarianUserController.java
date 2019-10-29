@@ -11,11 +11,7 @@ import java.util.ResourceBundle;
 import javafx.scene.text.Text;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
@@ -25,7 +21,13 @@ public class LibrarianUserController implements Initializable {
     private Button search_but;
 
     @FXML
-    private TableView<?> user_table;
+    private TableView<User> user_table;
+    @FXML
+    private TableColumn<User, String> idCol;
+    @FXML
+    private TableColumn<User, String> nameCol;
+    @FXML
+    private TableColumn<User, String> surnameCol;
 
     @FXML
     private TextArea userid_field;
@@ -68,7 +70,13 @@ public class LibrarianUserController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         welcome_msg.setText("Welcome " + Controller.getUsername());
 
-        ObservableList<Book> bookList = FXCollections.observableArrayList();
+        //associating the table's column with the corresponding attributes of the user class
+        idCol.setCellValueFactory(new PropertyValueFactory<User, String>("id"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
+        surnameCol.setCellValueFactory(new PropertyValueFactory<User, String>("surname"));
+
+        //filling the table with the list returned by the query
+        user_table.setItems(Main.lm.browseUsers(0));
     }
 
 

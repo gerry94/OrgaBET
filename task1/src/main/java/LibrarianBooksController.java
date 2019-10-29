@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -11,11 +12,7 @@ import java.util.ResourceBundle;
 import javafx.scene.text.Text;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
@@ -34,8 +31,18 @@ public class LibrarianBooksController implements Initializable {
     private Button back;
 
     @FXML
-    private TableView<?> book_table;
-
+    private TableView<Book> book_table;
+    @FXML
+    private TableColumn<Book, Long> idCol;
+    @FXML
+    private TableColumn<Book, String> titleCol;
+    @FXML
+    private TableColumn<Book, String> authorCol;
+    @FXML
+    private TableColumn<Book, String> categoryCol;
+    @FXML
+    private TableColumn<Book, Integer> copiesCol;
+  
     @FXML
     private Button add_but;
 
@@ -84,7 +91,15 @@ public class LibrarianBooksController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         welcome_msg.setText("Welcome " + Controller.getUsername());
 
-        ObservableList<Book> bookList = FXCollections.observableArrayList();
+        //associating the table's column with the corresponding attributes of the book class
+        idCol.setCellValueFactory(new PropertyValueFactory<Book, Long>("id"));
+        titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
+        authorCol.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
+        categoryCol.setCellValueFactory(new PropertyValueFactory<Book, String>("category"));
+        copiesCol.setCellValueFactory(new PropertyValueFactory<Book, Integer>("numCopies"));
+
+        //filling the table with the list returned by the query
+        book_table.setItems(Main.lm.browseBooks(0));
     }
 
 

@@ -16,6 +16,7 @@ public class Book implements Serializable {
 
 	private String title;
 	private String author;
+	private String category;
 	private int numCopies;
 
 	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -28,7 +29,7 @@ public class Book implements Serializable {
 		return id;
 	}
 	
-	public void setBookId(long id) {
+	public void setId(long id) {
 		this.id=id;
 	}
 	 
@@ -48,11 +49,19 @@ public class Book implements Serializable {
 		this.author=author;
 	}
 	
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category=category;
+	}
+	
 	public int getNumCopies() {
 		return numCopies;
 	}
 	
-	public void setCopies(int num) {
+	public void setNumCopies(int num) {
 		this.numCopies=num;
 	}
 	
@@ -60,6 +69,20 @@ public class Book implements Serializable {
 	public List<Loan> getLoans()
 	{
 			return this.loans;
+	}
+	
+	public boolean equals(Object o) {
+		if ( this == o ) {
+			return true;
+		}
+		if ( o == null || getClass() != o.getClass() ) {
+			return false;
+		}
+		Book that = (Book) o;
+		return Objects.equals( title, that.title ) &&
+				Objects.equals( author, that.author )&&
+				Objects.equals( category, that.category )&&
+				Objects.equals( numCopies, that.numCopies );
 	}
 	
 }

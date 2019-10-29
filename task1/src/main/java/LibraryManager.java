@@ -59,6 +59,8 @@ public class LibraryManager {
 		return false;
 	}
 	
+
+	
 //Loan Operations	
 
 	//browses a specific user's loans (reserved to librarians only)
@@ -71,7 +73,7 @@ public class LibraryManager {
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
-			System.out.println("A problem occurred with the login!");
+			System.out.println("A problem occurred with the browseloans(librarian)");
 		}
 		finally {
 			entityManager.close();
@@ -89,7 +91,7 @@ public class LibraryManager {
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
-			System.out.println("A problem occurred with the login!");
+			System.out.println("A problem occurred with the browseloans.");
 		}
 		finally {
 			entityManager.close();
@@ -191,6 +193,31 @@ public class LibraryManager {
 	}
 
 //User table operations
+	//browse user list
+	
+	public ObservableList<User> browseUsers(int offset) {
+		ObservableList<User> users = FXCollections.observableArrayList();
+		try {
+			entityManager=factory.createEntityManager();
+			entityManager.getTransaction().begin();
+
+			Query q = entityManager.createNativeQuery("SELECT u.idUser, u.name, u.surname, u.privilege FROM User u ORDER BY u.idUser LIMIT 10 OFFSET ? ", User.class);
+			q.setParameter(1, offset);
+
+			List<User> tmpUser = q.getResultList();
+			for(User u: tmpUser)
+				users.add(u);
+
+			entityManager.getTransaction().commit();
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("A problem occurred with the login!");
+		}
+		finally {
+			entityManager.close();
+		}
+		return users;
+	}
 	
 	public void addUser(String id,String name, String surname) {
 		User user=new User();
@@ -225,7 +252,8 @@ public class LibraryManager {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
 
-			Query q = entityManager.createNativeQuery("SELECT b.ISBN, b.title, b.author, b.numCopies FROM Book b ORDER BY b.ISBN LIMIT 10 OFFSET ? ", Book.class);
+			Query q = entityManager.createNativeQuery("SELECT b.ISBN, b.title, b.author, b.numCopies, b.category FROM Book b ORDER BY b.ISBN LIMIT 10 OFFSET ? ", Book.class);
+
 			q.setParameter(1, offset);
 
 			List<Book> tmpBook = q.getResultList();
@@ -235,7 +263,7 @@ public class LibraryManager {
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
-			System.out.println("A problem occurred with the login!");
+			System.out.println("A problem occurred with the browsebooks!");
 		}
 		finally {
 			entityManager.close();
@@ -243,12 +271,64 @@ public class LibraryManager {
 		return books;
 	}
 	
-	public void addBook(long isbn, String author, String title, int numCopies) {
+	public ObservableList<Book> searchBooksByCategory(String category,int offset) {
+		ObservableList<Book> books = FXCollections.observableArrayList();
+		try {
+			entityManager=factory.createEntityManager();
+			entityManager.getTransaction().begin();
+
+			Query q = entityManager.createNativeQuery("SELECT b.ISBN, b.title, b.author, b.category, b.numCopies FROM Book b WHERE b.category= ? ORDER BY b.ISBN LIMIT 10 OFFSET ? ", Book.class);
+			q.setParameter(1, category);
+			q.setParameter(2, offset);
+
+			List<Book> tmpBook = q.getResultList();
+			for(Book b: tmpBook)
+				books.add(b);
+
+			entityManager.getTransaction().commit();
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("A problem occurred with the search by category!");
+		}
+		finally {
+			entityManager.close();
+		}
+		return books;
+	}
+	
+	public ObservableList<Book> searchBooksByTitle(String title,int offset) {
+		ObservableList<Book> books = FXCollections.observableArrayList();
+		title=title+"%";
+		try {
+			entityManager=factory.createEntityManager();
+			entityManager.getTransaction().begin();
+
+			Query q = entityManager.createNativeQuery("SELECT b.ISBN, b.title, b.author, b.category, b.numCopies FROM Book b WHERE b.title LIKE ? ORDER BY b.title LIMIT 10 OFFSET ? ", Book.class);
+			q.setParameter(1, title);
+			q.setParameter(2, offset);
+
+			List<Book> tmpBook = q.getResultList();
+			for(Book b: tmpBook)
+				books.add(b);
+
+			entityManager.getTransaction().commit();
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("A problem occurred with the search by title!");
+		}
+		finally {
+			entityManager.close();
+		}
+		return books;
+	}
+		
+	public void addBook(long isbn, String author, String title, String category, int numCopies) {
 		Book book=new Book();
-		book.setBookId(isbn);
+		book.setId(isbn);
 		book.setAuthor(author);
 		book.setTitle(title);
-		book.setCopies(numCopies);
+		book.setCategory(category);
+		book.setNumCopies(numCopies);
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
@@ -304,7 +384,7 @@ public class LibraryManager {
 					return;
 				}
 				else
-					book.setCopies(book.getNumCopies()-numCopies);
+					book.setNumCopies(book.getNumCopies()-numCopies);
 			}
 			else
 				System.out.println("There are not enough copies to be removed");
@@ -324,7 +404,7 @@ public class LibraryManager {
 			entityManager.getTransaction().begin();
 			Book book = entityManager.find(Book.class, bookId);
 			int newNumCopies=book.getNumCopies()+numCopies;
-			book.setCopies(newNumCopies);
+			book.setNumCopies(newNumCopies);
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
