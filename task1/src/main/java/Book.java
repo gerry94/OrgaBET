@@ -25,7 +25,7 @@ public class Book{
 	public Book() {
 	}
 	    
-	public long getBookId() {
+	public long getId() {
 		return id;
 	}
 	
@@ -57,7 +57,7 @@ public class Book{
 		this.category=category;
 	}
 	
-	public int getCopies() {
+	public int getNumCopies() {
 		return numCopies;
 	}
 	
