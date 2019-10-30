@@ -29,6 +29,7 @@ CREATE TABLE `Book` (
   `title` varchar(255) DEFAULT NULL,
   `author` varchar(255) DEFAULT NULL,
   `numCopies` int(11) NOT NULL,
+  `category` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ISBN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -39,7 +40,7 @@ CREATE TABLE `Book` (
 
 LOCK TABLES `Book` WRITE;
 /*!40000 ALTER TABLE `Book` DISABLE KEYS */;
-INSERT INTO `Book` VALUES (0,'Manuale del trapano','Mario Barbarulo',2),(143360,'Dalle porte and or not...','Paolo Corsini',3);
+INSERT INTO `Book` VALUES (0,'Manuale del trapano','Mario Dilaria',2,NULL),(516,'Il Signore degli Anelli','J.R.R. Tolkien',3,NULL),(956,'Lezioni di Elettrotecnica','Marco Raugi',1,''),(7412,'Il Cacciatore di Aquiloni','Khaled Hosseini',1,NULL),(7863,'L\'Orlando Furioso','Ludovico Ariosto',2,NULL),(9862,'Dallo Zar alla Rivoluzione Bolscevita','Orgay Danielovich',2,NULL),(12423,'Hyperversum','Cecilia Randall',1,NULL),(49321,'Il Decamerone','Francesco Petrarca',3,NULL),(54678,'Tennis per Principianti','Roger Orgallo',1,NULL),(97898,'La Divina Commedia','Dante Alighieri',3,''),(143360,'Dalle porte and or not...','Paolo Corsini',3,NULL),(523621,'Fondamenti di Programmazione Web','Francesco Barbarulo',1,NULL);
 /*!40000 ALTER TABLE `Book` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -69,7 +70,7 @@ CREATE TABLE `Loan` (
 
 LOCK TABLES `Loan` WRITE;
 /*!40000 ALTER TABLE `Loan` DISABLE KEYS */;
-INSERT INTO `Loan` VALUES (0,0,'AR5050101');
+INSERT INTO `Loan` VALUES (0,0,'AR5050101'),(0,0,'AR5050102');
 /*!40000 ALTER TABLE `Loan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -158,4 +159,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-28 12:23:16
+-- Dump completed on 2019-10-30 14:53:59
