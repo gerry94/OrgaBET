@@ -100,31 +100,33 @@ public class LibraryManager {
 	}
 	
 	//For user to request a book
-	public void borrowBook(long bookId)	{
+	public String borrowBook(long bookId) { //response is returned to the caller in order to display a comprehensive output msg to the user interface
+		String response = "";
 		try {
-			entityManager=factory.createEntityManager();
+			entityManager = factory.createEntityManager();
 			entityManager.getTransaction().begin();
-			LoanId loanid= new LoanId(loggedUser,bookId);
-			Loan loan=entityManager.find(Loan.class, loanid);
-			if(loan!=null)
-				System.out.println("You already borrowed this book.");
+			LoanId loanid = new LoanId(loggedUser,bookId);
+			Loan loan = entityManager.find(Loan.class, loanid);
+			if(loan != null)
+				return "You already borrowed this book.";
 			else {	
 				Book book = entityManager.find(Book.class, bookId);
 				User user = entityManager.find(User.class, loggedUser);
-				if(Available(book)>0) {
+				if(Available(book) > 0) {
 					user.addLoan(book);
-					System.out.println("Book borrowed.");
+					response ="Succesfully requested the book: " + book.getTitle() +".";
 				}
 				else
-					System.out.println("This book is not available.");
+					response = "This book is not available.";
 			}
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
-			System.out.println("A problem occurred with the loan request.");
+			return "A problem occurred with the loan request.";
 		}
 		finally {
 			entityManager.close();
+			return response;
 		}
 	}
 	
@@ -270,40 +272,20 @@ public class LibraryManager {
 		}
 		return books;
 	}
+
 	
-	/*public ObservableList<Book> searchBooksByCategory(String category,int offset) {
-		ObservableList<Book> books = FXCollections.observableArrayList();
-		try {
-			entityManager=factory.createEntityManager();
-			entityManager.getTransaction().begin();
-
-			Query q = entityManager.createNativeQuery("SELECT b.ISBN, b.title, b.author, b.category, b.numCopies FROM Book b WHERE b.category= ? ORDER BY b.ISBN LIMIT 10 OFFSET ? ", Book.class);
-			q.setParameter(1, category);
-			q.setParameter(2, offset);
-
-			List<Book> tmpBook = q.getResultList();
-			for(Book b: tmpBook)
-				books.add(b);
-
-			entityManager.getTransaction().commit();
-		}catch (Exception ex) {
-			ex.printStackTrace();
-			System.out.println("A problem occurred with the search by category!");
-		}
-		finally {
-			entityManager.close();
-		}
-		return books;
-	}*/
-	
-	public ObservableList<Book> searchBooksByTitle(String title,int offset) { //option 0: title, 1:author
+	public ObservableList<Book> searchBooks(int option, String title, int offset) { //option 0: title, 1:author
 		ObservableList<Book> books = FXCollections.observableArrayList();
 		title = "%"+title+"%";
+		offset = offset*10;
+
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
 
-			Query q = entityManager.createNativeQuery("SELECT b.ISBN, b.title, b.author, b.category, b.numCopies FROM Book b WHERE b.title LIKE ? ORDER BY b.title LIMIT 10 OFFSET ? ", Book.class);
+			Query q;
+			if(option == 0) q = entityManager.createNativeQuery("SELECT b.ISBN, b.title, b.author, b.category, b.numCopies FROM Book b WHERE b.title LIKE ? ORDER BY b.title LIMIT 10 OFFSET ? ", Book.class);
+			else q = entityManager.createNativeQuery("SELECT b.ISBN, b.title, b.author, b.category, b.numCopies FROM Book b WHERE b.author LIKE ? ORDER BY b.title LIMIT 10 OFFSET ? ", Book.class);
 
 			q.setParameter(1, title);
 			q.setParameter(2, offset);
@@ -323,32 +305,25 @@ public class LibraryManager {
 		return books;
 	}
 
-	public ObservableList<Book> searchBooksByAuthor(String title,int offset) { //option 0: title, 1:author
-		ObservableList<Book> books = FXCollections.observableArrayList();
-		title = "%"+title+"%";
+	public int getNumBooks() { //returns the number of books in the catalogue
+		int result = 0;
+
 		try {
-			entityManager=factory.createEntityManager();
+			entityManager = factory.createEntityManager();
 			entityManager.getTransaction().begin();
 
-			Query q = entityManager.createNativeQuery("SELECT b.ISBN, b.title, b.author, b.category, b.numCopies FROM Book b WHERE b.author LIKE ? ORDER BY b.title LIMIT 10 OFFSET ? ", Book.class);
-
-			q.setParameter(1, title);
-			q.setParameter(2, offset);
-
-			List<Book> tmpBook = q.getResultList();
-			for(Book b: tmpBook)
-				books.add(b);
+			Query q = entityManager.createNativeQuery("SELECT COUNT(*) FROM Book;");
+			result = ((Number)q.getSingleResult()).intValue();
 
 			entityManager.getTransaction().commit();
-		}catch (Exception ex) {
-			ex.printStackTrace();
-			System.out.println("A problem occurred with the search by title!");
-		}
-		finally {
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
 			entityManager.close();
 		}
-		return books;
+		return result;
 	}
+
 	public void addBook(long isbn, String author, String title, String category, int numCopies) {
 		Book book=new Book();
 		book.setId(isbn);
@@ -377,8 +352,8 @@ public class LibraryManager {
 	}
 
 	public int Available(Book book) {
-		int copies=book.getNumCopies();
-		int available= copies - book.getLoans().size();
+		int copies = book.getNumCopies();
+		int available = copies - book.getLoans().size();
 		return available;
 	}
 

@@ -14,15 +14,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="537.0" prefWidth="776.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserController">
+<VBox prefHeight="671.0" prefWidth="776.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="537.0" prefWidth="721.0" VBox.vgrow="ALWAYS">
       <children>
-        <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
-          <font>
-            <Font size="18.0" />
-          </font>
-        </Label>
             <Text layoutX="363.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BibliOS">
                <font>
                   <Font size="22.0" />
@@ -37,10 +32,13 @@
                </font>
             </CheckBox>
             <Button fx:id="search_but" layoutX="552.0" layoutY="117.0" mnemonicParsing="false" onAction="#search" text="Search" />
-            <Button fx:id="borrow_but" layoutX="609.0" layoutY="390.0" mnemonicParsing="false" text="Borrow selected" />
-            <Text layoutX="27.0" layoutY="408.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System output area:" />
-            <TextArea fx:id="output_field" disable="true" editable="false" layoutX="27.0" layoutY="423.0" prefHeight="78.0" prefWidth="455.0" />
-            <TableView fx:id="list_table" layoutX="26.0" layoutY="177.0" prefHeight="200.0" prefWidth="728.0">
+            <Button fx:id="borrow_but" layoutX="614.0" layoutY="600.0" mnemonicParsing="false" onAction="#borrowSelected" text="Borrow selected">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Button>
+            <Text layoutX="25.0" layoutY="546.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System output area:" />
+            <TextArea fx:id="output_field" disable="true" editable="false" layoutX="27.0" layoutY="555.0" prefHeight="78.0" prefWidth="455.0" />
+            <TableView fx:id="list_table" layoutX="26.0" layoutY="177.0" prefHeight="310.0" prefWidth="728.0">
               <columns>
                 <TableColumn fx:id="idCol" prefWidth="51.0" text="ID" />
                 <TableColumn fx:id="titleCol" prefWidth="360.0" text="TITLE" />
@@ -54,6 +52,17 @@
                 <MenuItem fx:id="m2" mnemonicParsing="false" onAction="#setMenuOption" text="Author" />
               </items>
             </MenuButton>
+            <Button fx:id="next_but" layoutX="614.0" layoutY="499.0" mnemonicParsing="false" onAction="#nextPage" text="Next Page">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Button>
+            <Button fx:id="previous_but" layoutX="540.0" layoutY="499.0" mnemonicParsing="false" onAction="#previousPage" text="Previous">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Button>
+            <Label fx:id="page_count" disable="true" layoutX="705.0" layoutY="502.0" />
       </children>
     </AnchorPane>
   </children>

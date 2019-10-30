@@ -1,7 +1,6 @@
 import javafx.collections.*;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.*;
 
@@ -38,30 +37,14 @@ public class UserController implements Initializable {
     @FXML
     private MenuButton search_filter;
     @FXML
-    private MenuItem m1, m2;
+    private Button next_but;
+    @FXML
+    private Button previous_but;
+    @FXML
+    private Label page_count;
 
     public String menuOption;
-
-    @FXML
-    void logout(ActionEvent event) throws IOException {
-        Main.lm.logout();
-        Main.changeScene(0);
-    }
-
-    @FXML
-    void search(ActionEvent event) {
-        if(menuOption.equals("Author"))
-            updateTable(Main.lm.searchBooksByAuthor(search_field.getText(), 0));
-        else updateTable(Main.lm.searchBooksByTitle(search_field.getText(), 0));
-
-        search_filter.setText("Search by...");
-    }
-
-    @FXML
-    void setMenuOption(ActionEvent event) {
-        menuOption = ((MenuItem) event.getSource()).getText();
-        search_filter.setText(menuOption);
-    }
+    public int tableOffset, currentPage, totalPages;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -74,12 +57,80 @@ public class UserController implements Initializable {
         availabilityCol.setCellValueFactory(new PropertyValueFactory<Book, Integer>("numCopies"));
 
         //filling the table with the list returned by the query
-        list_table.setItems(Main.lm.browseBooks(0));
+        tableOffset = 0;
+        list_table.setItems(Main.lm.browseBooks(tableOffset));
+
+        previous_but.setDisable(true);
+        totalPages = ((Main.lm.getNumBooks() + 9)/10);
+        currentPage = 1;
+
+        page_count.setText(currentPage + "/" + totalPages);
+    }
+
+    @FXML
+    void logout(ActionEvent event) throws IOException {
+        Main.lm.logout();
+        Main.changeScene(0);
+    }
+
+    @FXML
+    void search(ActionEvent event) {
+        output_field.clear();
+
+        //GESTIONE PAGINE SULLA SEARCH DA IMPLEMENTARE
+        if(menuOption == null || menuOption.equals("Title")) updateTable(Main.lm.searchBooks(0, search_field.getText(), 0));
+        else updateTable(Main.lm.searchBooks(1, search_field.getText(), 0));
+
+        search_filter.setText("Search by...");
+    }
+
+    @FXML
+    void setMenuOption(ActionEvent event) {
+        menuOption = ((MenuItem) event.getSource()).getText();
+        search_filter.setText(menuOption);
     }
 
     public void updateTable(ObservableList<Book> list)
     {
         list_table.setItems(list);
     }
+
+    @FXML
+    public void borrowSelected(ActionEvent ev) {
+        Book selectedBook = list_table.getSelectionModel().getSelectedItem();
+
+        if(selectedBook == null) {
+            output_field.setText("ERROR: No book was selected. Please select a book a retry.");
+        }
+        else {
+            output_field.setText(Main.lm.borrowBook(selectedBook.getId()));
+            //borrow
+        }
+    }
+
+    @FXML
+    public void nextPage(ActionEvent ev) {
+        tableOffset++;
+        currentPage++;
+        page_count.setText(currentPage + "/" + totalPages);
+
+        if(currentPage == totalPages) next_but.setDisable(true);
+        if(previous_but.isDisabled()) previous_but.setDisable(false);
+
+        updateTable(Main.lm.searchBooks(0, search_field.getText(), tableOffset));
+    }
+
+    @FXML
+    public void previousPage(ActionEvent ev) {
+        tableOffset--;
+        currentPage--;
+        page_count.setText(currentPage + "/" + totalPages);
+
+        if(currentPage <= 1) previous_but.setDisable(true);
+        if(next_but.isDisabled()) next_but.setDisable(false);
+
+        updateTable(Main.lm.searchBooks(0, search_field.getText(), tableOffset));
+    }
+
 
 }
