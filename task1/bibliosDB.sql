@@ -40,7 +40,7 @@ CREATE TABLE `Book` (
 
 LOCK TABLES `Book` WRITE;
 /*!40000 ALTER TABLE `Book` DISABLE KEYS */;
-INSERT INTO `Book` VALUES (0,'Manuale del trapano','Mario Dilaria',2,NULL),(516,'Il Signore degli Anelli','J.R.R. Tolkien',3,NULL),(956,'Lezioni di Elettrotecnica','Marco Raugi',1,''),(7412,'Il Cacciatore di Aquiloni','Khaled Hosseini',1,NULL),(7863,'L\'Orlando Furioso','Ludovico Ariosto',2,NULL),(9862,'Dallo Zar alla Rivoluzione Bolscevita','Orgay Danielovich',2,NULL),(12423,'Hyperversum','Cecilia Randall',1,NULL),(49321,'Il Decamerone','Francesco Petrarca',3,NULL),(54678,'Tennis per Principianti','Roger Orgallo',1,NULL),(97898,'La Divina Commedia','Dante Alighieri',3,''),(143360,'Dalle porte and or not...','Paolo Corsini',3,NULL),(523621,'Fondamenti di Programmazione Web','Francesco Barbarulo',1,NULL);
+INSERT INTO `Book` VALUES (0,'Manuale del trapano','Mario Dilaria',2,'Manuals'),(7,'Mondo senza Fine','Ken Follett',2,'History'),(21,'Ivanhoe','Walter Scott',1,'History'),(465,'Tutto per amore','Catherine Dunne',2,'Tragic'),(516,'Il Signore degli Anelli','J.R.R. Tolkien',3,'Fantasy'),(789,'Il nome della rosa','Umberto Eco',3,'History'),(920,'La notte più lunga','Michael Connelly',3,'Literature'),(923,'Lo Hobbit','J.R.R Tolkien',2,'Fantasy'),(956,'Lezioni di Elettrotecnica','Marco Raugi',1,'School'),(4865,'Harry Potter','J.K. Rowling',4,'Fantasy'),(7412,'Il Cacciatore di Aquiloni','Khaled Hosseini',1,'Romance'),(7814,'Vado a Torino','Joseph Pimpinella',1,'Tragic'),(7863,'L\'Orlando Furioso','Ludovico Ariosto',2,'Literature'),(9862,'Dallo Zar alla Rivoluzione Bolscevita','Orgay Danielovich',2,'History'),(12423,'Hyperversum','Cecilia Randall',1,'Fantasy'),(16512,'Le Cronache di Narnia','C.S. Lewis',1,'Fantasy'),(49321,'Il Decamerone','Francesco Petrarca',3,'Literature'),(54678,'Tennis per Principianti','Roger Orgallo',1,'Sport'),(74961,'Io, Ibra','David Lagercrantz',2,'Sport'),(97898,'La Divina Commedia','Dante Alighieri',3,'Epic'),(143360,'Dalle porte and or not...','Paolo Corsini',3,'School'),(523621,'Fondamenti di Programmazione Web','Francesco Barbarulo',1,'School');
 /*!40000 ALTER TABLE `Book` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -70,7 +70,7 @@ CREATE TABLE `Loan` (
 
 LOCK TABLES `Loan` WRITE;
 /*!40000 ALTER TABLE `Loan` DISABLE KEYS */;
-INSERT INTO `Loan` VALUES (0,0,'AR5050101'),(0,0,'AR5050102');
+INSERT INTO `Loan` VALUES (0,0,'AR5050101'),(0,0,'AR5050102'),(1,7,'bbb2'),(1,21,'bbb2'),(2,516,'AR5050103');
 /*!40000 ALTER TABLE `Loan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -146,7 +146,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('AR5012715','Giulio','Orgallo',1),('AR5050101','Gerardo','Macchi',0),('AR5050102','Riccardo','Tek',0),('AR5050103','Marco','Dilaria',0);
+INSERT INTO `User` VALUES ('aaa1','Ciccio','Krapikas',1),('AR5012715','Giulio','Orgallo',1),('AR5050101','Gerardo','Macchi',0),('AR5050102','Riccardo','Tek',0),('AR5050103','Marco','Dilaria',0),('bbb2','Alessio','Bongio',0);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -159,4 +159,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-30 14:53:59
+-- Dump completed on 2019-10-30 17:10:28

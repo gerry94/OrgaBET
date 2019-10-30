@@ -1,8 +1,6 @@
-import javafx.application.Platform;
 import javafx.collections.*;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.*;
 import javafx.scene.control.*;
 
 import java.io.IOException;
@@ -14,19 +12,14 @@ public class LibrarianUIController implements Initializable {
 
     @FXML
     private Button loan_but;
-
     @FXML
     private TextField output_msg;
-
     @FXML
     private Button logout_but;
-
     @FXML
     private Button book_but;
-
     @FXML
     private Text welcome_msg;
-
     @FXML
     private Button user_but;
 

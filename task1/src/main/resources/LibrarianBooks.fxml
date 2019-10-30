@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.canvas.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="715.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LibrarianBooksController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="715.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LibrarianBooksController">
    <children>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="715.0" prefWidth="1366.0" style="-fx-background-color: transparent;">
          <children>
@@ -35,12 +40,11 @@
             </Text>
             <TableView fx:id="book_table" layoutX="89.0" layoutY="255.0" prefHeight="258.0" prefWidth="1188.0">
                <columns>
-                  <TableColumn fx:id="idCol" prefWidth="97.0" text="ID" />
-                  <TableColumn fx:id="titleCol" minWidth="0.0" prefWidth="280.0" text="Title" />
-                  <TableColumn fx:id="authorCol" prefWidth="288.0" text="Author" />
-                  <TableColumn fx:id="categoryCol" minWidth="0.0" prefWidth="295.0" text="Category" />
-                  <TableColumn fx:id="copiesCol" minWidth="0.0" prefWidth="191.0" text="# Copies" />
-                  <TableColumn prefWidth="36.0" />
+                  <TableColumn fx:id="idCol" prefWidth="65.0" text="ID" />
+                  <TableColumn fx:id="titleCol" minWidth="0.0" prefWidth="510.0" text="Title" />
+                  <TableColumn fx:id="authorCol" prefWidth="245.0" text="Author" />
+                  <TableColumn fx:id="categoryCol" minWidth="0.0" prefWidth="239.0" text="Category" />
+                  <TableColumn fx:id="copiesCol" minWidth="0.0" prefWidth="128.0" text="# Copies" />
                </columns>
             </TableView>
             <Button fx:id="remove_but" layoutX="1127.0" layoutY="524.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="152.0" style="-fx-background-color: lightgrey; -fx-border-color: grey;" text="Remove Selected Book" />
@@ -48,10 +52,14 @@
             <TextArea fx:id="author_field" layoutX="309.0" layoutY="572.0" prefHeight="32.0" prefWidth="209.0" promptText="Author..." />
             <TextArea fx:id="category_field" layoutX="529.0" layoutY="571.0" prefHeight="32.0" prefWidth="209.0" promptText="Category..." />
             <TextArea fx:id="copies_field" layoutX="750.0" layoutY="571.0" prefHeight="32.0" prefWidth="209.0" promptText="# Copies..." />
-            <Button fx:id="add_but" layoutX="1127.0" layoutY="570.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="152.0" style="-fx-background-color: lightgrey; -fx-border-color: grey;" text="Add New Book" />
+            <Button fx:id="add_but" layoutX="1127.0" layoutY="570.0" mnemonicParsing="false" onAction="#addBook" prefHeight="35.0" prefWidth="152.0" style="-fx-background-color: lightgrey; -fx-border-color: grey;" text="Add New Book" />
             <Text fill="#000000ba" layoutX="89.0" layoutY="624.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Output Message Box" />
             <TextField fx:id="output_msg" disable="true" layoutX="87.0" layoutY="628.0" prefHeight="67.0" prefWidth="866.0" />
             <Button fx:id="back_but" layoutX="1127.0" layoutY="187.0" mnemonicParsing="false" onAction="#back" prefHeight="35.0" prefWidth="152.0" style="-fx-background-color: lightgrey; -fx-border-color: grey;" text="Back" />
+            <Button fx:id="next_but" layoutX="676.0" layoutY="524.0" mnemonicParsing="false" onAction="#nextPage" text="Next" />
+            <Button fx:id="previous_but" layoutX="593.0" layoutY="524.0" mnemonicParsing="false" onAction="#previousPage" text="Previous" />
+            <Label fx:id="page_count" disable="true" layoutX="738.0" layoutY="529.0" text="Page x of y" />
+            <TextField fx:id="isbn_field" layoutX="91.0" layoutY="537.0" promptText="ISBN..." />
          </children>
       </Pane>
    </children>

@@ -25,15 +25,15 @@ public class LibraryManager {
 		String name = null;
 		List<String> result = new ArrayList<String>();
 		try {
-			entityManager=factory.createEntityManager();
+			entityManager = factory.createEntityManager();
 			entityManager.getTransaction().begin();
 			User user = entityManager.find(User.class, id);
 			entityManager.getTransaction().commit();
-			loggedUser=user.getUserId();
-			privilege=user.getPrivilege();
-			name=user.getName();
-			name=name.concat(" ");
-			name=name.concat(user.getSurname());
+			loggedUser = user.getId();
+			privilege = user.getPrivilege();
+			name = user.getName();
+			name = name.concat(" ");
+			name = name.concat(user.getSurname());
 			result.add(name);
 			result.add(Integer.toString(privilege));
 		}catch (Exception ex) {
@@ -43,24 +43,22 @@ public class LibraryManager {
 		finally {
 			entityManager.close();
 		}
-		if(loggedUser!=null) {
+		if(loggedUser != null) {
 			return result;	
 		}
 		return null;
 	}
 	
 	public void logout() {
-		loggedUser=null;
+		loggedUser = null;
 	}
 	
 	public boolean isLogged() {
-		if(loggedUser!=null)
+		if(loggedUser != null)
 			return true;
 		return false;
 	}
-	
 
-	
 //Loan Operations	
 
 	//browses a specific user's loans (reserved to librarians only)
@@ -81,13 +79,40 @@ public class LibraryManager {
 		return user.getLoans();
 	}
 
+	/*
+	public ObservableList<Loan> browseLoans() {
+		ObservableList<Loan> loans = FXCollections.observableArrayList();
+		try {
+			entityManager = factory.createEntityManager();
+			entityManager.getTransaction().begin();
+
+			Query q = entityManager.createNativeQuery("SELECT l.book_ISBN, l.user_idUser FROM Loan l WHERE status=0;");
+
+			List<Loan> tmpLoan = q.getResultList();
+			for(Loan l: tmpLoan)
+				loans.add(l);
+
+			entityManager.getTransaction().commit();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("A problem occurred with the browseLoans().");
+		}
+		finally {
+			entityManager.close();
+		}
+		return loans;
+	} */
+
 	//browses the user's personal loans
+		//--> NON DOVREBBE PRENDERE TUTTI I PRESTITI PENDENTI ?
 	public List<Loan> browseLoans() {
 		User user=null;
 		try {
-			entityManager=factory.createEntityManager();
+			entityManager = factory.createEntityManager();
 			entityManager.getTransaction().begin();
-			user=entityManager.find(User.class, loggedUser);
+
+			user = entityManager.find(User.class, loggedUser);
+
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
@@ -324,7 +349,8 @@ public class LibraryManager {
 		return result;
 	}
 
-	public void addBook(long isbn, String author, String title, String category, int numCopies) {
+	public String addBook(long isbn, String title, String author, String category, int numCopies) {
+		String result = "";
 		Book book=new Book();
 		book.setId(isbn);
 		book.setAuthor(author);
@@ -336,19 +362,20 @@ public class LibraryManager {
 			entityManager.getTransaction().begin();
 			Book exists=entityManager.find(Book.class, isbn);
 			if(exists!=null)
-				System.out.println("Book already registered.");
+				result ="Book already registered.";
 			else {
 				entityManager.persist(book);
-				System.out.println("Book added.");
+				result = "Book succesfully added.";
 			}
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
-			System.out.println("A problem occurred with the book addition.");
+			result = "A problem occurred with the book addition.";
 		}
 		finally {
 			entityManager.close();
 		}
+		return result;
 	}
 
 	public int Available(Book book) {

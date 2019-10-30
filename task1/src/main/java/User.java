@@ -28,7 +28,7 @@ public class User implements Serializable {
 	public User() {
 	}
 	
-	public String getUserId() {
+	public String getId() {
 		return id;
 	}
 	

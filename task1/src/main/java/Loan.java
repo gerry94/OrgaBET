@@ -3,7 +3,7 @@ import java.util.Objects;
 
 import javax.persistence.*;
 @Entity
-public class Loan implements Serializable{
+public class Loan implements Serializable {
 	@EmbeddedId
 	private LoanId id;
 
@@ -22,7 +22,7 @@ public class Loan implements Serializable{
 	}
 	
 	public Loan(User user, Book book) {
-		this.id=new LoanId(user.getUserId(),book.getId());
+		this.id=new LoanId(user.getId(),book.getId());
 		this.user=user;
 		this.book=book;
 	}
