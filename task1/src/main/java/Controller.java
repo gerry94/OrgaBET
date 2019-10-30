@@ -1,3 +1,4 @@
+import javafx.collections.ObservableList;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -12,7 +13,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
-    //LibraryManager lm = new LibraryManager();
+    @FXML
+    protected Button back;
     @FXML
     private AnchorPane output_txt;
     @FXML
@@ -20,10 +22,31 @@ public class Controller implements Initializable {
     @FXML
     private Button login_but;
     @FXML
-    private Label output_text;
+    protected Button logout_but;
+    @FXML
+    protected Label output_text;
+    @FXML
+    protected Label welcome_msg;
+    @FXML
+    protected TextArea output_field;
+    @FXML
+    protected TextField search_field;
+    @FXML
+    protected Button next_but;
+    @FXML
+    protected Button previous_but;
+    @FXML
+    protected Label page_count;
+    @FXML
+    protected MenuButton search_filter;
+    @FXML
+    protected Button search_but;
 
-    public static String username;
-    public static int privilege;
+    private static String username;
+    private static int privilege;
+
+    protected String menuOption;
+    protected int tableOffset, currentPage, totalPages;
 
     @FXML
     public void logout(ActionEvent event) throws IOException {
@@ -34,7 +57,7 @@ public class Controller implements Initializable {
     @FXML
     public void loginEvent(ActionEvent event) throws IOException { login(); }
 
-    private void login() throws IOException
+    protected void login() throws IOException
     {
         List<String> result = new ArrayList<String>();
         result = Main.lm.login(login_code.getText());
@@ -57,7 +80,36 @@ public class Controller implements Initializable {
         }
     }
 
+    @FXML
+    protected void setMenuOption(ActionEvent event) {
+        menuOption = ((MenuItem) event.getSource()).getText();
+        search_filter.setText(menuOption);
+    }
+
+    @FXML
+    protected void back(ActionEvent event) throws IOException {
+        Main.changeScene(2);
+    }
+
     public static String getUsername() { return username; }
+
+    protected void genericNextPage() {
+        tableOffset++;
+        currentPage++;
+        page_count.setText(currentPage + "/" + totalPages);
+
+        if(currentPage == totalPages) next_but.setDisable(true);
+        if(previous_but.isDisabled()) previous_but.setDisable(false);
+    }
+
+    protected void genericPreviousPage() {
+        tableOffset--;
+        currentPage--;
+        page_count.setText(currentPage + "/" + totalPages);
+
+        if(currentPage <= 1) previous_but.setDisable(true);
+        if(next_but.isDisabled()) next_but.setDisable(false);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

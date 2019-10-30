@@ -8,22 +8,22 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class UserController implements Initializable {
+public class UserController extends Controller {
 
-    @FXML
+    /*@FXML
     private Label welcome_msg;
     @FXML
     private Button logout_but;
     @FXML
-    private TextField search_field;
+    private TextField search_field;*/
     @FXML
     private CheckBox available_check;
-    @FXML
-    private Button search_but;
+    /*@FXML
+    private Button search_but;*/
     @FXML
     private Button borrow_but;
-    @FXML
-    private TextArea output_field;
+    /*@FXML
+    private TextArea output_field; */
     @FXML
     private TableView<Book> list_table;
     @FXML
@@ -34,17 +34,14 @@ public class UserController implements Initializable {
     private TableColumn authorCol;
     @FXML
     private TableColumn availabilityCol;
-    @FXML
+    /*@FXML
     private MenuButton search_filter;
     @FXML
     private Button next_but;
     @FXML
     private Button previous_but;
     @FXML
-    private Label page_count;
-
-    public String menuOption;
-    public int tableOffset, currentPage, totalPages;
+    private Label page_count;*/
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -67,11 +64,11 @@ public class UserController implements Initializable {
         page_count.setText(currentPage + "/" + totalPages);
     }
 
-    @FXML
+    /*@FXML
     void logout(ActionEvent event) throws IOException {
         Main.lm.logout();
         Main.changeScene(0);
-    }
+    }*/
 
     @FXML
     void search(ActionEvent event) {
@@ -84,11 +81,11 @@ public class UserController implements Initializable {
         search_filter.setText("Search by...");
     }
 
-    @FXML
+    /*@FXML
     void setMenuOption(ActionEvent event) {
         menuOption = ((MenuItem) event.getSource()).getText();
         search_filter.setText(menuOption);
-    }
+    }*/
 
     public void updateTable(ObservableList<Book> list)
     {
@@ -110,27 +107,13 @@ public class UserController implements Initializable {
 
     @FXML
     public void nextPage(ActionEvent ev) {
-        tableOffset++;
-        currentPage++;
-        page_count.setText(currentPage + "/" + totalPages);
-
-        if(currentPage == totalPages) next_but.setDisable(true);
-        if(previous_but.isDisabled()) previous_but.setDisable(false);
-
+        genericNextPage();
         updateTable(Main.lm.searchBooks(0, search_field.getText(), tableOffset));
     }
 
     @FXML
     public void previousPage(ActionEvent ev) {
-        tableOffset--;
-        currentPage--;
-        page_count.setText(currentPage + "/" + totalPages);
-
-        if(currentPage <= 1) previous_but.setDisable(true);
-        if(next_but.isDisabled()) next_but.setDisable(false);
-
+        genericPreviousPage();
         updateTable(Main.lm.searchBooks(0, search_field.getText(), tableOffset));
     }
-
-
 }

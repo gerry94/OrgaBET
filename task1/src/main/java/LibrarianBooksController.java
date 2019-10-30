@@ -16,16 +16,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
-public class LibrarianBooksController implements Initializable {
+public class LibrarianBooksController extends Controller {
 
-    @FXML
+    /*@FXML
     private Button search_but;
     @FXML
-    private Button logout_but;
+    private Button logout_but;*/
     @FXML
     private TextArea category_field;
-    @FXML
-    private Button back;
     @FXML
     private TableView<Book> book_table;
     @FXML
@@ -40,39 +38,39 @@ public class LibrarianBooksController implements Initializable {
     private TableColumn<Book, Integer> copiesCol;
     @FXML
     private Button add_but;
-    @FXML
-    private Text welcome_msg;
+    //@FXML
+    //private Text welcome_msg;
     @FXML
     private TextArea title_field;
     @FXML
     private TextArea copies_field;
     @FXML
     private TextField output_msg;
-    @FXML
-    private MenuButton search_filter;
+    //@FXML
+    //private MenuButton search_filter;
     @FXML
     private Button remove_but;
     @FXML
     private TextArea author_field;
     @FXML
-    private TextArea search_field;
-    @FXML
+    private TextField search_field;
+    /*@FXML
     private Button next_but;
     @FXML
     private Button previous_but;
     @FXML
-    private Label page_count;
+    private Label page_count;*/
     @FXML
     private TextField isbn_field;
 
-    public int tableOffset, currentPage, totalPages;
+    //public int tableOffset, currentPage, totalPages;
 
-    @FXML
+    /*@FXML
     void logout(ActionEvent event) throws IOException {
 
         Main.lm.logout();
         Main.changeScene(0);
-    }
+    }*/
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -96,36 +94,20 @@ public class LibrarianBooksController implements Initializable {
         page_count.setText("Page " + currentPage + " of " + totalPages);
     }
 
-    public void updateTable(ObservableList<Book> list)
+    private void updateTable(ObservableList<Book> list)
     {
         book_table.setItems(list);
     }
 
     @FXML
     public void nextPage(ActionEvent ev) {
-        output_msg.clear();
-
-        tableOffset++;
-        currentPage++;
-        page_count.setText("Page " + currentPage + " of " + totalPages);
-
-        if(currentPage == totalPages) next_but.setDisable(true);
-        if(previous_but.isDisabled()) previous_but.setDisable(false);
-
+        genericNextPage();
         updateTable(Main.lm.searchBooks(0, search_field.getText(), tableOffset));
     }
 
     @FXML
     public void previousPage(ActionEvent ev) {
-        output_msg.clear();
-
-        tableOffset--;
-        currentPage--;
-        page_count.setText("Page " + currentPage + " of " + totalPages);
-
-        if(currentPage <= 1) previous_but.setDisable(true);
-        if(next_but.isDisabled()) next_but.setDisable(false);
-
+        genericPreviousPage();
         updateTable(Main.lm.searchBooks(0, search_field.getText(), tableOffset));
     }
 
@@ -145,10 +127,4 @@ public class LibrarianBooksController implements Initializable {
         output_msg.setText(Main.lm.addBook(Long.parseLong(isbn_field.getText()), title_field.getText(), author_field.getText(), category_field.getText(), Integer.parseInt(copies_field.getText())));
         updateTable(Main.lm.searchBooks(0, search_field.getText(), tableOffset));
     }
-
-    @FXML
-    void back(ActionEvent event) throws IOException {
-    	Main.changeScene(2);
-    }
-
 }

@@ -31,8 +31,8 @@
                   <Font size="36.0" />
                </font>
             </Text>
-            <Text fx:id="welcome_msg" layoutX="91.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome, &lt;username&gt;" />
-            <TextArea fx:id="search_field" layoutX="91.0" layoutY="188.0" prefHeight="32.0" prefWidth="209.0" promptText="Search. . ." />
+            <Label fx:id="welcome_msg" layoutX="91.0" layoutY="147.0" text="Welcome, &lt;username&gt;" />
+            <TextField fx:id="search_field" layoutX="91.0" layoutY="188.0" prefHeight="32.0" prefWidth="209.0" promptText="Search. . ." />
             <Text layoutX="341.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Searched By:" wrappingWidth="149.0">
                <font>
                   <Font size="9.0" />
