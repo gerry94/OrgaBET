@@ -1,27 +1,12 @@
-import javafx.application.Platform;
 import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.*;
-
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.scene.text.Text;
-
-import javafx.fxml.FXML;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 
 public class LibrarianBooksController extends Controller {
-
-    /*@FXML
-    private Button search_but;
-    @FXML
-    private Button logout_but;*/
     @FXML
     private TextArea category_field;
     @FXML
@@ -38,39 +23,20 @@ public class LibrarianBooksController extends Controller {
     private TableColumn<Book, Integer> copiesCol;
     @FXML
     private Button add_but;
-    //@FXML
-    //private Text welcome_msg;
     @FXML
     private TextArea title_field;
     @FXML
     private TextArea copies_field;
     @FXML
     private TextField output_msg;
-    //@FXML
-    //private MenuButton search_filter;
     @FXML
     private Button remove_but;
     @FXML
     private TextArea author_field;
     @FXML
     private TextField search_field;
-    /*@FXML
-    private Button next_but;
-    @FXML
-    private Button previous_but;
-    @FXML
-    private Label page_count;*/
     @FXML
     private TextField isbn_field;
-
-    //public int tableOffset, currentPage, totalPages;
-
-    /*@FXML
-    void logout(ActionEvent event) throws IOException {
-
-        Main.lm.logout();
-        Main.changeScene(0);
-    }*/
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

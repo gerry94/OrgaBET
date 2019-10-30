@@ -9,21 +9,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class UserController extends Controller {
-
-    /*@FXML
-    private Label welcome_msg;
-    @FXML
-    private Button logout_but;
-    @FXML
-    private TextField search_field;*/
     @FXML
     private CheckBox available_check;
-    /*@FXML
-    private Button search_but;*/
     @FXML
     private Button borrow_but;
-    /*@FXML
-    private TextArea output_field; */
     @FXML
     private TableView<Book> list_table;
     @FXML
@@ -34,14 +23,6 @@ public class UserController extends Controller {
     private TableColumn authorCol;
     @FXML
     private TableColumn availabilityCol;
-    /*@FXML
-    private MenuButton search_filter;
-    @FXML
-    private Button next_but;
-    @FXML
-    private Button previous_but;
-    @FXML
-    private Label page_count;*/
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -64,12 +45,6 @@ public class UserController extends Controller {
         page_count.setText(currentPage + "/" + totalPages);
     }
 
-    /*@FXML
-    void logout(ActionEvent event) throws IOException {
-        Main.lm.logout();
-        Main.changeScene(0);
-    }*/
-
     @FXML
     void search(ActionEvent event) {
         output_field.clear();
@@ -80,12 +55,6 @@ public class UserController extends Controller {
 
         search_filter.setText("Search by...");
     }
-
-    /*@FXML
-    void setMenuOption(ActionEvent event) {
-        menuOption = ((MenuItem) event.getSource()).getText();
-        search_filter.setText(menuOption);
-    }*/
 
     public void updateTable(ObservableList<Book> list)
     {

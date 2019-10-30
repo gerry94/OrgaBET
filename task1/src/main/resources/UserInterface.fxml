@@ -24,7 +24,7 @@
                </font>
             </Text>
             <Label fx:id="welcome_msg" layoutX="27.0" layoutY="74.0" text="Welcome &lt;username&gt;" />
-            <Button fx:id="logout_but" layoutX="194.0" layoutY="69.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+            <Button fx:id="logout_but" layoutX="194.0" layoutY="69.0" mnemonicParsing="false" onAction="#logout" text="Logout" textFill="RED"/>
             <TextField fx:id="search_field" layoutX="27.0" layoutY="117.0" prefHeight="26.0" prefWidth="204.0" promptText="Search..." />
             <CheckBox fx:id="available_check" disable="true" layoutX="402.0" layoutY="123.0" mnemonicParsing="false" text="Show if Available">
                <font>

@@ -15,11 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
-public class LibrarianUserController implements Initializable {
-
-    @FXML
-    private Button search_but;
-
+public class LibrarianUserController extends Controller {
     @FXML
     private TableView<User> user_table;
     @FXML
@@ -30,41 +26,14 @@ public class LibrarianUserController implements Initializable {
     private TableColumn<User, String> surnameCol;
 
     @FXML
-    private TextArea userid_field;
-
-    @FXML
-    private TextField output_msg;
-
-    @FXML
-    private Button logout_but;
-
-    @FXML
     private Button add_button;
 
     @FXML
-    private Button back_but;
-
+    private TextField userid_field;
     @FXML
-    private MenuButton search_filter;
-
+    private TextField surname_field;
     @FXML
-    private TextArea surname_field;
-
-    @FXML
-    private TextArea name_field;
-
-    @FXML
-    private Text welcome_msg;
-
-    @FXML
-    private TextArea search_field;
-    
-    @FXML
-    void logout(ActionEvent event) throws IOException {
-
-        Main.lm.logout();
-        Main.changeScene(0);
-    }
+    private TextField name_field;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -78,11 +47,4 @@ public class LibrarianUserController implements Initializable {
         //filling the table with the list returned by the query
         user_table.setItems(Main.lm.browseUsers(0));
     }
-
-
-    @FXML
-    void back(ActionEvent event) throws IOException {
-    	Main.changeScene(2);
-    }
-
 }

@@ -17,15 +17,15 @@
    <children>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="715.0" prefWidth="1366.0" style="-fx-background-color: transparent;">
          <children>
-            <Button fx:id="search_but" layoutX="531.0" layoutY="187.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="152.0" style="-fx-background-color: lightgrey; -fx-border-color: grey;" text="Search" />
-            <MenuButton fx:id="search_filter" layoutX="341.0" layoutY="188.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="149.0" style="-fx-background-color: #191970;" textFill="#ffffff00">
+            <Button fx:id="search_but" layoutX="531.0" layoutY="187.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="152.0" text="Search" />
+            <MenuButton fx:id="search_filter" layoutX="341.0" layoutY="188.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="149.0" text="Search by...">
                <items>
                   <MenuItem mnemonicParsing="false" text="Title" />
                   <MenuItem mnemonicParsing="false" text="Author" />
                   <MenuItem mnemonicParsing="false" text="Category" />
                </items>
             </MenuButton>
-            <Button fx:id="logout_but" layoutX="241.0" layoutY="129.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #FF6347; -fx-border-color: #8B0000;" text="Logout" />
+            <Button fx:id="logout_but" layoutX="261.0" layoutY="134.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="100.0" text="Logout" textFill="RED" />
             <Text layoutX="9.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BibliOS" textAlignment="CENTER" wrappingWidth="1348.22265625">
                <font>
                   <Font size="36.0" />
@@ -33,11 +33,6 @@
             </Text>
             <Label fx:id="welcome_msg" layoutX="91.0" layoutY="147.0" text="Welcome, &lt;username&gt;" />
             <TextField fx:id="search_field" layoutX="91.0" layoutY="188.0" prefHeight="32.0" prefWidth="209.0" promptText="Search. . ." />
-            <Text layoutX="341.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Searched By:" wrappingWidth="149.0">
-               <font>
-                  <Font size="9.0" />
-               </font>
-            </Text>
             <TableView fx:id="book_table" layoutX="89.0" layoutY="255.0" prefHeight="258.0" prefWidth="1188.0">
                <columns>
                   <TableColumn fx:id="idCol" prefWidth="65.0" text="ID" />
@@ -47,19 +42,20 @@
                   <TableColumn fx:id="copiesCol" minWidth="0.0" prefWidth="128.0" text="# Copies" />
                </columns>
             </TableView>
-            <Button fx:id="remove_but" layoutX="1127.0" layoutY="524.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="152.0" style="-fx-background-color: lightgrey; -fx-border-color: grey;" text="Remove Selected Book" />
+            <Button fx:id="remove_but" layoutX="1127.0" layoutY="524.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="152.0" text="Remove Selected Book" />
             <TextArea fx:id="title_field" layoutX="89.0" layoutY="571.0" prefHeight="32.0" prefWidth="209.0" promptText="Title..." />
             <TextArea fx:id="author_field" layoutX="309.0" layoutY="572.0" prefHeight="32.0" prefWidth="209.0" promptText="Author..." />
             <TextArea fx:id="category_field" layoutX="529.0" layoutY="571.0" prefHeight="32.0" prefWidth="209.0" promptText="Category..." />
             <TextArea fx:id="copies_field" layoutX="750.0" layoutY="571.0" prefHeight="32.0" prefWidth="209.0" promptText="# Copies..." />
-            <Button fx:id="add_but" layoutX="1127.0" layoutY="570.0" mnemonicParsing="false" onAction="#addBook" prefHeight="35.0" prefWidth="152.0" style="-fx-background-color: lightgrey; -fx-border-color: grey;" text="Add New Book" />
+            <Button fx:id="add_but" layoutX="1127.0" layoutY="570.0" mnemonicParsing="false" onAction="#addBook" prefHeight="35.0" prefWidth="152.0" text="Add New Book" />
             <Text fill="#000000ba" layoutX="89.0" layoutY="624.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Output Message Box" />
             <TextField fx:id="output_msg" disable="true" layoutX="87.0" layoutY="628.0" prefHeight="67.0" prefWidth="866.0" />
-            <Button fx:id="back_but" layoutX="1127.0" layoutY="187.0" mnemonicParsing="false" onAction="#back" prefHeight="35.0" prefWidth="152.0" style="-fx-background-color: lightgrey; -fx-border-color: grey;" text="Back" />
+            <Button fx:id="back_but" layoutX="1127.0" layoutY="187.0" mnemonicParsing="false" onAction="#back" prefHeight="35.0" prefWidth="152.0" text="Back" />
             <Button fx:id="next_but" layoutX="676.0" layoutY="524.0" mnemonicParsing="false" onAction="#nextPage" text="Next" />
             <Button fx:id="previous_but" layoutX="593.0" layoutY="524.0" mnemonicParsing="false" onAction="#previousPage" text="Previous" />
             <Label fx:id="page_count" disable="true" layoutX="738.0" layoutY="529.0" text="Page x of y" />
             <TextField fx:id="isbn_field" layoutX="91.0" layoutY="537.0" promptText="ISBN..." />
+            <Button fx:id="back" layoutX="383.0" layoutY="134.0" mnemonicParsing="false" onAction="#back" text="Back to Menu" />
          </children>
       </Pane>
    </children>

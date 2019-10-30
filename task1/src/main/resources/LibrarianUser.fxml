@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="715.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LibrarianUserController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="715.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LibrarianUserController">
    <children>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="715.0" prefWidth="1366.0" style="-fx-background-color: transparent;">
          <children>
-            <Button fx:id="search_but" layoutX="531.0" layoutY="187.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="152.0" style="-fx-background-color: lightgrey; -fx-border-color: grey;" text="Search" />
-            <MenuButton fx:id="search_filter" layoutX="341.0" layoutY="188.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="149.0" style="-fx-background-color: #191970;" textFill="#ffffff00">
+            <Button fx:id="search_but" layoutX="531.0" layoutY="187.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="152.0" text="Search" />
+            <MenuButton fx:id="search_filter" layoutX="341.0" layoutY="188.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="149.0" text="Search by...">
                <items>
                   <MenuItem mnemonicParsing="false" text="UserID" />
                   <MenuItem mnemonicParsing="false" text="Name" />
                   <MenuItem mnemonicParsing="false" text="Surname" />
                </items>
             </MenuButton>
-            <Button fx:id="logout_but" layoutX="241.0" layoutY="129.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #FF6347; -fx-border-color: #8B0000;" text="Logout" />
+            <Button fx:id="logout_but" layoutX="265.0" layoutY="129.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="100.0" text="Logout" textFill="RED" />
             <Text layoutX="9.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BibliOS" textAlignment="CENTER" wrappingWidth="1348.22265625">
                <font>
                   <Font size="36.0" />
                </font>
             </Text>
-            <Text fx:id="welcome_msg" layoutX="91.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome, &lt;username&gt;" />
-            <TextArea fx:id="search_field" layoutX="91.0" layoutY="188.0" prefHeight="32.0" prefWidth="209.0" promptText="Search. . ." />
-            <Text layoutX="341.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Searched By:" wrappingWidth="149.0">
-               <font>
-                  <Font size="9.0" />
-               </font>
-            </Text>
+            <Label fx:id="welcome_msg" layoutX="91.0" layoutY="147.0" text="Welcome, &lt;username&gt;" />
             <TableView fx:id="user_table" layoutX="89.0" layoutY="255.0" prefHeight="258.0" prefWidth="1164.0">
                <columns>
                   <TableColumn fx:id="idCol" prefWidth="97.0" text="USERID" />
@@ -38,13 +39,15 @@
                   <TableColumn fx:id="surnameCol" prefWidth="362.0" text="Surname" />
                </columns>
             </TableView>
-            <TextArea fx:id="userid_field" layoutX="89.0" layoutY="571.0" prefHeight="32.0" prefWidth="209.0" promptText="UserID..." />
-            <TextArea fx:id="name_field" layoutX="309.0" layoutY="572.0" prefHeight="32.0" prefWidth="209.0" promptText="Name..." />
-            <TextArea fx:id="surname_field" layoutX="529.0" layoutY="571.0" prefHeight="32.0" prefWidth="209.0" promptText="Surname..." />
-            <Button fx:id="add_button" layoutX="1101.0" layoutY="570.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="152.0" style="-fx-background-color: lightgrey; -fx-border-color: grey;" text="Add New User" />
+            <TextField fx:id="userid_field" layoutX="89.0" layoutY="571.0" prefHeight="32.0" prefWidth="209.0" promptText="UserID..." />
+            <TextField fx:id="name_field" layoutX="309.0" layoutY="572.0" prefHeight="32.0" prefWidth="209.0" promptText="Name..." />
+            <TextField fx:id="surname_field" layoutX="529.0" layoutY="571.0" prefHeight="32.0" prefWidth="209.0" promptText="Surname..." />
+            <Button fx:id="add_button" layoutX="1101.0" layoutY="570.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="152.0" text="Add New User" />
             <Text fill="#000000ba" layoutX="89.0" layoutY="624.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Output Message Box" />
-            <TextField fx:id="output_msg" disable="true" layoutX="87.0" layoutY="628.0" prefHeight="67.0" prefWidth="866.0" />
-            <Button fx:id="back_but" layoutX="1101.0" layoutY="187.0" mnemonicParsing="false" onAction="#back" prefHeight="35.0" prefWidth="152.0" style="-fx-background-color: lightgrey; -fx-border-color: grey;" text="Back" />
+            <TextArea fx:id="output_field" disable="true" layoutX="87.0" layoutY="628.0" prefHeight="67.0" prefWidth="866.0" />
+            <Button fx:id="back_but" layoutX="1101.0" layoutY="187.0" mnemonicParsing="false" onAction="#back" prefHeight="35.0" prefWidth="152.0" text="Back" />
+            <Button fx:id="back" layoutX="385.0" layoutY="129.0" mnemonicParsing="false" onAction="#back" text="Back to Menu" />
+            <TextField fx:id="search_field" layoutX="115.0" layoutY="192.0" promptText="Search..." />
          </children>
       </Pane>
    </children>
