@@ -34,8 +34,6 @@ public class LibraryManager {
 			name = user.getName();
 			name = name.concat(" ");
 			name = name.concat(user.getSurname());
-			result.add(name);
-			result.add(Integer.toString(privilege));
 		}catch (Exception ex) {
     		ex.printStackTrace();
     		System.out.println("A problem occurred with the login.");
@@ -44,6 +42,8 @@ public class LibraryManager {
 			entityManager.close();
 		}
 		if(loggedUser != null) {
+			result.add(name);
+			result.add(Integer.toString(privilege));
 			return result;	
 		}
 		return null;
@@ -70,7 +70,7 @@ public class LibraryManager {
 			entityManager.getTransaction().begin();
 
 			user = entityManager.find(User.class, userid);
-
+			// PER AVERE I LIBRI MEGLIO USARE LE GET DIRETTAMENTE NEI CONTROLLER, IN QUESTA CLASSE SOLO TRANSAZIONI CON ENTITY MANAGER. ALTERNATIVA--> QUERY CLASSICA.
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
@@ -81,27 +81,9 @@ public class LibraryManager {
 		}
 		return user.getLoans();
 	}
-
-	public String findUser(String userid) {
-		String resultStr=null;
-		User user=null;
-		try {
-			entityManager = factory.createEntityManager();
-			entityManager.getTransaction().begin();
-
-			user = entityManager.find(User.class, userid);
-			if(user.getPrivilege() == 0) resultStr = user.getName() + " " + user.getSurname();
-
-			entityManager.getTransaction().commit();
-		}catch (Exception ex) {
-			//ex.printStackTrace();
-			System.out.println("A problem occurred with the LibraryManager.findUser().");
-		}
-		finally {
-			entityManager.close();
-		}
-		return resultStr;
-	}
+	
+	// FUNZIONE FINDUSER SPOSTATA SU UTENTE VISTO CHE INTERAGISCE SOLO CON QUELLA TABELLA.
+	
 
 	//browses the user's personal loans
 	public List<Loan> browseLoans() {
@@ -111,7 +93,7 @@ public class LibraryManager {
 			entityManager.getTransaction().begin();
 
 			user = entityManager.find(User.class, loggedUser);
-
+			// PER AVERE I LIBRI MEGLIO USARE LE GET DIRETTAMENTE NEI CONTROLLER, IN QUESTA CLASSE SOLO TRANSAZIONI CON ENTITY MANAGER. ALTERNATIVA--> QUERY CLASSICA.
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
@@ -226,6 +208,30 @@ public class LibraryManager {
 	}
 
 //User table operations
+	
+	public String findUser(String userid) {
+		String resultStr=null;
+		User user=null;
+		try {
+			entityManager = factory.createEntityManager();
+			entityManager.getTransaction().begin();
+
+			user = entityManager.find(User.class, userid);
+			if(user.getPrivilege() == 0) resultStr = user.getName() + " " + user.getSurname();
+
+			entityManager.getTransaction().commit();
+		}catch (Exception ex) {
+			//ex.printStackTrace();
+			System.out.println("A problem occurred with the LibraryManager.findUser().");
+		}
+		finally {
+			entityManager.close();
+		}
+		return resultStr;
+	}
+
+	
+	
 	//browse user list
 	
 	public ObservableList<User> browseUsers(int offset) {
