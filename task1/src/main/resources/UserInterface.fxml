@@ -43,7 +43,7 @@
                   <TableColumn fx:id="availabilityCol" prefWidth="111.0" text="AVAILABILITY" />
               </columns>
             </TableView>
-            <MenuButton fx:id="search_filter" layoutX="255.0" layoutY="117.0" mnemonicParsing="false" text="Search by...">
+            <MenuButton fx:id="search_filter" layoutX="255.0" layoutY="117.0" mnemonicParsing="false" text="Title">
               <items>
                 <MenuItem fx:id="m1" mnemonicParsing="false" onAction="#setMenuOption" text="Title" />
                 <MenuItem fx:id="m2" mnemonicParsing="false" onAction="#setMenuOption" text="Author" />
@@ -65,6 +65,11 @@
                   <Image url="@logo.gif" />
                </image>
             </ImageView>
+            <Label layoutX="255.0" layoutY="101.0" text="Search by:">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
       </children>
     </AnchorPane>
   </children>

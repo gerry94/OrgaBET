@@ -15,17 +15,23 @@ public class LibrarianUIController extends Controller {
         welcome_msg.setText("Welcome, " + Controller.getUsername());
     }
     @FXML
-    void books(ActionEvent event) throws IOException {
+    public void books(ActionEvent event) throws IOException {
     	Main.changeScene(3);
     }
 
     @FXML
-    void users(ActionEvent event) throws IOException {
+    public void users(ActionEvent event) throws IOException {
     	Main.changeScene(4);
     }
 
     @FXML
-    void loans(ActionEvent event) throws IOException {
+    public void loans(ActionEvent event) throws IOException {
     	Main.changeScene(5);
+    }
+
+    @FXML
+    private void shutdown() {
+        Main.lm.logout();
+        Main.exit();
     }
 }

@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.stage.Stage;
@@ -56,4 +57,6 @@ public class Main extends Application {
 
         stage.show();
     }
+
+    public static void exit() { Platform.exit(); }
 }

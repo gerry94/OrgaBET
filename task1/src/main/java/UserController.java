@@ -53,7 +53,7 @@ public class UserController extends Controller {
         if(menuOption == null || menuOption.equals("Title")) updateTable(Main.lm.searchBooks(0, search_field.getText(), 0));
         else updateTable(Main.lm.searchBooks(1, search_field.getText(), 0));
 
-        search_filter.setText("Search by...");
+        search_filter.setText("Title");
     }
 
     public void updateTable(ObservableList<Book> list)

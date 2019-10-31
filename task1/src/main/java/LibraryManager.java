@@ -420,12 +420,14 @@ public class LibraryManager {
 
 	public void removeCopies(long bookId, int numCopies) {
 		try {
-			entityManager=factory.createEntityManager();
+			entityManager = factory.createEntityManager();
 			entityManager.getTransaction().begin();
+
 			Book book = entityManager.find(Book.class, bookId);
-			int available= Available(book);
-			if(numCopies<=available){
-				if(numCopies==book.getNumCopies()) {
+			int available = Available(book);
+
+			if(numCopies <= available){
+				if(numCopies == book.getNumCopies()) {
 					entityManager.getTransaction().commit();
 					entityManager.close();
 					removeBook(bookId);
