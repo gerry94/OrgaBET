@@ -1,16 +1,10 @@
-import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
-import java.io.IOException;
-import java.util.*;
 import javafx.scene.control.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.scene.control.cell.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
-import javafx.scene.input.KeyCode;
+import javafx.scene.control.*;
 
 public class LibrarianLoansController extends Controller {
     @FXML
@@ -35,11 +29,6 @@ public class LibrarianLoansController extends Controller {
         loanBookIdCol.setCellValueFactory(new PropertyValueFactory<Book, Long>("id"));
         returnTitleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
         loanTitleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
-
-        search_but.setOnKeyPressed((event) -> {
-            if(event.getCode() == KeyCode.ENTER)
-                searchUser();
-        });
     }
 
     public void resetFields() {
@@ -48,7 +37,8 @@ public class LibrarianLoansController extends Controller {
         loan_table.getItems().clear();
         return_table.getItems().clear();
     }
-    
+
+    @FXML
     public void searchUser() {
         if(search_field.getText().isEmpty())
         {
@@ -72,11 +62,6 @@ public class LibrarianLoansController extends Controller {
                 return_table.setItems(Main.lm.browseUserLoans(2, userId)); //2 = pending return requests)
             }
         }
-    }
-
-    @FXML
-    public void searchUserEvent(ActionEvent event) {
-        searchUser();
     }
 
     @FXML

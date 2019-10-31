@@ -93,7 +93,7 @@ public class LibraryManager {
 			entityManager.getTransaction().begin();
 
 			user = entityManager.find(User.class, userid);
-			resultStr = user.getName() + " " + user.getSurname();
+			if(user.getPrivilege() == 0) resultStr = user.getName() + " " + user.getSurname();
 
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
@@ -366,10 +366,11 @@ public class LibraryManager {
 		book.setCategory(category);
 		book.setNumCopies(numCopies);
 		try {
-			entityManager=factory.createEntityManager();
+			entityManager = factory.createEntityManager();
 			entityManager.getTransaction().begin();
-			Book exists=entityManager.find(Book.class, isbn);
-			if(exists!=null)
+
+			Book exists = entityManager.find(Book.class, isbn);
+			if(exists != null)
 				result ="Book already registered.";
 			else {
 				entityManager.persist(book);
@@ -392,19 +393,29 @@ public class LibraryManager {
 		return available;
 	}
 
-	public void removeBook(long bookId) {
+	public String removeBook(long bookId) {
+		String result = ""; //return a comprehensive message to the user interface
 		try {
-			entityManager=factory.createEntityManager();
+			entityManager = factory.createEntityManager();
 			entityManager.getTransaction().begin();
+
 			Book book = entityManager.find(Book.class, bookId);
-			entityManager.remove(book);
+
+			if(book != null) {
+				result = "Succesfully removed book.";
+				entityManager.remove(book);
+			}
+			else result = "Selected book doesn't exist.";
+
+			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
-			System.out.println("A problem occurred while removing the book");
+			result = "A problem occurred with the LibraryManager.removeBook().";
 		}
 		finally {
 			entityManager.close();
 		}
+		return result;
 	}
 
 	public void removeCopies(long bookId, int numCopies) {
@@ -437,22 +448,25 @@ public class LibraryManager {
 	
 	public void addCopies(long bookId, int numCopies) {
 		try {
-			entityManager=factory.createEntityManager();
+			entityManager = factory.createEntityManager();
 			entityManager.getTransaction().begin();
+
 			Book book = entityManager.find(Book.class, bookId);
-			int newNumCopies=book.getNumCopies()+numCopies;
+			int newNumCopies = book.getNumCopies() + numCopies;
 			book.setNumCopies(newNumCopies);
+
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
-			System.out.println("A problem occurred while adding copies");
+			System.out.println("A problem occurred in the LibraryManager.addCopies().");
 		}
 		finally {
 			entityManager.close();
 		}
 	}
 	
-	/*
+	/*	function skeleton --delete before delivery--
+
 	public void function() {
 		try {
 			entityManager=factory.createEntityManager();
@@ -468,5 +482,4 @@ public class LibraryManager {
 		}
 	}
 	*/
-
 }

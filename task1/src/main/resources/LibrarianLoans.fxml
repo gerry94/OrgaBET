@@ -8,14 +8,14 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="671.0" prefWidth="788.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LibrarianLoansController">
    <children>
-      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="671.0" prefWidth="791.0" style="-fx-background-color: transparent;">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="671.0" prefWidth="791.0" style="-fx-background-color: transparent;">
          <children>
             <Label fx:id="welcome_msg" layoutX="44.0" layoutY="117.0" text="Welcome, &lt;username&gt;" />
             <TableView fx:id="loan_table" layoutX="42.0" layoutY="262.0" prefHeight="258.0" prefWidth="354.0">
@@ -42,7 +42,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Button fx:id="search_but" layoutX="678.0" layoutY="161.0" mnemonicParsing="false" onAction="#searchUserEvent" text="Search">
+            <Button fx:id="search_but" layoutX="678.0" layoutY="161.0" mnemonicParsing="false" onAction="#searchUser" text="Search">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -67,6 +67,6 @@
             </ImageView>
             <Label fx:id="currentUser" disable="true" layoutX="293.0" layoutY="173.0" />
          </children>
-      </Pane>
+      </AnchorPane>
    </children>
 </VBox>

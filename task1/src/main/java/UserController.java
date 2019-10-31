@@ -42,14 +42,14 @@ public class UserController extends Controller {
         totalPages = ((Main.lm.getNumBooks() + 9)/10);
         currentPage = 1;
 
-        page_count.setText(currentPage + "/" + totalPages);
+        page_count.setText("Page " + currentPage + " of " + totalPages);
     }
 
     @FXML
-    void search(ActionEvent event) {
+    public void search(ActionEvent event) {
         output_field.clear();
+        super.resetPageButtons();
 
-        //GESTIONE PAGINE SULLA SEARCH DA IMPLEMENTARE
         if(menuOption == null || menuOption.equals("Title")) updateTable(Main.lm.searchBooks(0, search_field.getText(), 0));
         else updateTable(Main.lm.searchBooks(1, search_field.getText(), 0));
 
@@ -76,13 +76,13 @@ public class UserController extends Controller {
 
     @FXML
     public void nextPage(ActionEvent ev) {
-        genericNextPage();
+        super.nextPage();
         updateTable(Main.lm.searchBooks(0, search_field.getText(), tableOffset));
     }
 
     @FXML
     public void previousPage(ActionEvent ev) {
-        genericPreviousPage();
+        super.previousPage();
         updateTable(Main.lm.searchBooks(0, search_field.getText(), tableOffset));
     }
 }

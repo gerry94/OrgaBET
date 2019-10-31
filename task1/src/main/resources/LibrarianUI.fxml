@@ -7,12 +7,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Label?>
 
 <VBox prefHeight="374.0" prefWidth="228.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LibrarianUIController">
   <children>
     <AnchorPane fx:id="output_txt" maxHeight="-1.0" maxWidth="-1.0" prefHeight="374.0" prefWidth="555.0" VBox.vgrow="ALWAYS">
       <children>
-            <Text fx:id="welcome_msg" layoutX="35.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome, &lt;username&gt;" />
+            <Label fx:id="welcome_msg" layoutX="35.0" layoutY="94.0" text="Welcome, &lt;username&gt;" />
             <Button fx:id="logout_but" layoutX="39.0" layoutY="107.0" mnemonicParsing="false" onAction="#logout" text="Logout" textFill="RED" />
             <Button fx:id="shutdown_but" layoutX="114.0" layoutY="107.0" mnemonicParsing="false" text="Shutdown" />
             <Button fx:id="book_but" layoutX="50.0" layoutY="168.0" mnemonicParsing="false" onAction="#books" prefHeight="47.0" prefWidth="125.0" text="Manage Books" />

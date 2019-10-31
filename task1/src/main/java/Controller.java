@@ -13,8 +13,6 @@ public class Controller implements Initializable {
     @FXML
     protected Button back;
     @FXML
-    private AnchorPane output_txt;
-    @FXML
     private TextField login_code;
     @FXML
     private Button login_but;
@@ -88,21 +86,28 @@ public class Controller implements Initializable {
         Main.changeScene(2);
     }
 
+    protected void resetPageButtons() {
+        tableOffset = 0;
+        currentPage = 1;
+        previous_but.setDisable(true);
+        next_but.setDisable(false);
+        page_count.setText("Page " + currentPage + " of " + totalPages);
+    }
     public static String getUsername() { return username; }
 
-    protected void genericNextPage() {
+    protected void nextPage() {
         tableOffset++;
         currentPage++;
-        page_count.setText(currentPage + "/" + totalPages);
+        page_count.setText("Page " + currentPage + " of " + totalPages);
 
         if(currentPage == totalPages) next_but.setDisable(true);
         if(previous_but.isDisabled()) previous_but.setDisable(false);
     }
 
-    protected void genericPreviousPage() {
+    protected void previousPage() {
         tableOffset--;
         currentPage--;
-        page_count.setText(currentPage + "/" + totalPages);
+        page_count.setText("Page " + currentPage + " of " + totalPages);
 
         if(currentPage <= 1) previous_but.setDisable(true);
         if(next_but.isDisabled()) next_but.setDisable(false);

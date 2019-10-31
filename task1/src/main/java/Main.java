@@ -40,7 +40,7 @@ public class Main extends Application {
             	break;
             case 3:
             	root = FXMLLoader.load(Main.class.getResource("/LibrarianBooks.fxml"));
-                stage.setScene(new Scene(root, 800, 640));
+                stage.setScene(new Scene(root, 960, 650));
             	break;
             case 4:
             	root = FXMLLoader.load(Main.class.getResource("/LibrarianUser.fxml"));
