@@ -62,8 +62,8 @@ public class LibraryManager {
 //Loan Operations	
 
 	//browses a specific user's loans (reserved to librarians only)
-	public ObservableList<Book> browseUserLoans(int status, String userid) {
-		ObservableList<Book> bookList = FXCollections.observableArrayList();
+	public ObservableList<Loan> browseUserLoans(String userid) {
+		
 		User user=null;
 		try {
 			entityManager = factory.createEntityManager();
@@ -71,9 +71,6 @@ public class LibraryManager {
 
 			user = entityManager.find(User.class, userid);
 
-			for(Loan l: user.getLoans()) {
-				if (l.getStatus() == status) bookList.add(l.getBook());
-			}
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
@@ -82,7 +79,7 @@ public class LibraryManager {
 		finally {
 			entityManager.close();
 		}
-		return bookList;
+		return user.getLoans();
 	}
 
 	public String findUser(String userid) {
@@ -125,6 +122,7 @@ public class LibraryManager {
 		}
 		return user.getLoans();
 	}
+	
 	
 	//For user to request a book
 	public String borrowBook(long bookId) { //response is returned to the caller in order to display a comprehensive output msg to the user interface
@@ -239,9 +237,7 @@ public class LibraryManager {
 			Query q = entityManager.createNativeQuery("SELECT u.idUser, u.name, u.surname, u.privilege FROM User u ORDER BY u.idUser LIMIT 10 OFFSET ? ", User.class);
 			q.setParameter(1, offset);
 
-			List<User> tmpUser = q.getResultList();
-			for(User u: tmpUser)
-				users.add(u);
+			users = q.getResultList();
 
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
@@ -291,14 +287,13 @@ public class LibraryManager {
 
 			q.setParameter(1, offset);
 
-			List<Book> tmpBook = q.getResultList();
-			for(Book b: tmpBook)
-				books.add(b);
+			books = q.getResultList();
+			
 
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
-			System.out.println("A problem occurred with the browsebooks!");
+			System.out.println("A problem occurred with the browse books!");
 		}
 		finally {
 			entityManager.close();
@@ -323,9 +318,7 @@ public class LibraryManager {
 			q.setParameter(1, title);
 			q.setParameter(2, offset);
 
-			List<Book> tmpBook = q.getResultList();
-			for(Book b: tmpBook)
-				books.add(b);
+			books = q.getResultList();
 
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
@@ -374,7 +367,7 @@ public class LibraryManager {
 				result ="Book already registered.";
 			else {
 				entityManager.persist(book);
-				result = "Book succesfully added.";
+				result = "Book successfully added.";
 			}
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
@@ -402,7 +395,7 @@ public class LibraryManager {
 			Book book = entityManager.find(Book.class, bookId);
 
 			if(book != null) {
-				result = "Succesfully removed book.";
+				result = "Successfully removed book.";
 				entityManager.remove(book);
 			}
 			else result = "Selected book doesn't exist.";
