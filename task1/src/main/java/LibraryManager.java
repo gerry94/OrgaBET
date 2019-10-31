@@ -62,49 +62,51 @@ public class LibraryManager {
 //Loan Operations	
 
 	//browses a specific user's loans (reserved to librarians only)
-	public List<Loan> browseUserLoans(String userid) {
+	public ObservableList<Book> browseUserLoans(int status, String userid) {
+		ObservableList<Book> bookList = FXCollections.observableArrayList();
 		User user=null;
-		try {
-			entityManager=factory.createEntityManager();
-			entityManager.getTransaction().begin();
-			user=entityManager.find(User.class, userid);
-			entityManager.getTransaction().commit();
-		}catch (Exception ex) {
-			ex.printStackTrace();
-			System.out.println("A problem occurred with the browseloans(librarian)");
-		}
-		finally {
-			entityManager.close();
-		}
-		return user.getLoans();
-	}
-
-	/*
-	public ObservableList<Loan> browseLoans() {
-		ObservableList<Loan> loans = FXCollections.observableArrayList();
 		try {
 			entityManager = factory.createEntityManager();
 			entityManager.getTransaction().begin();
 
-			Query q = entityManager.createNativeQuery("SELECT l.book_ISBN, l.user_idUser FROM Loan l WHERE status=0;");
+			user = entityManager.find(User.class, userid);
 
-			List<Loan> tmpLoan = q.getResultList();
-			for(Loan l: tmpLoan)
-				loans.add(l);
-
+			for(Loan l: user.getLoans()) {
+				if (l.getStatus() == status) bookList.add(l.getBook());
+			}
 			entityManager.getTransaction().commit();
-		} catch (Exception ex) {
+		}catch (Exception ex) {
 			ex.printStackTrace();
-			System.out.println("A problem occurred with the browseLoans().");
+			System.out.println("A problem occurred with the browseUserLoans()");
 		}
 		finally {
 			entityManager.close();
 		}
-		return loans;
-	} */
+		return bookList;
+	}
+
+	public String findUser(String userid) {
+		String resultStr=null;
+		User user=null;
+		try {
+			entityManager = factory.createEntityManager();
+			entityManager.getTransaction().begin();
+
+			user = entityManager.find(User.class, userid);
+			resultStr = user.getName() + " " + user.getSurname();
+
+			entityManager.getTransaction().commit();
+		}catch (Exception ex) {
+			//ex.printStackTrace();
+			System.out.println("A problem occurred with the LibraryManager.findUser().");
+		}
+		finally {
+			entityManager.close();
+		}
+		return resultStr;
+	}
 
 	//browses the user's personal loans
-		//--> NON DOVREBBE PRENDERE TUTTI I PRESTITI PENDENTI ?
 	public List<Loan> browseLoans() {
 		User user=null;
 		try {
@@ -157,12 +159,15 @@ public class LibraryManager {
 	
 	public void validateBorrow(String userid, long bookId) {
 		try {
-			entityManager=factory.createEntityManager();
+			entityManager = factory.createEntityManager();
 			entityManager.getTransaction().begin();
-			LoanId loanid= new LoanId(loggedUser,bookId);
-			Loan loan=entityManager.find(Loan.class, loanid);
-			if(loan.getStatus()==0)
+
+			LoanId loanid = new LoanId(userid, bookId);
+			Loan loan = entityManager.find(Loan.class, loanid);
+
+			if(loan.getStatus() == 0)
 				loan.setStatus(1);
+
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
@@ -203,12 +208,15 @@ public class LibraryManager {
 	
 	public void validateReturn(String userid, long bookId) {
 		try {
-			entityManager=factory.createEntityManager();
+			entityManager = factory.createEntityManager();
 			entityManager.getTransaction().begin();
-			LoanId loanid= new LoanId(loggedUser,bookId);
-			Loan loan=entityManager.find(Loan.class, loanid);
-			if(loan.getStatus()==2)
+
+			LoanId loanid = new LoanId(userid, bookId);
+			Loan loan = entityManager.find(Loan.class, loanid);
+
+			if(loan.getStatus() == 2)
 				loan.getUser().removeLoan(loan.getBook());
+
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();

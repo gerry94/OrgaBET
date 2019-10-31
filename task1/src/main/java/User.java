@@ -20,8 +20,9 @@ public class User implements Serializable {
 	
 	@Column(columnDefinition = "tinyint(4) default 0")
 	private int privilege;
-	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+
+	//FetchType.EAGER because otherwise in the LibrarianLoansController it can't access User.Loans.Book needed for the TableView
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Loan> loans = new ArrayList<>();
 	
 	

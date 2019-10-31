@@ -11,7 +11,7 @@ public class Loan implements Serializable {
 	@MapsId("userId")
 	private User user;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER) //EAGER perchè quando carico un prestito mi serve anche il libro per infilarlo nella tabella
 	@MapsId("bookId")
 	private Book book;
 	

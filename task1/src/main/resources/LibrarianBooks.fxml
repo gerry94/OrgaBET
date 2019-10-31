@@ -8,9 +8,10 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="715.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LibrarianBooksController">
@@ -26,11 +27,6 @@
                </items>
             </MenuButton>
             <Button fx:id="logout_but" layoutX="261.0" layoutY="134.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="100.0" text="Logout" textFill="RED" />
-            <Text layoutX="9.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BibliOS" textAlignment="CENTER" wrappingWidth="1348.22265625">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Text>
             <Label fx:id="welcome_msg" layoutX="91.0" layoutY="147.0" text="Welcome, &lt;username&gt;" />
             <TextField fx:id="search_field" layoutX="91.0" layoutY="188.0" prefHeight="32.0" prefWidth="209.0" promptText="Search. . ." />
             <TableView fx:id="book_table" layoutX="89.0" layoutY="255.0" prefHeight="258.0" prefWidth="1188.0">
@@ -56,6 +52,11 @@
             <Label fx:id="page_count" disable="true" layoutX="738.0" layoutY="529.0" text="Page x of y" />
             <TextField fx:id="isbn_field" layoutX="91.0" layoutY="537.0" promptText="ISBN..." />
             <Button fx:id="back" layoutX="383.0" layoutY="134.0" mnemonicParsing="false" onAction="#back" text="Back to Menu" />
+            <ImageView fitHeight="47.0" fitWidth="171.0" layoutX="613.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@logo.gif" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
    </children>
