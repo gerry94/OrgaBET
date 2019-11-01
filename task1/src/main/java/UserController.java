@@ -61,6 +61,7 @@ public class UserController extends Controller {
         if(menuOption == null || menuOption.equals("Title")) updateTable(Main.lm.searchBooks(0, search_field.getText(), 0));
         else updateTable(Main.lm.searchBooks(1, search_field.getText(), 0));
 
+        menuOption = "Title";
         search_filter.setText("Title");
     }
 
@@ -109,7 +110,7 @@ public class UserController extends Controller {
 
             tableChanger_but.setText("View Catalogue");
 
-            updateTable(Main.lm.browseUserLoans(1, Controller.userId)); //problema userId?
+            updateTable(Main.lm.browseUserLoans(1, Controller.userId));
             availabilityCol.setVisible(false);
 
             borrow_but.setText("Return Selected");
