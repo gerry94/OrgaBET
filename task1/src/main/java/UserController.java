@@ -75,8 +75,8 @@ public class UserController extends Controller {
             printErrorMessage("No book was selected. Please select a book a retry.");
         }
         else {
-            Main.lm.borrowBook(selectedBook.getId());
-            //borrow
+            output_field.clear();
+            output_field.setText(Main.lm.borrowBook(selectedBook.getId()));
         }
     }
 

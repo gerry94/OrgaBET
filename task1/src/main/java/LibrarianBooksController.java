@@ -29,7 +29,7 @@ public class LibrarianBooksController extends Controller {
         authorCol.setResizable(false);
         categoryCol.setResizable(false);
         copiesCol.setResizable(false);
-        
+
         //associating the table's column with the corresponding attributes of the book class
         idCol.setCellValueFactory(new PropertyValueFactory<Book, Long>("id"));
         titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));

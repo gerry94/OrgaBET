@@ -4,8 +4,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -32,22 +33,25 @@
                   <TableColumn fx:id="returnTitleCol" minWidth="0.0" prefWidth="258.0" text="Title" />
                </columns>
             </TableView>
-            <Text layoutX="144.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Loan Requests" wrappingWidth="134.9638671875">
+            <Label fx:id="loanTable_text" layoutX="153.0" layoutY="228.0" text="Loan Requests">
                <font>
                   <Font size="18.0" />
                </font>
-            </Text>
-            <Text layoutX="509.0" layoutY="248.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Return Requests" wrappingWidth="207.0">
+            </Label>
+            <Label layoutX="521.0" layoutY="228.0" text="Return Requests">
                <font>
                   <Font size="18.0" />
                </font>
-            </Text>
+            </Label>
             <Button fx:id="search_but" layoutX="678.0" layoutY="161.0" mnemonicParsing="false" onAction="#searchUser" text="Search">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Button>
-            <Button fx:id="logout_but" layoutX="42.0" layoutY="135.0" mnemonicParsing="false" onAction="#logout" text="Logout" textFill="RED" />
+            <Button fx:id="logout_but" layoutX="42.0" layoutY="135.0" mnemonicParsing="false" onAction="#logout" text="Logout" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Button>
             <TextField fx:id="search_field" layoutX="577.0" layoutY="122.0" promptText="User ID..." />
             <Button fx:id="loan_but" layoutX="252.0" layoutY="533.0" mnemonicParsing="false" onAction="#confirmLoan" text="Confirm Selected">
                <font>
@@ -66,6 +70,11 @@
                </image>
             </ImageView>
             <Label fx:id="currentUser" disable="true" layoutX="293.0" layoutY="173.0" />
+            <ToggleButton fx:id="loanChanger_but" layoutX="45.0" layoutY="522.0" mnemonicParsing="false" onAction="#changeLoanTable" text="View Active Loans">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </ToggleButton>
          </children>
       </AnchorPane>
    </children>

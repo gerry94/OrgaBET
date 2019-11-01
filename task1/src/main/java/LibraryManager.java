@@ -291,7 +291,12 @@ public class LibraryManager {
 	//da implementare
 
 //book table operations
-	
+/*
+SELECT B.ISBN, B.title, B.author, B.numCopies - COUNT(L.book_ISBN) AS availability, B.numCopies AS total
+FROM Book B LEFT JOIN Loan L
+	ON B.ISBN = L.book_ISBN
+GROUP BY B.ISBN ORDER BY B.title;
+ */
 	public ObservableList<Book> browseBooks(int offset) {
 		List<Book> tmpBooks = null;
 		try {
