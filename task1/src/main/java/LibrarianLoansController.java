@@ -25,6 +25,11 @@ public class LibrarianLoansController extends Controller {
         welcome_msg.setText("Welcome " + getUsername());
         currentUser.setText("Current User: < ? >");
 
+        loanTitleCol.setResizable(false);
+        loanBookIdCol.setResizable(false);
+        returnTitleCol.setResizable(false);
+        returnBookIdCol.setResizable(false);
+
         returnBookIdCol.setCellValueFactory(new PropertyValueFactory<Book, Long>("id"));
         loanBookIdCol.setCellValueFactory(new PropertyValueFactory<Book, Long>("id"));
         returnTitleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
@@ -43,7 +48,7 @@ public class LibrarianLoansController extends Controller {
         if(search_field.getText().isEmpty())
         {
             //error log
-            output_field.setText("ERROR: empty User ID field. Please check the input field and retry.");
+            printErrorMessage("empty User ID field. Please check the input field and retry.");
             resetFields();
         }
         else
@@ -53,7 +58,7 @@ public class LibrarianLoansController extends Controller {
 
             if(Main.lm.findUser(userId) == null)
             {
-                output_field.setText("ERROR: specified User ID doesn't match any existing user.");
+                printErrorMessage("specified User ID doesn't match any existing user.");
                 resetFields();
             }
             else {

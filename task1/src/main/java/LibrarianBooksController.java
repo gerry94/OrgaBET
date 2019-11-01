@@ -24,6 +24,12 @@ public class LibrarianBooksController extends Controller {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         welcome_msg.setText("Welcome " + Controller.getUsername());
 
+        idCol.setResizable(false);
+        titleCol.setResizable(false);
+        authorCol.setResizable(false);
+        categoryCol.setResizable(false);
+        copiesCol.setResizable(false);
+        
         //associating the table's column with the corresponding attributes of the book class
         idCol.setCellValueFactory(new PropertyValueFactory<Book, Long>("id"));
         titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
@@ -84,7 +90,7 @@ public class LibrarianBooksController extends Controller {
         if(!validateFields()) return;
 
         //finally, add book and refresh table
-        output_field.setText(Main.lm.addBook(Long.parseLong(isbn_field.getText()), title_field.getText(), author_field.getText(), category_field.getText(), Integer.parseInt(copies_field.getText())));
+        Main.lm.addBook(Long.parseLong(isbn_field.getText()), title_field.getText(), author_field.getText(), category_field.getText(), Integer.parseInt(copies_field.getText()));
         updateTable(Main.lm.searchBooks(0, "", tableOffset));
 
         clearFields();
@@ -94,7 +100,7 @@ public class LibrarianBooksController extends Controller {
         boolean ret = true;
         if ((isbn_field.getText().isEmpty()) || (title_field.getText().isEmpty()) || (author_field.getText().isEmpty()) || (category_field.getText().isEmpty()) || (copies_field.getText().isEmpty())) {
             //error log
-            output_field.setText("ERROR: You have an error in the input boxes. Please check for typos and retry.");
+            printErrorMessage("You have an error in the input boxes. Please check for typos and retry.");
 
             if(title_field.getText().isEmpty())
                 title_field.setStyle("-fx-background-color: #ff0000");
@@ -107,12 +113,12 @@ public class LibrarianBooksController extends Controller {
         }
         if (!copies_field.getText().matches("[0-9]+")) {
             copies_field.setStyle("-fx-background-color: #ff0000");
-            output_field.setText("ERROR: You have an error in the numCopies field, only numbers are allowed. Please check for typos and retry.");
+            printErrorMessage("You have an error in the numCopies field, only numbers are allowed. Please check for typos and retry.");
             ret = false;
         }
         if (!isbn_field.getText().matches("[0-9]+")) {
             isbn_field.setStyle("-fx-background-color: #ff0000");
-            output_field.setText("ERROR: You have an error in the ISBN field, only numbers are allowed. Please check for typos and retry.");
+            printErrorMessage("You have an error in the ISBN field, only numbers are allowed. Please check for typos and retry.");
             ret = false;
         }
         return ret;
@@ -128,27 +134,38 @@ public class LibrarianBooksController extends Controller {
 
     @FXML
     public void removeBook(ActionEvent event) {
-        output_field.clear();
-
         Book selectedBook = book_table.getSelectionModel().getSelectedItem();
 
-        if(selectedBook == null)
-            output_field.setText("ERROR: No book was selected!");
+        if(selectedBook == null) {
+            printErrorMessage("No book was selected!");
+        }
         else {
-            output_field.setText(Main.lm.removeBook(selectedBook.getId()));
+            Main.lm.removeBook(selectedBook.getId());
+            updateTable(Main.lm.searchBooks(0, "", tableOffset));
+        }
+    }
+
+    /* public TextArea getOutputField() così per stampare posso fare printMsg(classe.getOutputField(), String msg); */
+    @FXML
+    public void removeBookCopy(ActionEvent event) {
+        output_field.clear();
+        Book selectedBook = book_table.getSelectionModel().getSelectedItem();
+        if(selectedBook == null)
+            printErrorMessage("No book was selected!");
+        else {
+            Main.lm.removeCopies(selectedBook.getId(), 1); //1 copy removed
             updateTable(Main.lm.searchBooks(0, "", tableOffset));
         }
     }
 
     @FXML
-    public void removeBookCopy(ActionEvent event) {
+    public void addCopy(ActionEvent event) {
         output_field.clear();
-
         Book selectedBook = book_table.getSelectionModel().getSelectedItem();
         if(selectedBook == null)
-            output_field.setText("ERROR: No book was selected!");
+            printErrorMessage("No book was selected!");
         else {
-            Main.lm.removeCopies(selectedBook.getId(), 1); //1 copy removed
+            Main.lm.addCopies(selectedBook.getId(), 1); //1 copy added
             updateTable(Main.lm.searchBooks(0, "", tableOffset));
         }
     }

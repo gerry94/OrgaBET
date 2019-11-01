@@ -11,7 +11,7 @@
 
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
   <children>
-    <AnchorPane fx:id="output_txt" maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <AnchorPane fx:id="output_txt" maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS" style="-fx-background-color: #eeeeff;">
       <children>
             <Label layoutX="150.0" layoutY="158.0" text="Please enter your personal code to access the system:" />
             <TextField fx:id="login_code" layoutX="241.0" layoutY="175.0" />

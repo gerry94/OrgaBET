@@ -93,6 +93,7 @@ public class Controller implements Initializable {
         next_but.setDisable(false);
         page_count.setText("Page " + currentPage + " of " + totalPages);
     }
+
     public static String getUsername() { return username; }
 
     protected void nextPage() {
@@ -111,6 +112,18 @@ public class Controller implements Initializable {
 
         if(currentPage <= 1) previous_but.setDisable(true);
         if(next_but.isDisabled()) next_but.setDisable(false);
+    }
+
+    protected void printErrorMessage(String msg) {
+        output_field.clear();
+        output_field.setStyle("-fx-text-fill: red ;");
+        output_field.setText("ERROR: " + msg);
+    }
+
+    protected void printMessage(String msg) {
+        output_field.clear();
+        output_field.setStyle("-fx-text-fill: green ;");
+        output_field.setText(msg);
     }
 
     @Override

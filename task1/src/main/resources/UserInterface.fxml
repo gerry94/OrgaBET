@@ -18,7 +18,7 @@
 
 <VBox prefHeight="671.0" prefWidth="776.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserController">
   <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="537.0" prefWidth="721.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="537.0" prefWidth="721.0" VBox.vgrow="ALWAYS" style="-fx-background-color: #eeeeff;">
       <children>
             <Label fx:id="welcome_msg" layoutX="27.0" layoutY="74.0" text="Welcome &lt;username&gt;" />
             <Button fx:id="logout_but" layoutX="194.0" layoutY="69.0" mnemonicParsing="false" onAction="#logout" text="Logout" textFill="RED" />

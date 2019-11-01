@@ -19,25 +19,19 @@ public class LibrarianUserController extends Controller {
     @FXML
     private TableView<User> user_table;
     @FXML
-    private TableColumn<User, String> idCol;
-    @FXML
-    private TableColumn<User, String> nameCol;
-    @FXML
-    private TableColumn<User, String> surnameCol;
-
+    private TableColumn idCol, nameCol, surnameCol;
     @FXML
     private Button add_button;
-
     @FXML
-    private TextField userid_field;
-    @FXML
-    private TextField surname_field;
-    @FXML
-    private TextField name_field;
+    private TextField userid_field, surname_field, name_field;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         welcome_msg.setText("Welcome " + Controller.getUsername());
+
+        idCol.setResizable(false);
+        nameCol.setResizable(false);
+        surnameCol.setResizable(false);
 
         //associating the table's column with the corresponding attributes of the user class
         idCol.setCellValueFactory(new PropertyValueFactory<User, String>("id"));

@@ -28,6 +28,12 @@ public class UserController extends Controller {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         welcome_msg.setText("Welcome, " + Controller.getUsername());
 
+        //blocking table column resize
+        idCol.setResizable(false);
+        titleCol.setResizable(false);
+        authorCol.setResizable(false);
+        availabilityCol.setResizable(false);
+
         //associating the table's column with the corresponding attributes of the book class
         idCol.setCellValueFactory(new PropertyValueFactory<Book, Long>("id"));
         titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
@@ -66,10 +72,10 @@ public class UserController extends Controller {
         Book selectedBook = list_table.getSelectionModel().getSelectedItem();
 
         if(selectedBook == null) {
-            output_field.setText("ERROR: No book was selected. Please select a book a retry.");
+            printErrorMessage("No book was selected. Please select a book a retry.");
         }
         else {
-            output_field.setText(Main.lm.borrowBook(selectedBook.getId()));
+            Main.lm.borrowBook(selectedBook.getId());
             //borrow
         }
     }

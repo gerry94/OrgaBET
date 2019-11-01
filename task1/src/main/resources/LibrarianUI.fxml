@@ -11,7 +11,7 @@
 
 <VBox prefHeight="374.0" prefWidth="228.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LibrarianUIController">
   <children>
-    <AnchorPane fx:id="output_txt" maxHeight="-1.0" maxWidth="-1.0" prefHeight="374.0" prefWidth="555.0" VBox.vgrow="ALWAYS">
+    <AnchorPane fx:id="output_txt" maxHeight="-1.0" maxWidth="-1.0" prefHeight="374.0" prefWidth="555.0" VBox.vgrow="ALWAYS" style="-fx-background-color: #eeeeff;">
       <children>
             <Label fx:id="welcome_msg" layoutX="37.0" layoutY="96.0" text="Welcome, &lt;username&gt;" />
             <Button fx:id="logout_but" layoutX="35.0" layoutY="118.0" mnemonicParsing="false" onAction="#logout" text="Logout" textFill="RED">

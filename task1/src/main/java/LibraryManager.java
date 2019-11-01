@@ -451,7 +451,7 @@ public class LibraryManager {
 					book.setNumCopies(book.getNumCopies()-numCopies);
 			}
 			else
-				System.out.println("There are not enough copies to be removed");
+				System.out.println("ERROR: There are not enough copies to be removed");
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
