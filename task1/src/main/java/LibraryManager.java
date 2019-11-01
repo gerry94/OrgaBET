@@ -125,7 +125,7 @@ public class LibraryManager {
 			else {	
 				Book book = entityManager.find(Book.class, bookId);
 				User user = entityManager.find(User.class, loggedUser);
-				if(Available(book) > 0) {
+				if(available(book) > 0) {
 					user.addLoan(book);
 					response ="Succesfully requested the book: " + book.getTitle() +".";
 				}
@@ -334,8 +334,12 @@ GROUP BY B.ISBN ORDER BY B.title;
 			entityManager.getTransaction().begin();
 
 			Query q;
-			if(option == 0) q = entityManager.createNativeQuery("SELECT b.ISBN, b.title, b.author, b.category, b.numCopies FROM Book b WHERE b.title LIKE ? ORDER BY b.title LIMIT 10 OFFSET ? ", Book.class);
-			else q = entityManager.createNativeQuery("SELECT b.ISBN, b.title, b.author, b.category, b.numCopies FROM Book b WHERE b.author LIKE ? ORDER BY b.title LIMIT 10 OFFSET ? ", Book.class);
+			
+			String s="SELECT b.ISBN, b.title, b.author, b.category, b.numCopies FROM Book b WHERE";
+			if(option == 0) 
+				q = entityManager.createNativeQuery( s + " b.title LIKE ? ORDER BY b.title LIMIT 10 OFFSET ? ", Book.class);
+			else 
+				q = entityManager.createNativeQuery( s + " b.author LIKE ? ORDER BY b.title LIMIT 10 OFFSET ? ", Book.class);
 
 			q.setParameter(1, title);
 			q.setParameter(2, offset);
@@ -406,10 +410,31 @@ GROUP BY B.ISBN ORDER BY B.title;
 		return result;
 	}
 
-	public int Available(Book book) {
+	public int available(Book book) {
 		int copies = book.getNumCopies();
 		int available = copies - book.getLoans().size();
 		return available;
+	}
+	
+	public String isAvailable(long bookId){
+		int available=0;
+		try {
+			entityManager=factory.createEntityManager();
+			entityManager.getTransaction().begin();
+			Book book = entityManager.find(Book.class, bookId);
+			available=available(book);
+			entityManager.getTransaction().commit();
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("A problem occurred with the login!");
+		}
+		finally {
+			entityManager.close();
+		}
+		if (available>0)
+			return "Available";
+		else
+			return "Unavailable";
 	}
 
 	public String removeBook(long bookId) {
@@ -443,7 +468,7 @@ GROUP BY B.ISBN ORDER BY B.title;
 			entityManager.getTransaction().begin();
 
 			Book book = entityManager.find(Book.class, bookId);
-			int available = Available(book);
+			int available = available(book);
 
 			if(numCopies <= available){
 				if(numCopies == book.getNumCopies()) {
