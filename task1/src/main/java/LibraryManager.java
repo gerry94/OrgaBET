@@ -1,4 +1,5 @@
 import javafx.collections.*;
+import org.hibernate.Hibernate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,17 +61,17 @@ public class LibraryManager {
 	}
 
 //Loan Operations	
-
+// PER AVERE I LIBRI MEGLIO USARE LE GET DIRETTAMENTE NEI CONTROLLER, IN QUESTA CLASSE SOLO TRANSAZIONI CON ENTITY MANAGER. ALTERNATIVA--> QUERY CLASSICA.
 	//browses a specific user's loans (reserved to librarians only)
-	public ObservableList<Loan> browseUserLoans(String userid) {
-		
+	public ObservableList<Book> browseUserLoans(int status, String userid) {
 		User user=null;
 		try {
 			entityManager = factory.createEntityManager();
 			entityManager.getTransaction().begin();
 
 			user = entityManager.find(User.class, userid);
-			// PER AVERE I LIBRI MEGLIO USARE LE GET DIRETTAMENTE NEI CONTROLLER, IN QUESTA CLASSE SOLO TRANSAZIONI CON ENTITY MANAGER. ALTERNATIVA--> QUERY CLASSICA.
+			Hibernate.initialize(user.getLoans()); //initialize the lazy collection
+
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
@@ -79,7 +80,12 @@ public class LibraryManager {
 		finally {
 			entityManager.close();
 		}
-		return user.getLoans();
+
+		ObservableList<Book> bookList = FXCollections.observableArrayList();
+		for(Loan l: user.getLoans()) {
+			if (l.getStatus() == status) bookList.add(l.getBook());
+		}
+		return bookList;
 	}
 	
 	// FUNZIONE FINDUSER SPOSTATA SU UTENTE VISTO CHE INTERAGISCE SOLO CON QUELLA TABELLA.
@@ -129,7 +135,7 @@ public class LibraryManager {
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
-			return "A problem occurred with the loan request.";
+			response = "A problem occurred with the loan request.";
 		}
 		finally {
 			entityManager.close();
@@ -235,7 +241,7 @@ public class LibraryManager {
 	//browse user list
 	
 	public ObservableList<User> browseUsers(int offset) {
-		ObservableList<User> users = FXCollections.observableArrayList();
+		List<User> tmpUsers = null;
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
@@ -243,7 +249,7 @@ public class LibraryManager {
 			Query q = entityManager.createNativeQuery("SELECT u.idUser, u.name, u.surname, u.privilege FROM User u ORDER BY u.idUser LIMIT 10 OFFSET ? ", User.class);
 			q.setParameter(1, offset);
 
-			users = q.getResultList();
+			tmpUsers = q.getResultList();
 
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
@@ -253,6 +259,9 @@ public class LibraryManager {
 		finally {
 			entityManager.close();
 		}
+		ObservableList<User> users = FXCollections.observableArrayList();
+		for(User u: tmpUsers)
+			users.add(u);
 		return users;
 	}
 	
@@ -284,7 +293,7 @@ public class LibraryManager {
 //book table operations
 	
 	public ObservableList<Book> browseBooks(int offset) {
-		ObservableList<Book> books = FXCollections.observableArrayList();
+		List<Book> tmpBooks = null;
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
@@ -293,8 +302,7 @@ public class LibraryManager {
 
 			q.setParameter(1, offset);
 
-			books = q.getResultList();
-			
+			tmpBooks = q.getResultList();
 
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
@@ -304,12 +312,15 @@ public class LibraryManager {
 		finally {
 			entityManager.close();
 		}
+		ObservableList<Book> books = FXCollections.observableArrayList();
+		for(Book b: tmpBooks)
+			books.add(b);
 		return books;
 	}
 
 	
 	public ObservableList<Book> searchBooks(int option, String title, int offset) { //option 0: title, 1:author
-		ObservableList<Book> books = FXCollections.observableArrayList();
+		List<Book> tmpBooks = null;
 		title = "%"+title+"%";
 		offset = offset*10;
 
@@ -324,7 +335,7 @@ public class LibraryManager {
 			q.setParameter(1, title);
 			q.setParameter(2, offset);
 
-			books = q.getResultList();
+			tmpBooks = q.getResultList();
 
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
@@ -334,6 +345,10 @@ public class LibraryManager {
 		finally {
 			entityManager.close();
 		}
+		ObservableList<Book> books = FXCollections.observableArrayList();
+		for(Book b: tmpBooks)
+			books.add(b);
+
 		return books;
 	}
 
