@@ -41,6 +41,7 @@ public class Controller implements Initializable {
     private static int privilege;
 
     protected String menuOption;
+    protected static String userId;
     protected int tableOffset, currentPage, totalPages;
 
     @FXML
@@ -64,6 +65,7 @@ public class Controller implements Initializable {
         }
         else {
             username = result.get(0);
+            userId = login_code.getText();
             privilege = Integer.parseInt(result.get(1));
 
             System.out.println(username +", " + privilege);

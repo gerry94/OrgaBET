@@ -70,11 +70,11 @@
                </image>
             </ImageView>
             <Label fx:id="currentUser" disable="true" layoutX="293.0" layoutY="173.0" />
-            <ToggleButton fx:id="loanChanger_but" layoutX="45.0" layoutY="522.0" mnemonicParsing="false" onAction="#changeLoanTable" text="View Active Loans">
+            <Button fx:id="loanChanger_but" layoutX="45.0" layoutY="522.0" mnemonicParsing="false" onAction="#manageToggleButton" text="View Active Loans">
                <font>
                   <Font size="10.0" />
                </font>
-            </ToggleButton>
+            </Button>
          </children>
       </AnchorPane>
    </children>

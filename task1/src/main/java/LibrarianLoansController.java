@@ -18,6 +18,7 @@ public class LibrarianLoansController extends Controller {
     private Button loan_but, return_but, loanChanger_but;
 
     private String userId = "";
+
     private boolean userVerified = false; //indicates if a valid user has been selected
     private int loanTableIndicator = 0; //0 pending loans, 1 active loans, keeps track of which Loan table to show
 
