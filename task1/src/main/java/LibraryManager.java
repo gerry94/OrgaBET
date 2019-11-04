@@ -236,17 +236,14 @@ public class LibraryManager {
 		return resultStr;
 	}
 
-	
-	
 	//browse user list
-	
 	public ObservableList<User> browseUsers(int offset) {
 		List<User> tmpUsers = null;
 		try {
 			entityManager=factory.createEntityManager();
 			entityManager.getTransaction().begin();
 
-			Query q = entityManager.createNativeQuery("SELECT u.idUser, u.name, u.surname, u.privilege FROM User u ORDER BY u.idUser LIMIT 10 OFFSET ? ", User.class);
+			Query q = entityManager.createNativeQuery("SELECT u.idUser, u.name, u.surname, u.privilege FROM User u WHERE u.privilege=0 ORDER BY u.idUser LIMIT 10 OFFSET ? ", User.class);
 			q.setParameter(1, offset);
 
 			tmpUsers = q.getResultList();
@@ -263,6 +260,62 @@ public class LibraryManager {
 		for(User u: tmpUsers)
 			users.add(u);
 		return users;
+	}
+
+	public ObservableList<User> searchUsers(int option, String name, int offset) { //option 0: name, 1:surname
+		List<User> tmpUsers = null;
+		name = "%"+name+"%";
+		offset = offset*10;
+
+		try {
+			entityManager=factory.createEntityManager();
+			entityManager.getTransaction().begin();
+
+			Query q;
+
+			String s="SELECT u.idUser, u.name, u.surname, u.privilege FROM User u WHERE u.privilege = 0 and";
+			if(option == 0)
+				q = entityManager.createNativeQuery( s + " u.name LIKE ? ORDER BY u.name LIMIT 10 OFFSET ? ", User.class);
+			else
+				q = entityManager.createNativeQuery( s + " u.surname LIKE ? ORDER BY u.name LIMIT 10 OFFSET ? ", User.class);
+
+			q.setParameter(1, name);
+			q.setParameter(2, offset);
+
+			tmpUsers = q.getResultList();
+
+			entityManager.getTransaction().commit();
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("A problem occurred with the search by name!");
+		}
+		finally {
+			entityManager.close();
+		}
+		ObservableList<User> users = FXCollections.observableArrayList();
+		for(User u: tmpUsers)
+			users.add(u);
+
+		return users;
+	}
+
+	public int getNumUsers() { //returns the number of users
+		int result = 0;
+
+		try {
+			entityManager = factory.createEntityManager();
+			entityManager.getTransaction().begin();
+
+			Query q = entityManager.createNativeQuery("SELECT COUNT(*) FROM User;");
+			result = ((Number)q.getSingleResult()).intValue();
+
+			entityManager.getTransaction().commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			entityManager.close();
+		}
+		return result;
 	}
 	
 	public void addUser(String id,String name, String surname) {
