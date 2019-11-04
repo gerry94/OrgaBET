@@ -24,7 +24,7 @@
                </font></Button>
             <Button fx:id="book_but" layoutX="50.0" layoutY="168.0" mnemonicParsing="false" onAction="#books" prefHeight="47.0" prefWidth="125.0" text="Manage Books" />
             <Button fx:id="loan_but" layoutX="50.0" layoutY="232.0" mnemonicParsing="false" onAction="#loans" prefHeight="47.0" prefWidth="125.0" text="Manage Loans" />
-            <Button fx:id="user_but" layoutX="50.0" layoutY="292.0" mnemonicParsing="false" onAction="#users" prefHeight="47.0" prefWidth="125.0" text="Manage Users" />
+            <Button fx:id="user_but" layoutX="50.0" layoutY="292.0" mnemonicParsing="false" onAction="#users" prefHeight="47.0" prefWidth="125.0" text="Manage Customers" />
             <Text layoutX="70.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Administration Panel" wrappingWidth="125.0">
                <font>
                   <Font size="12.0" />

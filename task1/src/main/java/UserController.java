@@ -3,7 +3,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.*;
-
+import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -124,6 +124,7 @@ public class UserController extends Controller {
                     output_field.clear();
                     Main.lm.returnBook(selectedBook.getId());
                     output_field.setText("Return request forwarded correctly.");
+                    updateTable(Main.lm.browseUserLoans(1, Controller.userId));
                 }
             });
             tableIndicator = 1;

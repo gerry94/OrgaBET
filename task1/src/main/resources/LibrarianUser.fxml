@@ -15,49 +15,6 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.Font?>
 
-<!--
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="678.0" prefWidth="993.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LibrarianUserController">
-   <children>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="995.0" style="-fx-background-color: #eeeeff;">
-         <children>
-            <Button fx:id="search_but" layoutX="531.0" layoutY="187.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="152.0" text="Search" />
-            <MenuButton fx:id="search_filter" layoutX="341.0" layoutY="188.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="149.0" text="Search by...">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="UserID" />
-                  <MenuItem mnemonicParsing="false" text="Name" />
-                  <MenuItem mnemonicParsing="false" text="Surname" />
-               </items>
-            </MenuButton>
-            <Button fx:id="logout_but" layoutX="265.0" layoutY="129.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="100.0" text="Logout" textFill="RED" />
-            <Label fx:id="welcome_msg" layoutX="91.0" layoutY="147.0" text="Welcome, &lt;username&gt;" />
-            <TableView fx:id="user_table" layoutX="89.0" layoutY="255.0" prefHeight="258.0" prefWidth="1164.0">
-               <columns>
-                  <TableColumn fx:id="idCol" prefWidth="97.0" text="USERID" />
-                  <TableColumn fx:id="nameCol" minWidth="0.0" prefWidth="359.0" text="Name" />
-                  <TableColumn fx:id="surnameCol" prefWidth="362.0" text="Surname" />
-               </columns>
-            </TableView>
-            <TextField fx:id="userid_field" layoutX="89.0" layoutY="571.0" prefHeight="32.0" prefWidth="209.0" promptText="UserID..." />
-            <TextField fx:id="name_field" layoutX="309.0" layoutY="572.0" prefHeight="32.0" prefWidth="209.0" promptText="Name..." />
-            <TextField fx:id="surname_field" layoutX="529.0" layoutY="571.0" prefHeight="32.0" prefWidth="209.0" promptText="Surname..." />
-            <Button fx:id="add_button" layoutX="1101.0" layoutY="570.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="152.0" text="Add New User" />
-            <Text fill="#000000ba" layoutX="89.0" layoutY="624.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Output Message Box" />
-            <TextArea fx:id="output_field" disable="true" layoutX="87.0" layoutY="628.0" prefHeight="67.0" prefWidth="866.0" />
-            <Button fx:id="back_but" layoutX="1101.0" layoutY="187.0" mnemonicParsing="false" onAction="#back" prefHeight="35.0" prefWidth="152.0" text="Back" />
-            <Button fx:id="back" layoutX="385.0" layoutY="129.0" mnemonicParsing="false" onAction="#back" text="Back to Menu" />
-            <TextField fx:id="search_field" layoutX="115.0" layoutY="192.0" promptText="Search..." />
-            <ImageView fitHeight="47.0" fitWidth="171.0" layoutX="660.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@logo.gif" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
-   </children>
-</VBox>
--->
-
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="678.0" prefWidth="993.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LibrarianUserController">
 <children>
    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="995.0" style="-fx-background-color: #eeeeff;">
@@ -91,7 +48,7 @@
          <TextField fx:id="userid_field" layoutX="44.0" layoutY="546.0" promptText="UserID..." />
          <TextField fx:id="name_field" layoutX="254.0" layoutY="546.0" promptText="Name..." />
          <TextField fx:id="surname_field" layoutX="474.0" layoutY="546.0" promptText="Surname..." />
-         <Button fx:id="add_but" layoutX="790.0" layoutY="548.0" mnemonicParsing="false" onAction="#addUser" text="Add New User" textFill="#004017">
+         <Button fx:id="add_but" layoutX="790.0" layoutY="548.0" mnemonicParsing="false" onAction="#addUser" text="Add New Customer" textFill="#004017">
             <font>
                <Font name="System Bold" size="13.0" />
             </font>

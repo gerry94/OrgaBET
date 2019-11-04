@@ -469,13 +469,13 @@ GROUP BY B.ISBN ORDER BY B.title;
 		return available;
 	}
 	
-	public String isAvailable(long bookId){
+	public boolean isAvailable(long bookId){
 		int available=0;
 		try {
-			entityManager=factory.createEntityManager();
+			entityManager = factory.createEntityManager();
 			entityManager.getTransaction().begin();
 			Book book = entityManager.find(Book.class, bookId);
-			available=available(book);
+			available = available(book);
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
@@ -484,10 +484,10 @@ GROUP BY B.ISBN ORDER BY B.title;
 		finally {
 			entityManager.close();
 		}
-		if (available>0)
-			return "Available";
-		else
-			return "Unavailable";
+		if (available>0) return true;
+			//return "Available";
+		else return false;
+			//return "Unavailable";
 	}
 
 	public String removeBook(long bookId) {

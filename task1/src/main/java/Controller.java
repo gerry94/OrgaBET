@@ -92,7 +92,10 @@ public class Controller implements Initializable {
         tableOffset = 0;
         currentPage = 1;
         previous_but.setDisable(true);
-        next_but.setDisable(false);
+
+        if(totalPages == 1) next_but.setDisable(true);
+        else next_but.setDisable(false);
+
         page_count.setText("Page " + currentPage + " of " + totalPages);
     }
 
