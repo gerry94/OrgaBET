@@ -10,7 +10,6 @@ public class LibraryManager {
 	private static EntityManager entityManager;
 	private static EntityManagerFactory factory;
 	private String loggedUser=null;
-	int privilege;
 	
 	public void setup()	{
 		factory = Persistence.createEntityManagerFactory("bibliosDB");
@@ -20,10 +19,11 @@ public class LibraryManager {
 		factory.close();
 	}
 	
-	public List<String> login(String id) {	
+	public List<String> login(String id) {
 		if (loggedUser!=null)
 			return null;
 		String name = null;
+		int privilege;
 		List<String> result = new ArrayList<String>();
 		try {
 			entityManager = factory.createEntityManager();
@@ -61,7 +61,6 @@ public class LibraryManager {
 	}
 
 //Loan Operations	
-// PER AVERE I LIBRI MEGLIO USARE LE GET DIRETTAMENTE NEI CONTROLLER, IN QUESTA CLASSE SOLO TRANSAZIONI CON ENTITY MANAGER. ALTERNATIVA--> QUERY CLASSICA.
 	//browses a specific user's loans (reserved to librarians only)
 	public ObservableList<Book> browseUserLoans(int status, String userid) {
 		User user=null;
@@ -70,7 +69,8 @@ public class LibraryManager {
 			entityManager.getTransaction().begin();
 
 			user = entityManager.find(User.class, userid);
-			Hibernate.initialize(user.getLoans()); //initialize the lazy collection
+			//to fetch the collection
+			Hibernate.initialize(user.getLoans());
 
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
@@ -88,32 +88,8 @@ public class LibraryManager {
 		return bookList;
 	}
 	
-	// FUNZIONE FINDUSER SPOSTATA SU UTENTE VISTO CHE INTERAGISCE SOLO CON QUELLA TABELLA.
-	
-
-	//browses the user's personal loans
-	public List<Loan> browseLoans() {
-		User user=null;
-		try {
-			entityManager = factory.createEntityManager();
-			entityManager.getTransaction().begin();
-
-			user = entityManager.find(User.class, loggedUser);
-			// PER AVERE I LIBRI MEGLIO USARE LE GET DIRETTAMENTE NEI CONTROLLER, IN QUESTA CLASSE SOLO TRANSAZIONI CON ENTITY MANAGER. ALTERNATIVA--> QUERY CLASSICA.
-			entityManager.getTransaction().commit();
-		}catch (Exception ex) {
-			ex.printStackTrace();
-			System.out.println("A problem occurred with the browseloans.");
-		}
-		finally {
-			entityManager.close();
-		}
-		return user.getLoans();
-	}
-	
-	
-	//For user to request a book
-	public String borrowBook(long bookId) { //response is returned to the caller in order to display a comprehensive output msg to the user interface
+	//response is returned to the caller in order to display a comprehensive output message to the user interface
+	public String borrowBook(long bookId) { 
 		String response = "";
 		try {
 			entityManager = factory.createEntityManager();
@@ -127,7 +103,7 @@ public class LibraryManager {
 				User user = entityManager.find(User.class, loggedUser);
 				if(available(book) > 0) {
 					user.addLoan(book);
-					response ="Succesfully requested the book: " + book.getTitle() +".";
+					response ="Successfully requested the book: " + book.getTitle() +".";
 				}
 				else
 					response = "This book is not available.";
@@ -227,7 +203,7 @@ public class LibraryManager {
 
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
-			//ex.printStackTrace();
+			ex.printStackTrace();
 			System.out.println("A problem occurred with the LibraryManager.findUser().");
 		}
 		finally {
@@ -298,8 +274,8 @@ public class LibraryManager {
 
 		return users;
 	}
-
-	public int getNumUsers() { //returns the number of users
+//returns the number of users
+	public int getNumUsers() {
 		int result = 0;
 
 		try {
@@ -341,16 +317,10 @@ public class LibraryManager {
 			entityManager.close();
 		}
 	}
-	//da implementare
 
 //book table operations
-/*
-SELECT B.ISBN, B.title, B.author, B.numCopies - COUNT(L.book_ISBN) AS availability, B.numCopies AS total
-FROM Book B LEFT JOIN Loan L
-	ON B.ISBN = L.book_ISBN
-GROUP BY B.ISBN ORDER BY B.title;
- */
-	public ObservableList<Book> browseBooks(int offset) {
+
+	public ObservableList<Book> browseBooks(int offset, boolean onlyAvailable) {
 		List<Book> tmpBooks = null;
 		try {
 			entityManager=factory.createEntityManager();
@@ -371,8 +341,14 @@ GROUP BY B.ISBN ORDER BY B.title;
 			entityManager.close();
 		}
 		ObservableList<Book> books = FXCollections.observableArrayList();
-		for(Book b: tmpBooks)
-			books.add(b);
+		for(Book b: tmpBooks){
+			if (onlyAvailable){
+				if(isAvailable(b.getId()))
+					books.add(b);
+			}
+			else
+				books.add(b);
+		}
 		return books;
 	}
 
@@ -408,13 +384,19 @@ GROUP BY B.ISBN ORDER BY B.title;
 			entityManager.close();
 		}
 		ObservableList<Book> books = FXCollections.observableArrayList();
-		for(Book b: tmpBooks)
-			books.add(b);
-
+		for(Book b: tmpBooks){
+			if (onlyAvailable){
+				if(isAvailable(b.getId()))
+					books.add(b);
+			}
+			else
+				books.add(b);
+		}
 		return books;
 	}
-
-	public int getNumBooks() { //returns the number of books in the catalogue
+	
+//returns the number of books in the catalogue
+	public int getNumBooks() { 
 		int result = 0;
 
 		try {
@@ -484,14 +466,15 @@ GROUP BY B.ISBN ORDER BY B.title;
 		finally {
 			entityManager.close();
 		}
-		if (available>0) return true;
-			//return "Available";
-		else return false;
-			//return "Unavailable";
+		if (available>0) 
+			return true;
+		else 
+			return false;
 	}
-
+	
+//returns a comprehensive message to the user interface
 	public String removeBook(long bookId) {
-		String result = ""; //return a comprehensive message to the user interface
+		String result = ""; 
 		try {
 			entityManager = factory.createEntityManager();
 			entityManager.getTransaction().begin();
