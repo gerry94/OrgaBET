@@ -89,7 +89,7 @@ public class LibrarianLoansController extends Controller {
             printErrorMessage("You must select a valid User before performing operations.");
         else {
             Book selectedBook = return_table.getSelectionModel().getSelectedItem();
-            Main.lm.validateBorrow(userId, selectedBook.getId());
+            Main.lm.validateReturn(userId, selectedBook.getId());
 
             //refresh the table
             return_table.setItems(Main.lm.browseUserLoans(2, userId)); //2 = pending return requests
