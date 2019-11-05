@@ -88,6 +88,26 @@ public class LibraryManager {
 		return bookList;
 	}
 	
+    public boolean limitUserLoans() { 
+        int size=0;
+		try {
+			entityManager = factory.createEntityManager();
+			entityManager.getTransaction().begin();
+			User user = entityManager.find(User.class, loggedUser);
+            size=user.getLoans().size();
+			entityManager.getTransaction().commit();
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			response = "A problem occurred with the limitUserLoans().";
+		}
+		finally {
+			entityManager.close();
+		}
+        if (size>=10)
+            return true;
+        return false;
+	}
+    
 	//response is returned to the caller in order to display a comprehensive output message to the user interface
 	public String borrowBook(long bookId) { 
 		String response = "";
@@ -115,8 +135,8 @@ public class LibraryManager {
 		}
 		finally {
 			entityManager.close();
-			return response;
 		}
+        return response;
 	}
 	
 	public void validateBorrow(String userid, long bookId) {
