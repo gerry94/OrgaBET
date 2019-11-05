@@ -23,7 +23,7 @@ public class LibraryManager {
 		if (loggedUser!=null)
 			return null;
 		String name = null;
-		int privilege;
+		int privilege = 0;
 		List<String> result = new ArrayList<String>();
 		try {
 			entityManager = factory.createEntityManager();
@@ -98,7 +98,7 @@ public class LibraryManager {
 			entityManager.getTransaction().commit();
 		}catch (Exception ex) {
 			ex.printStackTrace();
-			response = "A problem occurred with the limitUserLoans().";
+			System.out.println("A problem occurred with the limitUserLoans().");
 		}
 		finally {
 			entityManager.close();
@@ -372,8 +372,8 @@ public class LibraryManager {
 		return books;
 	}
 
-	
-	public ObservableList<Book> searchBooks(int option, String title, int offset) { //option 0: title, 1:author
+//onlyAvailable specifies wether I want a list on only available books or not
+	public ObservableList<Book> searchBooks(boolean onlyAvailable, int option, String title, int offset) { //option 0: title, 1:author
 		List<Book> tmpBooks = null;
 		title = "%"+title+"%";
 		offset = offset*10;

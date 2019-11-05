@@ -39,7 +39,7 @@ public class LibrarianBooksController extends Controller {
 
         //filling the table with the list returned by the query
         tableOffset = 0;
-        book_table.setItems(Main.lm.browseBooks(tableOffset));
+        book_table.setItems(Main.lm.browseBooks(tableOffset, false));
 
         previous_but.setDisable(true);
         totalPages = ((Main.lm.getNumBooks() + 9)/10);
@@ -56,13 +56,13 @@ public class LibrarianBooksController extends Controller {
     @FXML
     public void nextPage(ActionEvent ev) {
         super.nextPage();
-        updateTable(Main.lm.searchBooks(0, search_field.getText(), tableOffset));
+        updateTable(Main.lm.searchBooks(false, 0, search_field.getText(), tableOffset));
     }
 
     @FXML
     public void previousPage(ActionEvent ev) {
         super.previousPage();
-        updateTable(Main.lm.searchBooks(0, search_field.getText(), tableOffset));
+        updateTable(Main.lm.searchBooks(false, 0, search_field.getText(), tableOffset));
     }
 
     @FXML
@@ -71,9 +71,9 @@ public class LibrarianBooksController extends Controller {
         super.resetPageButtons();
 
         if(menuOption == null || menuOption.equals("Title")) {
-            updateTable(Main.lm.searchBooks(0, search_field.getText(), 0));
+            updateTable(Main.lm.searchBooks(false, 0, search_field.getText(), 0));
         }
-        else updateTable(Main.lm.searchBooks(1, search_field.getText(), 0));
+        else updateTable(Main.lm.searchBooks(false, 1, search_field.getText(), 0));
 
         search_filter.setText("Title");
     }
@@ -91,7 +91,7 @@ public class LibrarianBooksController extends Controller {
 
         //finally, add book and refresh table
         Main.lm.addBook(Long.parseLong(isbn_field.getText()), title_field.getText(), author_field.getText(), category_field.getText(), Integer.parseInt(copies_field.getText()));
-        updateTable(Main.lm.searchBooks(0, "", tableOffset));
+        updateTable(Main.lm.searchBooks(false, 0, "", tableOffset));
 
         clearFields();
     }
@@ -141,7 +141,7 @@ public class LibrarianBooksController extends Controller {
         }
         else {
             Main.lm.removeBook(selectedBook.getId());
-            updateTable(Main.lm.searchBooks(0, "", tableOffset));
+            updateTable(Main.lm.searchBooks(false, 0, "", tableOffset));
         }
     }
 
@@ -154,7 +154,7 @@ public class LibrarianBooksController extends Controller {
             printErrorMessage("No book was selected!");
         else {
             Main.lm.removeCopies(selectedBook.getId(), 1); //1 copy removed
-            updateTable(Main.lm.searchBooks(0, "", tableOffset));
+            updateTable(Main.lm.searchBooks(false, 0, "", tableOffset));
         }
     }
 
@@ -166,7 +166,7 @@ public class LibrarianBooksController extends Controller {
             printErrorMessage("No book was selected!");
         else {
             Main.lm.addCopies(selectedBook.getId(), 1); //1 copy added
-            updateTable(Main.lm.searchBooks(0, "", tableOffset));
+            updateTable(Main.lm.searchBooks(false, 0, "", tableOffset));
         }
     }
 }

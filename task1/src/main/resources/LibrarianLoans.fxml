@@ -6,7 +6,6 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -53,14 +52,14 @@
                   <Font name="System Bold" size="13.0" />
                </font></Button>
             <TextField fx:id="search_field" layoutX="577.0" layoutY="122.0" promptText="User ID..." />
-            <Button fx:id="loan_but" layoutX="252.0" layoutY="533.0" mnemonicParsing="false" onAction="#confirmLoan" text="Confirm Selected">
+            <Button fx:id="loan_but" layoutX="273.0" layoutY="522.0" mnemonicParsing="false" onAction="#confirmLoan" text="Confirm Selected">
                <font>
-                  <Font name="System Bold" size="13.0" />
+                  <Font name="System Bold" size="11.0" />
                </font>
             </Button>
-            <Button fx:id="return_but" layoutX="612.0" layoutY="533.0" mnemonicParsing="false" onAction="#confirmReturn" text="Confirm Selected">
+            <Button fx:id="return_but" layoutX="642.0" layoutY="522.0" mnemonicParsing="false" onAction="#confirmReturn" text="Confirm Selected">
                <font>
-                  <Font name="System Bold" size="13.0" />
+                  <Font name="System Bold" size="11.0" />
                </font>
             </Button>
             <Button fx:id="back" layoutX="44.0" layoutY="168.0" mnemonicParsing="false" onAction="#back" text="Back to Menu" />

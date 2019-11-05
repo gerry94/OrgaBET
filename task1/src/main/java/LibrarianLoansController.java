@@ -15,7 +15,7 @@ public class LibrarianLoansController extends Controller {
     @FXML
     private TableColumn returnTitleCol, returnBookIdCol;
     @FXML
-    private Button loan_but, return_but, loanChanger_but;
+    private Button loanChanger_but;
 
     private String userId = "";
 
@@ -101,20 +101,19 @@ public class LibrarianLoansController extends Controller {
         if (!userVerified)
             printErrorMessage("You must select a valid User before performing operations.");
         else {
-            if (loanTableIndicator == 0) {
+            if (loanTableIndicator == 1) {
                 loanTable_text.setText("Loan Requests");
                 loan_table.setItems(Main.lm.browseUserLoans(0, userId)); //0 = pending loan requests
 
-                loanTableIndicator = 1;
+                loanTableIndicator = 0;
                 loanChanger_but.setText("View Active Loans");
             } else {
                 loanTable_text.setText("Active Loans");
                 loan_table.setItems(Main.lm.browseUserLoans(1, userId)); //1 = active loans
 
-                loanTableIndicator = 0;
+                loanTableIndicator = 1;
                 loanChanger_but.setText("View Loan Requests");
             }
         }
     }
-
 }

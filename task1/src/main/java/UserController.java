@@ -3,16 +3,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.*;
-import javafx.util.Callback;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class UserController extends Controller {
     @FXML
-    private CheckBox available_check;
-    @FXML
-    private Button borrow_but, tableChanger_but;
+    private Button borrow_but, tableChanger_but, available_check, viewRequests_but;
     @FXML
     private TableView<Book> list_table;
     @FXML
@@ -21,10 +17,9 @@ public class UserController extends Controller {
     private TableColumn titleCol;
     @FXML
     private TableColumn authorCol;
-    @FXML
-    private TableColumn availabilityCol;
 
     private int tableIndicator = 0; //0: catalogue, 1: myLoans table
+    private boolean filterAvailable = false, filterRequests = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -34,17 +29,15 @@ public class UserController extends Controller {
         idCol.setResizable(false);
         titleCol.setResizable(false);
         authorCol.setResizable(false);
-        availabilityCol.setResizable(false);
 
         //associating the table's column with the corresponding attributes of the book class
         idCol.setCellValueFactory(new PropertyValueFactory<Book, Long>("id"));
         titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
         authorCol.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
-        availabilityCol.setCellValueFactory(new PropertyValueFactory<Book, Integer>("numCopies"));
 
         //filling the table with the list returned by the query
         tableOffset = 0;
-        list_table.setItems(Main.lm.browseBooks(tableOffset));
+        list_table.setItems(Main.lm.browseBooks(tableOffset, filterAvailable));
 
         previous_but.setDisable(true);
         totalPages = ((Main.lm.getNumBooks() + 9)/10);
@@ -58,8 +51,8 @@ public class UserController extends Controller {
         output_field.clear();
         super.resetPageButtons();
 
-        if(menuOption == null || menuOption.equals("Title")) updateTable(Main.lm.searchBooks(0, search_field.getText(), 0));
-        else updateTable(Main.lm.searchBooks(1, search_field.getText(), 0));
+        if(menuOption == null || menuOption.equals("Title")) updateTable(Main.lm.searchBooks(filterAvailable, 0, search_field.getText(), 0));
+        else updateTable(Main.lm.searchBooks(filterAvailable, 1, search_field.getText(), 0));
 
         menuOption = "Title";
         search_filter.setText("Title");
@@ -86,32 +79,35 @@ public class UserController extends Controller {
     @FXML
     public void nextPage(ActionEvent ev) {
         super.nextPage();
-        updateTable(Main.lm.searchBooks(0, search_field.getText(), tableOffset));
+        updateTable(Main.lm.searchBooks(filterAvailable, 0, search_field.getText(), tableOffset));
     }
 
     @FXML
     public void previousPage(ActionEvent ev) {
         super.previousPage();
-        updateTable(Main.lm.searchBooks(0, search_field.getText(), tableOffset));
+        updateTable(Main.lm.searchBooks(filterAvailable, 0, search_field.getText(), tableOffset));
     }
 
     @FXML
-    void changeTable(ActionEvent event) {
+    public void changeTable(ActionEvent event) {
         output_field.clear();
 
         if(tableIndicator == 0) { //move to MyLoans
             super.resetPageButtons();
 
             next_but.setDisable(true); //only 1 page allowed for my loans
-
+            viewRequests_but.setDisable(true);
             search_but.setDisable(true);
             search_filter.setDisable(true);
             search_field.setDisable(true);
+            available_check.setDisable(true);
+
+            filterAvailable = false;
+            available_check.setText("Only show Availables");
 
             tableChanger_but.setText("View Catalogue");
 
             updateTable(Main.lm.browseUserLoans(1, Controller.userId));
-            availabilityCol.setVisible(false);
 
             borrow_but.setText("Return Selected");
             borrow_but.setOnAction((ActionEvent ev) -> {
@@ -134,16 +130,91 @@ public class UserController extends Controller {
             search_but.setDisable(false);
             search_filter.setDisable(false);
             search_field.setDisable(false);
+            viewRequests_but.setDisable(false);
+            available_check.setDisable(false);
+            available_check.setText("Only show Availables");
+            filterAvailable = false;
 
             borrow_but.setText("Borrow Selected");
             borrow_but.setOnAction(this::borrowSelected);
 
             tableChanger_but.setText("View My Loans");
 
-            availabilityCol.setVisible(true);
-            updateTable(Main.lm.searchBooks(1, search_field.getText(), 0));
+            updateTable(Main.lm.searchBooks(filterAvailable, 1, search_field.getText(), 0));
             tableIndicator = 0;
         }
+
+    }
+
+    @FXML
+    public void filterAvailables(ActionEvent event) {
+        output_field.clear();
+        filterAvailable = !filterAvailable;
+
+        if(filterAvailable) available_check.setText("Show all");
+        else available_check.setText("Only show Availables");
+
+        updateTable(Main.lm.searchBooks(filterAvailable, 1, search_field.getText(), 0));
+        super.resetPageButtons();
+    }
+
+    @FXML
+    public void viewRequests(ActionEvent event) {
+        output_field.clear();
+        filterRequests = !filterRequests;
+
+        if(filterRequests) {
+            viewRequests_but.setText("View Catalogue");
+
+            updateTable(Main.lm.browseUserLoans(0, super.userId)); //0 = pending loan requests
+            super.resetPageButtons();
+
+            next_but.setDisable(true); //only 1 page allowed for my requests
+
+            search_but.setDisable(true);
+            search_filter.setDisable(true);
+            search_field.setDisable(true);
+            available_check.setDisable(true);
+
+            filterAvailable = false;
+            available_check.setText("Only show Availables");
+
+            tableChanger_but.setDisable(true);
+
+            borrow_but.setText("Return Selected");
+            borrow_but.setOnAction((ActionEvent ev) -> {
+                Book selectedBook = list_table.getSelectionModel().getSelectedItem();
+
+                if(selectedBook == null) {
+                    printErrorMessage("No book was selected. Please select a book a retry.");
+                }
+                else {
+                    output_field.clear();
+                    Main.lm.returnBook(selectedBook.getId());
+                    output_field.setText("Return request forwarded correctly.");
+                    updateTable(Main.lm.browseUserLoans(0, super.userId)); //0 = pending loan requests
+                }
+            });
+        }
+        else {
+            viewRequests_but.setText("View My Requests");
+
+            updateTable(Main.lm.searchBooks(filterAvailable, 1, search_field.getText(), 0));
+            super.resetPageButtons();
+
+            next_but.setDisable(false); //only 1 page allowed for my requests
+
+            search_but.setDisable(false);
+            search_filter.setDisable(false);
+            search_field.setDisable(false);
+            available_check.setDisable(false);
+
+            filterAvailable = true;
+            available_check.setText("Only show Availables");
+
+            tableChanger_but.setDisable(false);
+        }
+
 
     }
 }
