@@ -71,19 +71,23 @@ public class Book implements Serializable {
 			return this.loans;
 	}
 	
-	public boolean equals(Object o) {
-		if ( this == o ) {
+	@Override
+    public boolean equals(Object o) {
+        if ( this == o ) {
 			return true;
 		}
 		if ( o == null || getClass() != o.getClass() ) {
 			return false;
 		}
-		Book that = (Book) o;
-		return Objects.equals( title, that.title ) &&
-				Objects.equals( author, that.author )&&
-				Objects.equals( category, that.category )&&
-				Objects.equals( numCopies, that.numCopies );
-	}
+ 
+        Book that = (Book) o;
+        return id != null && id.equals(that.getId());
+    }
+ 
+    @Override
+    public int hashCode() {
+        return 31;
+    }
 	
 }
 
