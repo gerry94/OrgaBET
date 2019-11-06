@@ -566,22 +566,4 @@ public class LibraryManager {
 			entityManager.close();
 		}
 	}
-	
-	/*	function skeleton --delete before delivery--
-
-	public void function() {
-		try {
-			entityManager=factory.createEntityManager();
-			entityManager.getTransaction().begin();
-			
-			entityManager.getTransaction().commit();
-		}catch (Exception ex) {
-			ex.printStackTrace();
-			System.out.println("A problem occurred with the login!");
-		}
-		finally {
-			entityManager.close();
-		}
-	}
-	*/
 }

@@ -37,7 +37,7 @@ public class UserController extends Controller {
 
         //filling the table with the list returned by the query
         tableOffset = 0;
-        list_table.setItems(Main.lm.browseBooks(tableOffset, filterAvailable));
+        updateTable(Main.lm.browseBooks(tableOffset, filterAvailable));
 
         previous_but.setDisable(true);
         totalPages = ((Main.lm.getNumBooks() + 9)/10);
@@ -46,6 +46,12 @@ public class UserController extends Controller {
         page_count.setText("Page " + currentPage + " of " + totalPages);
     }
 
+    public void disableBorrowBut() {
+        //disable loans if user has already 10 loans
+        if(Main.lm.limitUserLoans())
+            borrow_but.setDisable(true);
+        else borrow_but.setDisable(false);
+    }
     @FXML
     public void search(ActionEvent event) {
         output_field.clear();
@@ -58,9 +64,9 @@ public class UserController extends Controller {
         search_filter.setText("Title");
     }
 
-    public void updateTable(ObservableList<Book> list)
-    {
+    public void updateTable(ObservableList<Book> list) {
         list_table.setItems(list);
+        disableBorrowBut();
     }
 
     @FXML
@@ -73,6 +79,7 @@ public class UserController extends Controller {
         else {
             output_field.clear();
             output_field.setText(Main.lm.borrowBook(selectedBook.getId()));
+            disableBorrowBut();
         }
     }
 
@@ -108,6 +115,7 @@ public class UserController extends Controller {
             tableChanger_but.setText("View Catalogue");
 
             updateTable(Main.lm.browseUserLoans(1, Controller.userId));
+            borrow_but.setDisable(false);
 
             borrow_but.setText("Return Selected");
             borrow_but.setOnAction((ActionEvent ev) -> {
@@ -170,7 +178,7 @@ public class UserController extends Controller {
             super.resetPageButtons();
 
             next_but.setDisable(true); //only 1 page allowed for my requests
-
+            borrow_but.setDisable(false);
             search_but.setDisable(true);
             search_filter.setDisable(true);
             search_field.setDisable(true);
@@ -193,6 +201,7 @@ public class UserController extends Controller {
                     Main.lm.returnBook(selectedBook.getId());
                     output_field.setText("Return request forwarded correctly.");
                     updateTable(Main.lm.browseUserLoans(0, super.userId)); //0 = pending loan requests
+                    borrow_but.setDisable(false);
                 }
             });
         }
@@ -212,9 +221,10 @@ public class UserController extends Controller {
             filterAvailable = true;
             available_check.setText("Only show Availables");
 
+            borrow_but.setText("Borrow Selected");
+            borrow_but.setOnAction(this::borrowSelected);
+
             tableChanger_but.setDisable(false);
         }
-
-
     }
 }
