@@ -81,7 +81,7 @@ public class Book implements Serializable {
 		}
  
         Book that = (Book) o;
-        return id != null && id.equals(that.getId());
+        return Objects.equals( id, that.getId() );
     }
  
     @Override
