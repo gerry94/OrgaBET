@@ -3,6 +3,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.stage.Stage;
+import javafx.stage.Screen;
+import javafx.geometry.*;
 
 import java.io.IOException;
 
@@ -45,7 +47,7 @@ public class Main extends Application {
             	break;
             case 4:
             	root = FXMLLoader.load(Main.class.getResource("/LibrarianUser.fxml"));
-                stage.setScene(new Scene(root, 800, 640));
+                stage.setScene(new Scene(root, 1000, 640));
             	break;
             case 5:
             	root = FXMLLoader.load(Main.class.getResource("/LibrarianLoans.fxml"));
@@ -56,7 +58,14 @@ public class Main extends Application {
         }
 
         stage.show();
+        centerStage(stage);
     }
 
     public static void exit() { Platform.exit(); }
+
+    public static void centerStage(Stage s) {
+        Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+        s.setX((primScreenBounds.getWidth() - s.getWidth()) / 2);
+        s.setY((primScreenBounds.getHeight() - s.getHeight()) / 2);
+    }
 }

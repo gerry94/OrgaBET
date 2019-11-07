@@ -12,11 +12,7 @@ public class UserController extends Controller {
     @FXML
     private TableView<Book> list_table;
     @FXML
-    private TableColumn idCol;
-    @FXML
-    private TableColumn titleCol;
-    @FXML
-    private TableColumn authorCol;
+    private TableColumn idCol, titleCol,authorCol, categoryCol;
 
     private int tableIndicator = 0; //0: catalogue, 1: myLoans table
     private boolean filterAvailable = false, filterRequests = false;
@@ -29,11 +25,13 @@ public class UserController extends Controller {
         idCol.setResizable(false);
         titleCol.setResizable(false);
         authorCol.setResizable(false);
+        categoryCol.setResizable(false);
 
         //associating the table's column with the corresponding attributes of the book class
         idCol.setCellValueFactory(new PropertyValueFactory<Book, Long>("id"));
         titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
         authorCol.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
+        categoryCol.setCellValueFactory(new PropertyValueFactory<Book, String>("category"));
 
         //filling the table with the list returned by the query
         tableOffset = 0;
@@ -48,9 +46,14 @@ public class UserController extends Controller {
 
     public void disableBorrowBut() {
         //disable loans if user has already 10 loans
-        if(Main.lm.limitUserLoans())
+        if(Main.lm.limitUserLoans()) {
             borrow_but.setDisable(true);
-        else borrow_but.setDisable(false);
+            output_field.setText("You already have 10 Loans!");
+        }
+        else {
+            borrow_but.setDisable(false);
+            output_field.clear();
+        }
     }
     @FXML
     public void search(ActionEvent event) {

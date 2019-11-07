@@ -35,12 +35,12 @@
                </font></Button>
             <Text layoutX="26.0" layoutY="575.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System output area:" />
             <TextArea fx:id="output_field" disable="true" editable="false" layoutX="28.0" layoutY="584.0" prefHeight="54.0" prefWidth="455.0" />
-            <TableView fx:id="list_table" layoutX="24.0" layoutY="219.0" prefHeight="310.0" prefWidth="728.0">
+            <TableView fx:id="list_table" layoutX="25.0" layoutY="231.0" prefHeight="284.0" prefWidth="728.0">
               <columns>
-                <TableColumn fx:id="idCol" prefWidth="116.0" text="ID" />
-                <TableColumn fx:id="titleCol" prefWidth="361.0" text="TITLE" />
-                  <TableColumn fx:id="authorCol" minWidth="0.0" prefWidth="248.0" text="AUTHOR" />
-                  <!--<TableColumn fx:id="availabilityCol" prefWidth="111.0" text="AVAILABILITY" />-->
+                <TableColumn fx:id="idCol" prefWidth="83.0" text="ID" />
+                <TableColumn fx:id="titleCol" prefWidth="373.0" text="TITLE" />
+                  <TableColumn fx:id="authorCol" minWidth="0.0" prefWidth="175.0" text="AUTHOR" />
+                  <TableColumn fx:id="categoryCol" prefWidth="96.0" text="CATEGORY" />
               </columns>
             </TableView>
             <MenuButton fx:id="search_filter" layoutX="535.0" layoutY="178.0" mnemonicParsing="false" text="Title">
@@ -76,7 +76,7 @@
                </font>
             </Label>
             <Button fx:id="tableChanger_but" layoutX="24.0" layoutY="179.0" mnemonicParsing="false" onAction="#changeTable" text="View My Loans" />
-            <Button fx:id="available_check" layoutX="625.0" layoutY="185.0" mnemonicParsing="false" onAction="#filterAvailables" text="Only show Availables">
+            <Button fx:id="available_check" layoutX="622.0" layoutY="194.0" mnemonicParsing="false" onAction="#filterAvailables" text="Only show Availables">
                <font>
                   <Font size="10.0" />
                </font>
