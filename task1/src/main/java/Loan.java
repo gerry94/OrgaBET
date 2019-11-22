@@ -11,7 +11,7 @@ public class Loan implements Serializable {
 	@MapsId("userId")
 	private User user;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@MapsId("bookId")
 	private Book book;
 	
