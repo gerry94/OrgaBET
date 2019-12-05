@@ -1,0 +1,19 @@
+db.seriea19.find()._addSpecial("$snapshot",true).forEach(
+        function(elem) {
+            db.seriea19.update(
+                {_id: elem._id},
+                { $set: { 
+                	Hquotes:[ {bookmaker: "bet365", odd: elem.B365H}, {bookmaker: "betwin", odd: elem.BWH}],
+                	Dquotes:[ {bookmaker: "bet365", odd: elem.B365D}, {bookmaker: "betwin", odd: elem.BWD}],
+                	Aquotes:[ {bookmaker: "bet365", odd: elem.B365A}, {bookmaker: "betwin", odd: elem.BWA}]
+                	}
+                }
+            );
+        }
+);
+
+//da ripetere singolarmente per H, D ed Aquotes perchè MongoDB fa schifo alle palle
+
+db.seriea19.update( {},
+                {
+                	$pull: { Hquotes:{ odd:{$type:6}}} }, {multi: true});
