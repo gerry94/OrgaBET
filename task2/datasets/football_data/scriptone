@@ -17,3 +17,20 @@ db.seriea19.find()._addSpecial("$snapshot",true).forEach(
 db.seriea19.update( {},
                 {
                 	$pull: { Hquotes:{ odd:{$type:6}}} }, {multi: true});
+
+
+//template bookmakers
+
+{bookmaker: "bet365", odd: elem.B365}
+{bookmaker: "betwin", odd: elem.BW}
+{bookmaker: "Blue Square", odd: elem.BS }
+{bookmaker: "Gamebookers", odd: elem.GB }
+{bookmaker: "Interwetten", odd: elem.IW }
+{bookmaker: "Ladbrokes", odd: elem.LB }
+{bookmaker: "Pinnacle", odd: elem.PS }
+{bookmaker: "Sporting Odds", odd: elem.SO }
+{bookmaker: "Sportingbet", odd: elem.SB }
+{bookmaker: "Stan James", odd: elem.SJ }
+{bookmaker: "Stanleybet", odd: elem.SY }
+{bookmaker: "VC Bet", odd: elem.VC }
+{bookmaker: "William Hill", odd: elem.WH }
