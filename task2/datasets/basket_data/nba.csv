@@ -1,5 +1,5 @@
 ﻿Colonna1;Column1;Column2;Column3;Column4;Column5;Column6;Column7;Column8;Column9;Column10;Column11;Column12;Column13;Column14;Column15;Column16;Column17;Column18;Column19;Column20;Column21;Column22;Column23;Column24;Column25;Column26
-Sport;Year;Day;Month;Time;Season;ToG;HomeTeam;AwayTeam;HS;AS;W;215.5;AH;TG;Draw;DHS;DAS;1qHS;1qAS;1qR;MH;MA;PH;PA;B365H;B365A
+Sport;Year;Day;Month;Time;Season;ToG;HomeTeam;AwayTeam;HS;AS;W;OVER/UNDER;AH;TG;Draw;DHS;DAS;1qHS;1qAS;1qR;MH;MA;PH;PA;B365H;B365A
 Basket;2019;31;May;01:00;2018/2019;Play Offs;Toronto Raptors;Golden State Warriors;118;109;H;O;9;227;;;;25;21;H;2.04;1.88;2.03;1.88;1.95;1.86
 Basket;2019;26;May;00:30;2018/2019;Play Offs;Toronto Raptors;Milwaukee Bucks;100;94;H;U;6;194;;;;18;31;A;1.65;2.12;1.79;2.14;1.71;2.2
 Basket;2019;24;May;00:30;2018/2019;Play Offs;Milwaukee Bucks;Toronto Raptors;99;105;A;U;6;204;;;;32;22;H;1.29;3.12;1.34;3.6;1.33;3.4
