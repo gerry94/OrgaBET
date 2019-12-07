@@ -38,7 +38,7 @@ db.seriea19.update( {},
 
 db.football.updateMany(
                 {},
-                {$set {"sport":"Football"}}
+                {$set: {"sport":"Football"}}
             );
 
 db.tennis.updateMany(
