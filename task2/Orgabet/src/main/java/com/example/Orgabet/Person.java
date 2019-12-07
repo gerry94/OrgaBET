@@ -2,7 +2,11 @@ package com.example.Orgabet;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
+
 @Getter
 @Setter
 public class Person {
@@ -15,5 +19,6 @@ public class Person {
   private String email;
   private int privilege;
   private int banned;
+  private List<Coupon> coupons;
 
 }
