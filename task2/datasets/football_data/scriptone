@@ -1,16 +1,15 @@
+//Anche questa da ripetere per ogni tipologia (type) di scommessa
 db.seriea19.find()._addSpecial("$snapshot",true).forEach(
         function(elem) {
             db.seriea19.update(
                 {_id: elem._id},
-                { $set: { 
-                	Hquotes:[ {bookmaker: "bet365", odd: elem.B365H}, {bookmaker: "betwin", odd: elem.BWH}],
-                	Dquotes:[ {bookmaker: "bet365", odd: elem.B365D}, {bookmaker: "betwin", odd: elem.BWD}],
-                	Aquotes:[ {bookmaker: "bet365", odd: elem.B365A}, {bookmaker: "betwin", odd: elem.BWA}]
-                	}
-                }
-            );
-        }
-);
+                { $push: {
+                	odds: { type:"H", quotes: [ {bookmaker: "bet365", odd:elem.B365H }, {bookmaker: "betwin", odd: elem.BWH} ] }
+                	}});});
+//                	{ type:"D", quotes: [ {bookmaker: "bet365", odd:elem.B365D }, {bookmaker: "betwin", odd: elem.BWD} ] },
+//              	{ type:"A", quotes: [ {bookmaker: "bet365", odd:elem.B365A }, {bookmaker: "betwin", odd: elem.BWA} ] }
+//                ]}});});
+
 
 //da ripetere singolarmente per H, D ed Aquotes perchè MongoDB fa schifo alle palle
 
@@ -34,3 +33,38 @@ db.seriea19.update( {},
 {bookmaker: "Stanleybet", odd: elem.SY }
 {bookmaker: "VC Bet", odd: elem.VC }
 {bookmaker: "William Hill", odd: elem.WH }
+
+//altri scriptini importanti
+
+db.football.updateMany(
+                {},
+                {$set {"sport":"Football"}}
+            );
+
+db.tennis.updateMany(
+                {},
+                {$set: {"sport":"Tennis","FTR":"H"},
+     $rename: {"Winner":"HomeTeam", "Loser":"AwayTeam", "Tournament":"Div","Wsets":"FTHG","Lsets":"FTAG"}}
+            );
+            
+            
+            
+            
+            
+            
+            
+//script vecchio
+
+db.seriea19.find()._addSpecial("$snapshot",true).forEach(
+        function(elem) {
+            db.seriea19.update(
+                {_id: elem._id},
+                { $set: { 
+                	Hquotes:[ {bookmaker: "bet365", odd: elem.B365H}, {bookmaker: "betwin", odd: elem.BWH}],
+                	Dquotes:[ {bookmaker: "bet365", odd: elem.B365D}, {bookmaker: "betwin", odd: elem.BWD}],
+                	Aquotes:[ {bookmaker: "bet365", odd: elem.B365A}, {bookmaker: "betwin", odd: elem.BWA}]
+                	}
+                }
+            );
+        }
+);
