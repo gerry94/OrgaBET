@@ -1,4 +1,4 @@
-package com.example.Orgabet;
+package com.example.Orgabet.models;
 import java.security.Timestamp;
 
 import lombok.Getter;

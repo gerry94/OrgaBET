@@ -1,4 +1,4 @@
-package com.example.Orgabet;
+package com.example.Orgabet.models;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
