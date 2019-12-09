@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 
 @Getter
 @Setter
-public class Users {
+public class User {
 
   @Id 
   private ObjectId id;
@@ -31,7 +31,10 @@ public class Users {
 	public String getPassword() {
 		return password;
 	}
-  
+
+	public String getRole() {
+		return role;
+	}  
   
 
 }
