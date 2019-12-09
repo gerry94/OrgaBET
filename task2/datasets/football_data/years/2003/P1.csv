@@ -1,4 +1,4 @@
-Div,Date,HomeTeam,AwayTeam,FTHG,FTAG,FTR,HTHG,HTAG,HTR,B365H,B365D,B365A,GBH,GBD,GBA,IWH,IWD,IWA,SBH,SBD,SBA,WHH,WHD,WHA,GB>2.5,GB<2.5,GBAHH,GBAHA,GBAH,,,,,,,,,,,,,,,,,
+Div,Date,HomeTeam,AwayTeam,FTHG,FTAG,FTR,HTHG,HTAG,HTR,B365H,B365D,B365A,GBH,GBD,GBA,IWH,IWD,IWA,SBH,SBD,SBA,WHH,WHD,WHA,GBOVER,GBUNDER,GBAHH,GBAHA,GBAH,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,
 P1,16/08/03,Academica,Sp Lisbon,1,2,A,0,0,D,3.4,3.25,1.9,3.75,3.25,1.85,3.4,3.2,1.9,3.75,3.3,1.83,3.6,3.3,1.83,1.71,1.95,2,1.8,0.25,,,,,,,,,,,,,,,,,
 P1,17/08/03,Boavista,Benfica,0,0,D,0,0,D,2.75,3.2,2.25,2.7,3.15,2.4,2.3,3,2.7,2.75,3.25,2.25,2.87,3.3,2.1,1.9,1.75,2.05,1.75,-0.25,,,,,,,,,,,,,,,,,
 P1,17/08/03,Gil Vicente,Alverca,0,1,A,0,0,D,1.667,3.4,4.333,1.7,3.4,4.5,1.8,3.3,3.6,1.72,3.4,4.2,1.65,3.5,4.1,1.79,1.85,2,1.8,-0.75,,,,,,,,,,,,,,,,,

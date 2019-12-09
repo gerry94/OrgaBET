@@ -1,4 +1,4 @@
-Div,Date,HomeTeam,AwayTeam,FTHG,FTAG,FTR,HTHG,HTAG,HTR,B365H,B365D,B365A,GBH,GBD,GBA,IWH,IWD,IWA,SOH,SOD,SOA,SBH,SBD,SBA,WHH,WHD,WHA,GB>2.5,GB<2.5,GBAHH,GBAHA,GBAH,,,,,,,,,,,,,,,,,,,
+Div,Date,HomeTeam,AwayTeam,FTHG,FTAG,FTR,HTHG,HTAG,HTR,B365H,B365D,B365A,GBH,GBD,GBA,IWH,IWD,IWA,SOH,SOD,SOA,SBH,SBD,SBA,WHH,WHD,WHA,GBOVER,GBUNDER,GBAHH,GBAHA,GBAH,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,
 N1,15/08/03,Roda JC,PSV Eindhoven,2,2,D,2,1,H,3.4,3.5,1.833,4.2,3.4,1.7,4,3.3,1.7,,,,3.6,3.5,1.8,4,3.6,1.66,1.55,2.25,,,,,,,,,,,,,,,,,,,,,,
 N1,16/08/03,Twente,Roosendaal,3,1,H,0,1,A,1.8,3.4,3.6,1.75,3.4,4,1.55,3.6,4.6,,,,1.72,3.4,4.2,1.7,3.3,4.1,1.65,2.05,,,,,,,,,,,,,,,,,,,,,,
 N1,16/08/03,Waalwijk,Den Haag,1,0,H,0,0,D,1.571,3.5,5,1.55,3.6,5.25,1.65,3.4,4.2,,,,1.61,3.4,5,1.65,3.5,4.1,1.6,2.15,,,,,,,,,,,,,,,,,,,,,,
