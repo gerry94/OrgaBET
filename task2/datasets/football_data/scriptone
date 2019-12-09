@@ -1,16 +1,27 @@
 //Anche questa da ripetere per ogni tipologia (type) di scommessa
-db.seriea19.find()._addSpecial("$snapshot",true).forEach(
+db.seriea.find()._addSpecial("$snapshot",true).forEach(
         function(elem) {
-            db.seriea19.update(
+            db.seriea.update(
                 {_id: elem._id},
-                { $push: {
-                	odds: { type:"H", quotes: [ {bookmaker: "bet365", odd:elem.B365H }, {bookmaker: "betwin", odd: elem.BWH} ] }
-                	}});});
-//                	{ type:"D", quotes: [ {bookmaker: "bet365", odd:elem.B365D }, {bookmaker: "betwin", odd: elem.BWD} ] },
-//              	{ type:"A", quotes: [ {bookmaker: "bet365", odd:elem.B365A }, {bookmaker: "betwin", odd: elem.BWA} ] }
-//                ]}});});
+                { $pull: {
+                	odds: { quotes: [ { odd:{$type:6} } ] } } } ); } );
 
 
+/*prove fatte per eliminare gli undefined:
+
+> db.seriea.update( {}, {$pull:{ quotes: { "odds.quotes.odd":{$type:6} } } }, {multi:true} );
+WriteResult({ "nMatched" : 3138, "nUpserted" : 0, "nModified" : 0 }) ---> perchè me le "matcha" ma non le modificA?
+
+> db.seriea.update( {}, {$pull:{ "odds.quotes": { "odds.quotes.odd":{$type:6} } } }, {multi:true} );
+WriteResult({
+	"nMatched" : 0,
+	"nUpserted" : 0,
+	"nModified" : 0,
+	"writeError" : {
+		"code" : 28,
+		"errmsg" : "Cannot use the part (quotes) of (odds.quotes) to traverse the element ({odds: ...})
+
+*/
 //da ripetere singolarmente per H, D ed Aquotes perchè MongoDB fa schifo alle palle
 
 db.seriea19.update( {}, { $pull: { Hquotes:{ odd:{$type:6} } } }, {multi: true});
