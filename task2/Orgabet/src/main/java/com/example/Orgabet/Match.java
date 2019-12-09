@@ -13,9 +13,13 @@ import com.mongodb.internal.connection.Time;
 @Getter
 @Setter
 public class Match {
-	@Id private String Id;
+	@Id 
+	private String Id;
+	@Indexed
 	private String sport;
+	@Indexed
 	private String division;
+	@Indexed
 	private Date date;
 	private Time time;
 	private String homeTeam;
