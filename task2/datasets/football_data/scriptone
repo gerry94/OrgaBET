@@ -29,6 +29,9 @@ db.seriea19.update( {}, { $pull: { Hquotes:{ odd:{$type:6} } } }, {multi: true})
 db.seriea.update( {}, 
 		{ $pull: { 
 			odds: { type:"H",  quotes.odd:{$type:6} }, {multi: true} });
+			
+//script per rimuovere elementi undefined (da ripetere per ogni tipo di scommessa)			
+db.seriea.update({"odds.quotes.odd":{$type:6}},{$pull: {"odds.$.quotes": {odd:{$type:6}}}},{multi:true});
 
 //organizzare il DB secondo il nostro datamodel
 db.seriea.find()._addSpecial("$snapshot",true).forEach(
