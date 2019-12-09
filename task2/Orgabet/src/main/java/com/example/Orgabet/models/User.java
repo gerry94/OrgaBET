@@ -21,9 +21,20 @@ public class User {
   @Indexed(unique = true)
   private String email;
   private String role;
-  private int banned;
+  private String banned;
   private List<Coupon> coupons;
   
+  public User(String username, String firstName, String lastName, String email, String password) 
+  {
+      this.setUsername(username);
+      this.setFirstName(firstName);
+      this.setLastName(lastName);
+      this.setEmail(email);
+      this.setPassword(password);
+      this.setBanned("N");
+  }
+	public User() {
+    }
 	public String getUsername() {
 	  return username;
 	}
@@ -34,7 +45,7 @@ public class User {
 
 	public String getRole() {
 		return role;
-	}  
+	} 
   
 
 }
