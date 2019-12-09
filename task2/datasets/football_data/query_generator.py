@@ -1,12 +1,13 @@
-collection = "seriea"
+collection = "tennis"
 pre = "db."+collection+".find()._addSpecial(\"$snapshot\",true).forEach(\n\tfunction(elem) {\n\t\tdb."+collection+".update(\n\t\t\t{_id: elem._id},\n\t\t\t{ $push: {\n"
 
 post = "}});});"
 
-bookmakers = ["bet365", "betwin", "Blue Square", "Gamebookers", "Interwetten", "Ladbrokes", "Pinnacle", "Sporting Odds", "Sportingbet", "Stan James", "Stanleybet", "VC Bet", "William Hill"]
-codes = ["B365", "BW", "BS", "GB", "IW", "LB", "PS", "SO", "SB", "SJ", "SY", "VC", "WH"]
-types = ["H", "D", "A", "OVER", "UNDER"] #tipologie di scommesse
-
+bookmakersfootball = ["bet365", "betwin", "Blue Square", "Gamebookers", "Interwetten", "Ladbrokes", "Pinnacle", "Sporting Odds", "Sportingbet", "Stan James", "Stanleybet", "VC Bet", "William Hill"]
+bookmakers = ["bet365", "betwin", "Centrebet", "Gamebookers", "Expekt", "Interwetten", "Ladbrokes", "Pinnacle", "Sportingbet", "Stan James", "William Hill", "Unibet"]
+codes = ["B365", "BW", "CB", "GB", "EX", "IW", "LB", "PS", "SB", "SJ", "WH", "UB"]
+typesfootball = ["H", "D", "A", "OVER", "UNDER"] #tipologie di scommesse
+types = ["W", "L"]
 typeLen = len(types)
 len = len(bookmakers)
 
