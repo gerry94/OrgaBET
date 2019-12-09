@@ -1,0 +1,5 @@
+db.tennis.updateMany(
+                {},
+                {$set: {"sport":"Tennis","FTR":"H"},
+     $rename: {"Winner":"HomeTeam", "Loser":"AwayTeam", "Tournament":"Div","Wsets":"FTHG","Lsets":"FTAG"}}
+            );

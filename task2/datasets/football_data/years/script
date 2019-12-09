@@ -1,0 +1,2 @@
+#!bin/bash
+for j in {2001..2019}; do FILES="/home/riccardo/Scrivania/largescale/task2/datasets/football_data/years/$j/*"; for f in $FILES; do echo $f; mongoimport -d=tst -c=football --file="$f" --type=csv --headerline --ignoreBlanks; done; done;
