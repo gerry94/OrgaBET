@@ -2,7 +2,9 @@ package com.example.Orgabet.controller;
 
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -20,6 +22,21 @@ public class LoginController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login() {
+		//Redirect if logged in
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			
+		    for (GrantedAuthority auth :authentication.getAuthorities()) {
+		        if ("ADMIN".equals(auth.getAuthority())) {
+		            return new ModelAndView("forward:/admin");
+		        }
+		        if ("USER".equals(auth.getAuthority())) {
+		        	return new ModelAndView("forward:/user");
+		        }
+		    }
+		}
+		//actual page
 	    ModelAndView modelAndView = new ModelAndView();
 	    modelAndView.setViewName("login");
 	    return modelAndView;
@@ -27,6 +44,22 @@ public class LoginController {
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public ModelAndView signup() {
+		
+		//Redirect if logged in
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			
+		    for (GrantedAuthority auth :authentication.getAuthorities()) {
+		        if ("ADMIN".equals(auth.getAuthority())) {
+		            return new ModelAndView("forward:/admin");
+		        }
+		        if ("USER".equals(auth.getAuthority())) {
+		        	return new ModelAndView("forward:/user");
+		        }
+		    }
+		}
+		//actual page
 	    ModelAndView modelAndView = new ModelAndView();
 	    User user = new User();
 	    modelAndView.addObject("user", user);
@@ -87,6 +120,21 @@ public class LoginController {
 	
 	@RequestMapping(value = {"/","/home"}, method = RequestMethod.GET)
 	public ModelAndView home() {
+		//Redirect if logged in
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			
+		    for (GrantedAuthority auth :authentication.getAuthorities()) {
+		        if ("ADMIN".equals(auth.getAuthority())) {
+		            return new ModelAndView("forward:/admin");
+		        }
+		        if ("USER".equals(auth.getAuthority())) {
+		        	return new ModelAndView("forward:/user");
+		        }
+		    }
+		}
+		//actual page
 	    ModelAndView modelAndView = new ModelAndView();
 	    modelAndView.setViewName("home");
 	    return modelAndView;
