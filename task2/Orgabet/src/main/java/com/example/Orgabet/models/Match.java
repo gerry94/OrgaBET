@@ -7,15 +7,19 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-
+import org.springframework.data.mongodb.core.index.Indexed;
 import com.mongodb.internal.connection.Time;
 
 @Getter
 @Setter
 public class Match {
-	@Id private String Id;
+	@Id 
+	private String id;
+	@Indexed
 	private String sport;
+	@Indexed
 	private String division;
+	@Indexed
 	private Date date;
 	private Time time;
 	private String homeTeam;

@@ -5,14 +5,19 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
+@Document(collection = "user")
 public class User {
 
   @Id 
-  private ObjectId id;
+  private String id;
   @Indexed(unique = true)
   private String username;
   private String password;
@@ -20,21 +25,11 @@ public class User {
   private String lastName;
   @Indexed(unique = true)
   private String email;
-  private String role;
+  @DBRef
+  private Set<Role> roles;
   private String banned;
   private List<Coupon> coupons;
-  
-  public User(String username, String firstName, String lastName, String email, String password) 
-  {
-      this.setUsername(username);
-      this.setFirstName(firstName);
-      this.setLastName(lastName);
-      this.setEmail(email);
-      this.setPassword(password);
-      this.setBanned("N");
-  }
-	public User() {
-    }
+
 	public String getUsername() {
 	  return username;
 	}
@@ -42,10 +37,4 @@ public class User {
 	public String getPassword() {
 		return password;
 	}
-
-	public String getRole() {
-		return role;
-	} 
-  
-
 }

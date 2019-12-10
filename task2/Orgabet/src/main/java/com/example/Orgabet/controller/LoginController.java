@@ -61,15 +61,27 @@ public class LoginController {
 	    return modelAndView;
 	}
 	
-	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public ModelAndView dashboard() {
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+	public ModelAndView admin() {
 	    ModelAndView modelAndView = new ModelAndView();
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    User user = userService.findUserByEmail(auth.getName());
+	    User user = userService.findUserByUsername(auth.getName());
 	    modelAndView.addObject("currentUser", user);
 	    modelAndView.addObject("firstName", "Welcome " + user.getFirstName());
 	    modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
-	    modelAndView.setViewName("dashboard");
+	    modelAndView.setViewName("admin");
+	    return modelAndView;
+	}
+	
+	@RequestMapping(value = "/user", method = RequestMethod.GET)
+	public ModelAndView user() {
+	    ModelAndView modelAndView = new ModelAndView();
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    User user = userService.findUserByUsername(auth.getName());
+	    modelAndView.addObject("currentUser", user);
+	    modelAndView.addObject("firstName", "Welcome " + user.getFirstName());
+	    modelAndView.addObject("userMessage", "Content Available Only for Users logged in");
+	    modelAndView.setViewName("user");
 	    return modelAndView;
 	}
 	
