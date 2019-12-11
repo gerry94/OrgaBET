@@ -8,9 +8,8 @@ import org.springframework.data.repository.query.Param;
 
 import com.example.Orgabet.models.Match;
 
-public interface MatchRepository extends MongoRepository<Match, String> {
-	List<Match> findByHomeTeam(@Param("homeTeam") String homeTeam);
+public interface MatchRepository extends MongoRepository<Match, String>, MatchRepositoryCustom {
+
+	List<Match> computeAverageOdds(String sport, String date, String div);
 	
-	@Query("{'odd.type': ?0}")
-	  List<Match> findByOddsType(final String type);
 }

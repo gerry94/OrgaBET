@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <title th:utext="${title}"></title>
+   </head>
+    
+   <style>
+      table th, table td {
+         padding: 5px;
+      }
+      .message {
+         color: blue;
+      }
+   </style>
+    
+   <body>
+    
+      <!-- Include _menu.html -->
+      <th:block></th:block>  
+       
+      <h2>Matches</h2>
+       
+    
+       
+      <table border="1">
+            <tr>
+               <th>Sport</th>
+               <th>First Name</th>
+               <th>Last Name</th>
+               <th>Email</th>
+               <th>Gender</th>
+            </tr>
+            <tr th:each ="match : ${matches}">
+               <td th:utext="${match.sport}">...</td>
+               <td th:utext="${match.firstName}">...</td>
+               <td th:utext="${match.lastName}">...</td>
+               <td th:utext="${match.email}">...</td>
+               <td th:utext="${match.gender}">...</td>
+            </tr>
+      </table>
+       
+   </body>
+</html>

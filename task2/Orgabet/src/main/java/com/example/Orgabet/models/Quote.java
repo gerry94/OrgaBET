@@ -6,11 +6,13 @@ import lombok.ToString;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.mongodb.internal.connection.Time;
 
 @Getter
 @Setter
+@Document
 public class Quote {
 	private String bookmaker;
 	private Double odd;
