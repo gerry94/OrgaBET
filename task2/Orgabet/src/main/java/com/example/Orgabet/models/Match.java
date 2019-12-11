@@ -3,6 +3,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.mongodb.internal.connection.Time;
 
+@ToString
 @Getter
 @Setter
 @Document(collection = "match")
@@ -30,7 +32,7 @@ public class Match {
 	private Integer fullTimeHomeScore;
 	private Integer fullTimeAwayScore;
 	private String fullTimeResult;
-	private List<Odd> odds;
+	private ArrayList<Odds> odds;
 	
 	//football-only attribute
 	private Integer halfTimeHomeScore;

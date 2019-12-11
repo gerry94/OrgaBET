@@ -1,5 +1,6 @@
 package com.example.Orgabet.models;
 import java.security.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,5 +16,5 @@ public class Bet {
 	private String awayTeam;
 	private String result;
 	private double avgOdd;
-	private List<Quote> quotes;
+	private ArrayList<Quotes> quotes;
 }

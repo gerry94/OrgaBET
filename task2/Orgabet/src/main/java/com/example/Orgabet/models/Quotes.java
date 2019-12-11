@@ -10,14 +10,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.mongodb.internal.connection.Time;
 
+@ToString
 @Getter
 @Setter
 @Document
-public class Quote {
+public class Quotes {
 	private String bookmaker;
 	private Double odd;
 	
-	public Quote(
+	public Quotes(
 			final String bookmaker,
 			final Double odd) {
 		this.bookmaker = bookmaker;

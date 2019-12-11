@@ -1,22 +1,26 @@
 package com.example.Orgabet.models;
+import java.lang.reflect.Array;
 import java.security.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
+import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Getter;
 import lombok.Setter;
 
+@ToString
 @Getter
 @Setter
 @Document
-public class Odd {
+public class Odds {
 	private String type;
-	private List<Quote> quotes;
+	private ArrayList<Quotes> quotes;
 	
-	public Odd(
+	public Odds(
 			final String type,
-			final List<Quote> quotes) {
+			final ArrayList<Quotes> quotes) {
 		this.type = type;
 		this.quotes = quotes;
 	}

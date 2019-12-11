@@ -1,8 +1,10 @@
 package com.example.Orgabet.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.example.Orgabet.dto.AvgDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.stereotype.Controller;
@@ -22,12 +24,16 @@ public class MatchController {
 	
 	@RequestMapping("/match")
 	   public String viewMatches(Model model) {
-	 
-	      List<Match> list = matchRepository.computeAverageOdds("football", "23/10/2019", "I1");
-	
-	      model.addAttribute("matches", list);
-	 
+	 	
+		//ArrayList<Match> test = matchRepository.findByHomeTeam("Fiorentina");
+		//System.out.println("TEST: " + test.get(0).toString());
+		
+		List<AvgDTO> list = matchRepository.computeAverageOdds("Football", "30/08/2019", "I1");
+		try {
+			System.out.println(list.get(0));
+		} catch(IndexOutOfBoundsException iob) { System.out.println("IndexOutOfBoundsException!"); }
+		
+		model.addAttribute("matches", list);
 	      return "match";
 	   }
-	
 }
