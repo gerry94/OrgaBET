@@ -24,14 +24,14 @@ public class Match {
 	private Time time;
 	private String homeTeam;
 	private String awayTeam;
-	private Integer fullTimeHomeG;
-	private Integer fullTimeAwayG;
-	private String FullTimeResult;
+	private Integer fullTimeHomeScore;
+	private Integer fullTimeAwayScore;
+	private String fullTimeResult;
 	private List<Odd> odds;
 	
 	//football-only attribute
-	private Integer halfTimeHomeG;
-	private Integer halfTimeHomeA;
+	private Integer halfTimeHomeScore;
+	private Integer halfTimeAwayScore;
 	private String halfTimeResult;
 	private Integer attendance;
 	private String referee;
@@ -45,12 +45,12 @@ public class Match {
 	private Integer awayCorners;
 	private Integer homeFouls;
 	private Integer awayFouls;
-	private Integer homeFreeKicksConceded;
-	private Integer awayFreeKicksConceded;
+	private Integer homeFreeKicks;
+	private Integer awayFreeKicks;
 	private Integer homeOffsides;
 	private Integer awayOffsides;
-	private Integer homeYellow;
-	private Integer awayYellow;
+	private Integer homeYellowCards;
+	private Integer awayYellowCards;
 	private Integer homeRed;
 	private Integer awayRed;
 	private Integer homeBookingPoints;
@@ -81,28 +81,7 @@ public class Match {
 	//basket-only attribute
 	private String season;
 	private String typeOfGame;
-	private String over;
+	private String overUnder, firstQuarterResult, draw;
+	private Integer totalScore, firstQuarterHomeScore, firstQuarterAwayScore, homeAwayDifference, drawHomeScore, drawAwayScore;
 	
-	public Match(
-			final String sport,
-			final String division,
-			/*final Date date,
-			final Time time,*/
-			final String homeTeam,
-			final String awayTeam,
-			/*final Integer fullTimeHomeG,
-			final Integer fullTimeAwayG,
-			final String FullTimeResult,*/
-			final List<Odd> odds) {
-		this.sport = sport;
-		this.division = division;
-		this.date = date;
-		this.time = time;
-		this.homeTeam = homeTeam;
-		this.awayTeam = awayTeam;
-		this.fullTimeHomeG = fullTimeHomeG;
-		this.fullTimeAwayG = fullTimeAwayG;
-		this.FullTimeResult = FullTimeResult;
-		this.odds = odds;
-	}
 }
