@@ -21,20 +21,20 @@ public class Match {
 	@Indexed
 	private String sport;
 	@Indexed
-	private String Div;
+	private String division;
 	@Indexed
 	private Date date;
 	private Time time;
 	private String homeTeam;
 	private String awayTeam;
-	private Integer fullTimeHomeG;
-	private Integer fullTimeAwayG;
+	private Integer fullTimeHomeScore;
+	private Integer fullTimeAwayScore;
 	private String fullTimeResult;
 	private List<Odd> odds;
 	
 	//football-only attribute
-	private Integer halfTimeHomeG;
-	private Integer halfTimeHomeA;
+	private Integer halfTimeHomeScore;
+	private Integer halfTimeAwayScore;
 	private String halfTimeResult;
 	private Integer attendance;
 	private String referee;
@@ -48,12 +48,12 @@ public class Match {
 	private Integer awayCorners;
 	private Integer homeFouls;
 	private Integer awayFouls;
-	private Integer homeFreeKicksConceded;
-	private Integer awayFreeKicksConceded;
+	private Integer homeFreeKicks;
+	private Integer awayFreeKicks;
 	private Integer homeOffsides;
 	private Integer awayOffsides;
-	private Integer homeYellow;
-	private Integer awayYellow;
+	private Integer homeYellowCards;
+	private Integer awayYellowCards;
 	private Integer homeRed;
 	private Integer awayRed;
 	private Integer homeBookingPoints;
@@ -84,5 +84,7 @@ public class Match {
 	//basket-only attribute
 	private String season;
 	private String typeOfGame;
-	private String over;
+	private String overUnder, firstQuarterResult, draw;
+	private Integer totalScore, firstQuarterHomeScore, firstQuarterAwayScore, homeAwayDifference, drawHomeScore, drawAwayScore;
+
 }
