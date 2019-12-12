@@ -1,10 +1,12 @@
 package com.example.Orgabet.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.example.Orgabet.dto.AvgDTO;
+import com.example.Orgabet.dto.TableDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.stereotype.Controller;
@@ -24,16 +26,19 @@ public class MatchController {
 	
 	@RequestMapping("/match")
 	   public String viewMatches(Model model) {
-	 	
-		//ArrayList<Match> test = matchRepository.findByHomeTeam("Fiorentina");
-		//System.out.println("TEST: " + test.get(0).toString());
 		
-		List<AvgDTO> list = matchRepository.computeAverageOdds("Football", "30/08/2019", "I1");
-		try {
-			System.out.println(list.get(0));
-		} catch(IndexOutOfBoundsException iob) { System.out.println("IndexOutOfBoundsException!"); }
+		List<Match> list = matchRepository.selectSortedMatches("Football", "01/09/2019", "I1");
+		List<TableDTO> tbl = new ArrayList<TableDTO>();
 		
-		model.addAttribute("matches", list);
+		for(Iterator<Match> l = list.iterator(); l.hasNext();) {
+			Match match = l.next();
+			
+			List<AvgDTO> list2 = matchRepository.computeAverageOdds(match.getId());
+			 tbl.add(new TableDTO(match, list2));
+		}
+		
+		model.addAttribute("matches", tbl);
+		
 	      return "match";
 	   }
 }

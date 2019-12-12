@@ -25,8 +25,8 @@ public class Match {
 	@Indexed
 	private String division;
 	@Indexed
-	private Date date;
-	private Time time;
+	private Date date; //may cause problems if date is not correctly formatted in mongoDB
+	private String time;
 	private String homeTeam;
 	private String awayTeam;
 	private Integer fullTimeHomeScore;

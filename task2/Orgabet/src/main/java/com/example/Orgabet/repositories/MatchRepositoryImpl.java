@@ -1,9 +1,11 @@
 package com.example.Orgabet.repositories;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.Orgabet.dto.AvgDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -17,21 +19,34 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 	public MatchRepositoryImpl(MongoTemplate mongoTemplate) {
 		this.mongoTemplate =mongoTemplate;
 	}
-
+	
 	@Override
-	public List<AvgDTO> computeAverageOdds(String sport, String date, String div) {
+	public List<Match> selectSortedMatches(String sport, String date, String division) {
 		MatchOperation filterSport = Aggregation.match(new Criteria("sport").is(sport));
 		MatchOperation filterDate = Aggregation.match(new Criteria("date").is(date));
-		MatchOperation filterDiv = Aggregation.match(new Criteria("division").is(div));
+		MatchOperation filterDiv = Aggregation.match(new Criteria("division").is(division));
 		
-		GroupOperation avgBetType = Aggregation.group("odds.type").avg("odds.quotes.odd").as("avgOdd");
+		SortOperation srt = Aggregation.sort(Sort.Direction.ASC, "time");
 		
-		Aggregation agg = Aggregation.newAggregation(filterSport, filterDate, filterDiv, avgBetType);
+		Aggregation aggr = Aggregation.newAggregation(filterSport, filterDate, filterDiv, srt);
 		
-		System.out.println(agg.toString());
+		List<Match> res = mongoTemplate.aggregate(aggr, Match.class, Match.class).getMappedResults();
+		return res;
+	}
+	@Override
+	public List<AvgDTO> computeAverageOdds(String id) {
+		MatchOperation filterMatch = Aggregation.match(new Criteria("id").is(id));
+		UnwindOperation unw = Aggregation.unwind("odds");
+		UnwindOperation unw2 = Aggregation.unwind("odds.quotes");
 		
-		List<AvgDTO> adto = mongoTemplate.aggregate(agg, "avgs", AvgDTO.class).getMappedResults();
-		System.out.println("@@@@@@ AggregationResults: " + adto.toString());
-		return adto;
+		GroupOperation grp = Aggregation.group("odds.type").avg("odds.quotes.odd").as("avg");
+		
+		ProjectionOperation proj = Aggregation.project("avg");
+		
+		Aggregation aggr = Aggregation.newAggregation(filterMatch, unw, unw2, grp);
+
+		List<AvgDTO> res = mongoTemplate.aggregate(aggr, Match.class, AvgDTO.class).getMappedResults();
+								//prima class = sorgente, seconda = destin
+		return res;
 	}
 }

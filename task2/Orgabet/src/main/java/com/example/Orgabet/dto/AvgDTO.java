@@ -7,7 +7,8 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-public class AvgDTO {
-	private String type;
+public class AvgDTO
+{
+	private String id;
 	private Double avg;
 }

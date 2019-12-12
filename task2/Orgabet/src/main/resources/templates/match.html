@@ -24,18 +24,30 @@
        
       <table border="1">
             <tr>
-               <th>Sport</th>
-               <th>First Name</th>
-               <th>Last Name</th>
-               <th>Email</th>
-               <th>Gender</th>
+               <th>Time</th>
+               <th>Home Team</th>
+               <th>Away Team</th>
+               <th>1</th>
+               <th>X</th>
+               <th>2</th>
+               <th>OVER 2.5</th>
+               <th>UNDER 2.5</th>
             </tr>
-            <tr th:each ="match : ${matches}">
-               <td th:utext="${match.sport}">...</td>
-               <td th:utext="${match.firstName}">...</td>
-               <td th:utext="${match.lastName}">...</td>
-               <td th:utext="${match.email}">...</td>
-               <td th:utext="${match.gender}">...</td>
+            <tr th:each ="tbl : ${matches}">
+               <td th:utext="${tbl.match.time}">...</td>
+               <td th:utext="${tbl.match.homeTeam}">...</td>
+               <td th:utext="${tbl.match.awayTeam}">...</td>
+               <!--<td th:each ="a : ${tbl.avg} " th:utext="${a.avg}">...</td>-->
+               <td th:each="a: ${tbl.avg}" th:if="${a.id == 'H'}"
+                    th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+               <td th:each="a: ${tbl.avg}" th:if="${a.id == 'D'}"
+                   th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+               <td th:each="a: ${tbl.avg}" th:if="${a.id == 'A'}"
+                   th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+               <td th:each="a: ${tbl.avg}" th:if="${a.id == 'OVER'}"
+                   th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+               <td th:each="a: ${tbl.avg}" th:if="${a.id == 'UNDER'}"
+                   th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
             </tr>
       </table>
        
