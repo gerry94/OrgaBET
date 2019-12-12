@@ -18,8 +18,9 @@ public class UsersController
 	
 	@Autowired
 	private UserRepository repository;
+	
     @GetMapping("/{username}")
-    @PreAuthorize("authentication.username == #username) || hasRole('ADMIN')")
+    @PreAuthorize("authentication.principal.username == #username) || hasRole('ADMIN')")
     public String usersGet(@PathVariable("username") String username, Model model)
     {
     	User user=repository.findByUsername(username);
