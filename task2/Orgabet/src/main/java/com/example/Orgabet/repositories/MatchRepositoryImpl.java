@@ -1,6 +1,7 @@
 package com.example.Orgabet.repositories;
 
-import java.util.ArrayList;
+
+
 import java.util.List;
 
 import com.example.Orgabet.dto.AvgDTO;
@@ -21,6 +22,7 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 	}
 	
 	@Override
+
 	public List<Match> selectSortedMatches(String sport, String date, String division) {
 		MatchOperation filterSport = Aggregation.match(new Criteria("sport").is(sport));
 		MatchOperation filterDate = Aggregation.match(new Criteria("date").is(date));
@@ -33,6 +35,7 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		List<Match> res = mongoTemplate.aggregate(aggr, Match.class, Match.class).getMappedResults();
 		return res;
 	}
+	
 	@Override
 	public List<AvgDTO> computeAverageOdds(String id) {
 		MatchOperation filterMatch = Aggregation.match(new Criteria("id").is(id));
@@ -48,5 +51,6 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		List<AvgDTO> res = mongoTemplate.aggregate(aggr, Match.class, AvgDTO.class).getMappedResults();
 								//prima class = sorgente, seconda = destin
 		return res;
+
 	}
 }
