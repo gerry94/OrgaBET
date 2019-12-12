@@ -26,6 +26,7 @@ public class MatchController {
 	
 	@RequestMapping("/match")
 	   public String viewMatches(Model model) {
+
 		
 		List<Match> list = matchRepository.selectSortedMatches("Football", "01/09/2019", "I1");
 		List<TableDTO> tbl = new ArrayList<TableDTO>();
@@ -38,7 +39,7 @@ public class MatchController {
 		}
 		
 		model.addAttribute("matches", tbl);
-		
+
 	      return "match";
 	   }
 }
