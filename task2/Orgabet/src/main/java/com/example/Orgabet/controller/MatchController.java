@@ -10,6 +10,8 @@ import com.example.Orgabet.dto.CouponDTO;
 import com.example.Orgabet.dto.TableDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,13 +21,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.Orgabet.models.Match;
+import com.example.Orgabet.models.User;
 import com.example.Orgabet.repositories.MatchRepository;
+import com.example.Orgabet.services.MongoUserDetailsService;
 
 @Controller
 public class MatchController {
 	@Autowired
 	MatchRepository matchRepository;
-	
+	@Autowired
+	private MongoUserDetailsService userService;
+
 	public List<TableDTO> tbl;
 	public CouponDTO coupon = new CouponDTO();
 	
@@ -54,6 +60,10 @@ public class MatchController {
 	
 	@RequestMapping("/match")
 	   public String viewMatches(Model model) {
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    		User currentUser = userService.findUserByUsername(auth.getName());
+		model.addAttribute("currentUser", currentUser);
 		
 		List<Match> list = matchRepository.selectSortedMatches("Football", "01/09/2019", "I1");
 		tbl = new ArrayList<TableDTO>();

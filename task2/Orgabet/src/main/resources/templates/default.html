@@ -24,7 +24,7 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item" th:if="${currentUser == null}"><a class="nav-link" th:href="@{/login}">Log in</a></li>
                     <li class="nav-item" th:if="${currentUser}">
-                        <a class="nav-link" th:text="${username}"></a>
+                        <a class="nav-link" th:href="@{/profile/__${currentUser.username}__}" th:text="${currentUser.username}"></a>
                         <form th:action="@{/logout}" method="post">
                             <input type="submit" value="Sign Out"/>
                         </form>
