@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
    <head>
       <title th:utext="${title}"></title>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -17,10 +18,11 @@
     
    <body>
       <!-- Include _menu.html -->
+      <div layout:fragment="content">
       <div id="wrapper">
       <div id="tableDiv">
          <h2>Matches</h2>
-         <table border="1">
+         <table id="matchTable" border="1">
                <tr>
                   <th>Time</th>
                   <th>Home Team</th>
@@ -35,26 +37,43 @@
                   <td th:utext="${tbl.match.time}">...</td>
                   <td th:utext="${tbl.match.homeTeam}">...</td>
                   <td th:utext="${tbl.match.awayTeam}">...</td>
-                  <!--<td th:each ="a : ${tbl.avg} " th:utext="${a.avg}">...</td>-->
-                  <td th:each="a: ${tbl.avg}" th:if="${a.id == 'H'}"
-                       th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
-                  <td th:each="a: ${tbl.avg}" th:if="${a.id == 'D'}"
-                      th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
-                  <td th:each="a: ${tbl.avg}" th:if="${a.id == 'A'}"
-                      th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
-                  <td th:each="a: ${tbl.avg}" th:if="${a.id == 'OVER'}"
-                      th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
-                  <td th:each="a: ${tbl.avg}" th:if="${a.id == 'UNDER'}"
-                      th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+
+                  <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'H'}"
+                       th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
+                  <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'D'}"
+                      th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
+                  <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'A'}"
+                      th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
+                  <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'OVER'}"
+                      th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
+                  <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'UNDER'}"
+                      th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
                </tr>
          </table>
+         <script type="text/javascript" th:inline="javascript">
+            function printOdd(elem, matchId) {
+               /*var tableRow = elem.parentNode;
+               var homeTeam = tableRow.cells[1].textContent;
+               var awayTeam = tableRow.cells[2].textContent;*/
+
+               //get the type of bet you are placing (get corresponding <th> to this clicked <td> element)
+               var index = Array.prototype.indexOf.call(elem.parentNode.children, elem);
+               var oddType = document.querySelector('#matchTable th:nth-child(' + (index+1) + ')').textContent;
+
+               $.ajax({
+                  type: "POST",
+                  url: "/printQuote",
+                  data: {id:matchId, type:oddType}, //, home:homeTeam, away:awayTeam, type:oddType, avgQuote:elem.textContent}
+               });
+            }
+         </script>
       </div>
 
-      <div class="coupon">
+      <div id="coupon" class="coupon">
          <th:block th:include="fragments/coupon :: coupon">
          </th:block>
       </div>
    </div>
-
+      </div>
    </body>
 </html>

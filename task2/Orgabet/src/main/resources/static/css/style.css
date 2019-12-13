@@ -1,6 +1,7 @@
 html,
 body {
   height: 100%;
+  background-color:darkslategray;
 }
 
 body {
@@ -62,4 +63,9 @@ body {
   height:100%;
   background-color: lightgray;
   border: 1px solid red;
+}
+
+.quoteArea:hover {
+  cursor:pointer;
+  background-color: darkseagreen;
 }
