@@ -1,5 +1,7 @@
 package com.example.Orgabet.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -33,7 +35,18 @@ public class ProfileController
         return "profile";
     }
     
-    @GetMapping("user/profile")
+    @GetMapping("admin/users")
+    public String usersGet(Model model)
+    {   
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	User currentUser = userService.findUserByUsername(auth.getName());
+		model.addAttribute("currentUser", currentUser);
+    	List<User> userList=repository.findAllBy();
+    	model.addAttribute("userList",userList);
+        return "userlist";
+    }
+    
+    @GetMapping("/profile")
     public String profileGet(Model model)
     {
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
