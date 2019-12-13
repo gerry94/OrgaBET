@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
    <head>
       <title th:utext="${title}"></title>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -17,6 +18,7 @@
     
    <body>
       <!-- Include _menu.html -->
+      <div layout:fragment="content">
       <div id="wrapper">
       <div id="tableDiv">
          <h2>Matches</h2>
@@ -55,6 +57,6 @@
          </th:block>
       </div>
    </div>
-
+  </div>
    </body>
 </html>

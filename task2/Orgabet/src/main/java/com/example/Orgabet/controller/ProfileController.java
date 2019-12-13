@@ -24,7 +24,10 @@ public class ProfileController
 	
     @GetMapping("admin/users/{username}")
     public String usersGet(@PathVariable("username") String username, Model model)
-    {
+    {   
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	User currentUser = userService.findUserByUsername(auth.getName());
+		model.addAttribute("currentUser", currentUser);
     	User user=repository.findByUsername(username);
     	model.addAttribute("user", user);
         return "profile";
@@ -35,6 +38,7 @@ public class ProfileController
     {
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    User user = userService.findUserByUsername(auth.getName());
+    	model.addAttribute("currentUser", user);
     	model.addAttribute("user", user);
         return "profile";
     }
