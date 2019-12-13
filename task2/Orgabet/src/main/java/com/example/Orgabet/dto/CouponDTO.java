@@ -37,7 +37,9 @@ public class CouponDTO
 	}
 	
 	public void printCoupon() {
+		System.out.println("\n=============== MyCoupon ================");
 		for(BetMap b: matchList)
 			System.out.println(b.getMatch().getHomeTeam() + "-" + b.getMatch().getAwayTeam() + "\t" + b.getType());
+		System.out.println("=========================================");
 	}
 }
