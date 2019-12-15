@@ -10,6 +10,7 @@
             <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
             <h2>This is your User Dashboard</h2>
             <p><a th:href="@{/match}">MATCH</a></p>
+            <p><a th:href="@{/stats}">STATSCAZZOH</a></p>
         </div>
         <div class="coupon">
             <th:block th:include="fragments/coupon :: coupon">
