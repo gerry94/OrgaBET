@@ -2,14 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
     <head>
-        <title>Dashboard</title>
+        <title>OrgaBet</title>
     </head>
     <body>
+    <div id="wrapper">
         <div layout:fragment="content">
             <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
             <h2>This is your User Dashboard</h2>
             <p><a th:href="@{/match}">MATCH</a></p>
             <p><a th:href="@{/stats}">STATSCAZZOH</a></p>
         </div>
+        <div class="coupon">
+            <th:block th:include="fragments/coupon :: coupon">
+            </th:block>
+        </div>
+    </div>
     </body>
 </html>
