@@ -67,11 +67,7 @@ public class StatsRepositoryImpl implements StatsRepositoryCustom {
 	@Override 
 	public StatsDTO computeTeamHome(String division, String team, Double totHome) {
 		StatsDTO stats = null;
-		Double homeWin = 0.00;
-		Double homeDraw = 0.00;
-		Double homeLost = 0.00;
-		Double homeOver = 0.00;
-		Double homeUnder = 0.00;
+		double homeWin = 0.00, homeDraw = 0.00, homeLost = 0.00, homeOver = 0.00, homeUnder = 0.00;
 		
 		MatchOperation filterDiv = Aggregation.match(new Criteria("division").is(division));
 		MatchOperation filterTeam = Aggregation.match(new Criteria("homeTeam").is(team));
@@ -139,7 +135,7 @@ public class StatsRepositoryImpl implements StatsRepositoryCustom {
 		Aggregation aggr5 = Aggregation.newAggregation(filterDiv, filterTeam, unw, unw2, grp);
 
 		List<AvgDTO> res5 = mongoTemplate.aggregate(aggr5, Match.class, AvgDTO.class).getMappedResults();
-		System.out.println(res5.get(0).toString());
+		//System.out.println(res5.get(0).toString());
 		stats = new StatsDTO(team, homeWin, homeDraw, homeLost, homeOver, homeUnder, res5);
 		
 		return stats;
@@ -148,11 +144,7 @@ public class StatsRepositoryImpl implements StatsRepositoryCustom {
 	@Override 
 	public StatsDTO computeTeamAway(String division, String team, Double totAway) {
 		StatsDTO stats = null;
-		Double awayWin = 0.00;
-		Double awayDraw = 0.00;
-		Double awayLost = 0.00;
-		Double awayOver = 0.00;
-		Double awayUnder = 0.00;
+		double awayWin = 0.00, awayDraw = 0.00, awayLost = 0.00, awayOver = 0.00, awayUnder = 0.00;
 		
 		MatchOperation filterDiv = Aggregation.match(new Criteria("division").is(division));
 		MatchOperation filterTeam = Aggregation.match(new Criteria("awayTeam").is(team));
@@ -161,7 +153,7 @@ public class StatsRepositoryImpl implements StatsRepositoryCustom {
 		GroupOperation grpAW =  Aggregation.group("awayTeam").count().as("count");
 		
 		Aggregation aggr = Aggregation.newAggregation(filterDiv, filterTeam, filterAwayWin, grpAW);
-		System.out.println(aggr.toString());
+		//System.out.println(aggr.toString());
 		List<countDTO> res = mongoTemplate.aggregate(aggr, Match.class, countDTO.class).getMappedResults();
 		
 		try {
