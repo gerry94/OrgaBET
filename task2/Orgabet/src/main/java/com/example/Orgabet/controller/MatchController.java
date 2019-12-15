@@ -6,22 +6,17 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.Orgabet.dto.AvgDTO;
-import com.example.Orgabet.dto.CouponDTO;
 import com.example.Orgabet.dto.TableDTO;
+import com.example.Orgabet.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.example.Orgabet.models.Match;
-import com.example.Orgabet.models.User;
 import com.example.Orgabet.repositories.MatchRepository;
 import com.example.Orgabet.services.MongoUserDetailsService;
 
@@ -33,14 +28,13 @@ public class MatchController {
 	private MongoUserDetailsService userService;
 
 	public List<TableDTO> tbl;
-	public CouponDTO coupon = new CouponDTO();
+	public Coupon coupon = new Coupon();
 	
-	public Match findById(String id) {
-		
+	public TableDTO findById(String id) {
 		for(Iterator<TableDTO> t = tbl.iterator(); t.hasNext();) {
 			TableDTO tdto = t.next();
 			if(tdto.getMatch().getId().equals(id))
-				return tdto.getMatch();
+				return tdto;
 		}
 		return null;
 	}
@@ -49,13 +43,15 @@ public class MatchController {
 	@RequestMapping(value = "/printQuote")
 	public void printQuoteAjax(@RequestParam Map<String,String> param) {
 		//System.out.println("[DBG] Ajax request: " + param.entrySet());
-		Match m = findById(param.get("id"));
-		String type = param.get("type");
+		TableDTO t = findById(param.get("id"));
+		if(t == null) return;
 		
-		if(m != null) {
-			coupon.addMatch(m, type);
-			coupon.printCoupon();
-		}
+		String oddType = param.get("type");
+		Match m = t.getMatch();
+		Bet b = new Bet(m.getHomeTeam(), m.getAwayTeam(), oddType, t.getQuote(oddType), m.getQuoteList(oddType));
+		//System.out.println("\n[DBG] Bet object: " + b.toString());
+		coupon.addMatch(b);
+		coupon.printCoupon();
 	}
 	
 	@RequestMapping("/match")

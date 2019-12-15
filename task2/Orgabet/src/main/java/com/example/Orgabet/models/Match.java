@@ -1,10 +1,12 @@
 package com.example.Orgabet.models;
+import com.example.Orgabet.dto.AvgDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -88,5 +90,15 @@ public class Match {
 	private String typeOfGame;
 	private String overUnder, firstQuarterResult, draw;
 	private Integer totalScore, firstQuarterHomeScore, firstQuarterAwayScore, homeAwayDifference, drawHomeScore, drawAwayScore;
+	
+	//returns quote list of given bet type
+	public ArrayList<Quotes> getQuoteList(String type) {
+		for(Iterator<Odds> q = odds.iterator(); q.hasNext();) {
+			Odds o = q.next();
+			if(o.getType().equals(type))
+				return o.getQuotes();
+		}
+		return null;
+	}
 
 }

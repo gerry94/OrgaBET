@@ -60,10 +60,27 @@
                    var index = Array.prototype.indexOf.call(elem.parentNode.children, elem);
                    var oddType = document.querySelector('#matchTable th:nth-child(' + (index+1) + ')').textContent;
 
+                   switch(oddType){
+                       case "1":
+                           oddType="H";
+                           break;
+                       case "X":
+                           oddType = "D";
+                           break;
+                       case "2":
+                           oddType = "A";
+                           break;
+                       case "OVER 2.5":
+                           oddType = "OVER";
+                           break;
+                       case "UNDER 2.5":
+                           oddType = "UNDER";
+                           break;
+                   }
                    $.ajax({
                       type: "POST",
                       url: "/printQuote",
-                      data: {id:matchId, type:oddType}, //, home:homeTeam, away:awayTeam, type:oddType, avgQuote:elem.textContent}
+                      data: {id:matchId, type:oddType} //, home:homeTeam, away:awayTeam, type:oddType, avgQuote:elem.textContent}
                    });
                 }
              </script>
