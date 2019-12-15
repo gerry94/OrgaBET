@@ -37,7 +37,7 @@ public class StatsController {
 			countDTO cnt = l.next();
 			StatsDTO stats = statsRepository.computeTeamHome("I1",cnt.getId(), cnt.getCount());
 		
-			tbl.add(new TableStatsDTO(stats.getId(), stats.getHomeWin(), stats.getHomeDraw(), stats.getHomeLost(), stats.getHomeOver(), stats.getHomeUnder()));
+			tbl.add(new TableStatsDTO(stats.getId(), stats.getHomeWin(), stats.getHomeDraw(), stats.getHomeLost(), stats.getHomeOver(), stats.getHomeUnder(), stats.getAvgOdds()));
 		}
 		
 		model.addAttribute("statsH", tbl);
@@ -46,7 +46,7 @@ public class StatsController {
 			countDTO cnt2 = l2.next();
 			StatsDTO stats2 = statsRepository.computeTeamAway("I1",cnt2.getId(), cnt2.getCount());
 		
-			tblA.add(new TableStatsDTO(stats2.getId(), stats2.getHomeWin(), stats2.getHomeDraw(), stats2.getHomeLost(), stats2.getHomeOver(), stats2.getHomeUnder()));
+			tblA.add(new TableStatsDTO(stats2.getId(), stats2.getHomeWin(), stats2.getHomeDraw(), stats2.getHomeLost(), stats2.getHomeOver(), stats2.getHomeUnder(), null));
 		}
 		
 		model.addAttribute("statsA", tblA);

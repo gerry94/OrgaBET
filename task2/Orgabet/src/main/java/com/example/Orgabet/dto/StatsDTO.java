@@ -18,14 +18,16 @@ public class StatsDTO {
 	private Double homeLost;
 	private Double homeOver;
 	private Double homeUnder;
+	private List<AvgDTO> avgOdds;
 	
 	
-	public StatsDTO(String t,Double HW,Double HD, Double HL, Double HO, Double HU) {
+	public StatsDTO(String t,Double HW,Double HD, Double HL, Double HO, Double HU, List<AvgDTO> avg) {
 		this.id = t;
 		this.homeWin = HW;
 		this.homeDraw = HD;
 		this.homeLost = HL;
 		this.homeOver = HO;
 		this.homeUnder = HU;
+		this.avgOdds = avg;
 	}
 }

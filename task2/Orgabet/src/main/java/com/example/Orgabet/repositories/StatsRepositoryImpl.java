@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.aggregation.GroupOperation;
 import org.springframework.data.mongodb.core.aggregation.MatchOperation;
 import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
 import org.springframework.data.mongodb.core.aggregation.SortOperation;
+import org.springframework.data.mongodb.core.aggregation.UnwindOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 
 import com.example.Orgabet.dto.AvgDTO;
@@ -128,7 +129,19 @@ public class StatsRepositoryImpl implements StatsRepositoryCustom {
 		
 		homeUnder = 100.00 - homeOver;
 		
-		stats = new StatsDTO(team, homeWin, homeDraw, homeLost, homeOver, homeUnder);
+		UnwindOperation unw = Aggregation.unwind("odds");
+		UnwindOperation unw2 = Aggregation.unwind("odds.quotes");
+		
+		GroupOperation grp = Aggregation.group("odds.type").avg("odds.quotes.odd").as("avg");
+		
+		ProjectionOperation proj = Aggregation.project("avg");
+		
+		Aggregation aggr5 = Aggregation.newAggregation(filterDiv, filterTeam, unw, unw2, grp);
+
+		List<AvgDTO> res5 = mongoTemplate.aggregate(aggr5, Match.class, AvgDTO.class).getMappedResults();
+		System.out.println(res5.get(0).toString());
+		stats = new StatsDTO(team, homeWin, homeDraw, homeLost, homeOver, homeUnder, res5);
+		
 		return stats;
 	}
 	
@@ -197,7 +210,7 @@ public class StatsRepositoryImpl implements StatsRepositoryCustom {
 		
 		awayUnder = 100.00 - awayOver;
 		
-		stats = new StatsDTO(team, awayWin, awayDraw, awayLost, awayOver, awayUnder);
+		stats = new StatsDTO(team, awayWin, awayDraw, awayLost, awayOver, awayUnder, null);
 		return stats;
 	}
 }

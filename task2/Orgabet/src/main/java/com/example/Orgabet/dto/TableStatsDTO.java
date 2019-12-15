@@ -15,15 +15,15 @@ public class TableStatsDTO {
 	Double homeLost;
 	Double homeOver;
 	Double homeUnder;
-
+	List<AvgDTO> avgOdds;
 	
-	public TableStatsDTO(String t, Double HW, Double HD, Double HL, Double HO, Double HU) {
+	public TableStatsDTO(String t, Double HW, Double HD, Double HL, Double HO, Double HU, List<AvgDTO> avg) {
 		this.team = t;
 		this.homeWin = HW;
 		this.homeDraw = HD;
 		this.homeLost = HL;
 		this.homeOver = HO;
 		this.homeUnder = HU;
-
+		this.avgOdds = avg;
 	}
 }

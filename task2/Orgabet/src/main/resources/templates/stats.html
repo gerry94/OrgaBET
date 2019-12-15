@@ -32,6 +32,11 @@
                <th>HL%</th>
                <th>HO%</th>
                <th>HU%</th>
+               <th>HWO%</th>
+               <th>HDO%</th>
+               <th>HLO%</th>
+               <th>HOO%</th>
+               <th>HUO%</th>
             </tr>
             <tr th:each ="tbl : ${statsH}">
                <td th:utext="${tbl.team}">...</td>
@@ -40,6 +45,8 @@
                <td th:utext="${#numbers.formatDecimal(tbl.homeLost, 0, 2)}">...</td>
                <td th:utext="${#numbers.formatDecimal(tbl.homeOver, 0, 2)}">...</td>
                <td th:utext="${#numbers.formatDecimal(tbl.homeUnder, 0, 2)}">...</td>
+				<td class="quoteArea" th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'H'}"
+                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
             </tr>
       </table>
       
