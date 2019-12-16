@@ -2,7 +2,6 @@ package com.example.Orgabet.models;
 import java.lang.reflect.Array;
 import java.security.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,9 +17,6 @@ import lombok.Setter;
 @Setter
 @Document
 public class Bet {
-	private String matchId;
-	private Date date; //may cause problems if date is not correctly formatted in mongoDB
-	private String time;
 	private String homeTeam;
 	private String awayTeam;
 	private String result; //quote type (ex: H, D, OVER...)
