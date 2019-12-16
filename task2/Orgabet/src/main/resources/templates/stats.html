@@ -26,9 +26,9 @@
   	<div layout:fragment="content">    
    
   	   <div class="sidenav">
-		  <a href="#">Football</a>
-		  <a href="#">Tennis</a>
-		  <a href="#">Basketball</a>
+		  <a href="stats" th:with="sport=${'Football'}">Football</a>
+		  <a href="stats" th:with="sport=${'Tennis'}">Tennis</a>
+		  <a href="stats" th:with="sport=${'Basket'}">Basketball</a>
 		</div>
 		
       <h2>Statsis</h2>
@@ -52,15 +52,15 @@
             <tr>
                <th>Team</th>
                <th>HW%</th>
-               <th>HD%</th>
+               <th th:if="${sport == 'Football'}" >HD%</th>
                <th>HL%</th>
                <th>HO%</th>
                <th>HU%</th>
-               <th>HWO%</th>
-               <th>HDO%</th>
-               <th>HLO%</th>
-               <th>HOO%</th>
-               <th>HUO%</th>
+               <th>HWO</th>
+               <th>HDO</th>
+               <th>HLO</th>
+               <th>HOO</th>
+               <th>HUO</th>
 
             </tr>
             <tr class="statsRow" th:each ="tbl : ${statsH}">
@@ -70,14 +70,18 @@
                <td th:utext="${#numbers.formatDecimal(tbl.homeLost, 0, 2)}">...</td>
                <td th:utext="${#numbers.formatDecimal(tbl.homeOver, 0, 2)}">...</td>
                <td th:utext="${#numbers.formatDecimal(tbl.homeUnder, 0, 2)}">...</td>
-			   <td th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'H'}"
+			   <td th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'H'}" 
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
-               <td th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'D'}"
+               
+               <td th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'D'}" 
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+             
                <td th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'A'}"
+             
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
                <td th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'OVER'}"
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+               
                <td th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'UNDER'}"
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
             </tr>
@@ -93,11 +97,11 @@
                <th>AL%</th>
                <th>AO%</th>
                <th>AU%</th>
-               <th>AWO%</th>
-               <th>ADO%</th>
-               <th>ALO%</th>
-               <th>AOO%</th>
-               <th>AUO%</th>
+               <th>AWO</th>
+               <th>ADO</th>
+               <th>ALO</th>
+               <th>AOO</th>
+               <th>AUO</th>
             </tr>
             <tr class="statsRow" th:each ="tblA : ${statsA}">
                <td th:utext="${tblA.team}">...</td>
