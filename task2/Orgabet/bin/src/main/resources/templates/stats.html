@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
+<html xmlns:th="http://www.thymeleaf.org">
    <head>
       <title th:utext="${title}"></title>
    </head>
@@ -18,8 +17,9 @@
     
       <!-- Include _menu.html -->
       <th:block></th:block>  
-  <div layout:fragment="content">    
-   
+       
+      <h1>ORGABET</h1>
+       
       <h2>Statsis</h2>
        
       <h2>Home</h2>
@@ -37,7 +37,6 @@
                <th>HLO%</th>
                <th>HOO%</th>
                <th>HUO%</th>
-
             </tr>
             <tr th:each ="tbl : ${statsH}">
                <td th:utext="${tbl.team}">...</td>
@@ -46,20 +45,12 @@
                <td th:utext="${#numbers.formatDecimal(tbl.homeLost, 0, 2)}">...</td>
                <td th:utext="${#numbers.formatDecimal(tbl.homeOver, 0, 2)}">...</td>
                <td th:utext="${#numbers.formatDecimal(tbl.homeUnder, 0, 2)}">...</td>
-			   <td class="quoteArea" th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'H'}"
-                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
-               <td class="quoteArea" th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'D'}"
-                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
-               <td class="quoteArea" th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'A'}"
-                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
-               <td class="quoteArea" th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'OVER'}"
-                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
-               <td class="quoteArea" th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'UNDER'}"
+				<td class="quoteArea" th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'H'}"
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
             </tr>
       </table>
       
-<h2>Away</h2>
+      <h2>Away</h2>
       
       <table border="1">
             <tr>
@@ -69,11 +60,6 @@
                <th>AL%</th>
                <th>AO%</th>
                <th>AU%</th>
-               <th>AWO%</th>
-               <th>ADO%</th>
-               <th>ALO%</th>
-               <th>AOO%</th>
-               <th>AUO%</th>
             </tr>
             <tr th:each ="tblA : ${statsA}">
                <td th:utext="${tblA.team}">...</td>
@@ -82,18 +68,8 @@
                <td th:utext="${#numbers.formatDecimal(tblA.homeLost, 0, 2)}">...</td>
                <td th:utext="${#numbers.formatDecimal(tblA.homeOver, 0, 2)}">...</td>
                <td th:utext="${#numbers.formatDecimal(tblA.homeUnder, 0, 2)}">...</td>
-               <td class="quoteArea" th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'H'}"
-                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
-               <td class="quoteArea" th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'D'}"
-                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
-               <td class="quoteArea" th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'A'}"
-                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
-               <td class="quoteArea" th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'OVER'}"
-                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
-               <td class="quoteArea" th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'UNDER'}"
-                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
             </tr>
       </table>
-     </div>
+       
    </body>
 </html>

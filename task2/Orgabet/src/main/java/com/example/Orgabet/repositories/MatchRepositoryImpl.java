@@ -227,7 +227,18 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		
 		awayUnder = 100.00 - awayOver;
 		
-		stats = new StatsDTO(team, awayWin, awayDraw, awayLost, awayOver, awayUnder, null);
+		UnwindOperation unw = Aggregation.unwind("odds");
+		UnwindOperation unw2 = Aggregation.unwind("odds.quotes");
+		
+		GroupOperation grp = Aggregation.group("odds.type").avg("odds.quotes.odd").as("avg");
+		
+		ProjectionOperation proj = Aggregation.project("avg");
+		
+		Aggregation aggr5 = Aggregation.newAggregation(filterDiv, filterTeam, unw, unw2, grp);
+
+		List<AvgDTO> res5 = mongoTemplate.aggregate(aggr5, Match.class, AvgDTO.class).getMappedResults();
+		
+		stats = new StatsDTO(team, awayWin, awayDraw, awayLost, awayOver, awayUnder, res5);
 		return stats;
 	}
 }
