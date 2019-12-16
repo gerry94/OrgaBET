@@ -15,12 +15,34 @@
    </style>
     
    <body>
-    
+ 
+	    
       <!-- Include _menu.html -->
       <th:block></th:block>  
-  <div layout:fragment="content">    
+
+		
+  	<div layout:fragment="content">    
    
+  	   <div class="sidenav">
+		  <a href="#">Football</a>
+		  <a href="#">Tennis</a>
+		  <a href="#">Basketball</a>
+		</div>
+		
       <h2>Statsis</h2>
+      
+       
+       <div id="drop-menu">
+			<ul id="menu">
+				<li><a href="#">Period..</a>
+					<ul>
+						<li><a href="#">Last Year</a></li>
+						<li><a href="#">Last 2 Years</a></li>
+						<li><a href="#">Last 3 Years</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
        
       <h2>Home</h2>
        
