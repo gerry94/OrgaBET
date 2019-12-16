@@ -27,8 +27,22 @@ public class StatsController {
 	@RequestMapping("/stats")
 	public List<String> viewStats(Model model) {
 		
-		List<countDTO> list = statsRepository.selectTeamsHome("Football", "24/08/2019", "I1");
-		List<countDTO> listA = statsRepository.selectTeamsAway("Football", "24/08/2019", "I1");
+		//due to inconsistency in the dataset we need to re-format the date string according
+		//to the specific format of each sport
+		String day="24", month="08", year="2019";
+		String sport = "Football", date = "", division = "I1";
+		
+		if(sport.equals("Basket"))
+			date = day+"/"+month+"/"+year;
+		else if(sport.equals("Tennis"))
+			date = year+"/"+month+"/"+day;
+		else {
+			if(year.equals("2018") || year.equals("2019"))
+				date = day+"/"+month+"/"+year;
+			else date = day+"/"+month+"/"+(year.substring(year.length() - 2));
+		}
+		List<countDTO> list = statsRepository.selectTeamsHome(sport, date, division);
+		List<countDTO> listA = statsRepository.selectTeamsAway(sport, date, division);
 		
 		List<TableStatsDTO> tbl = new ArrayList<TableStatsDTO>();
 		List<TableStatsDTO> tblA = new ArrayList<TableStatsDTO>();

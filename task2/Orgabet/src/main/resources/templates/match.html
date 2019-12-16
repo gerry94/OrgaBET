@@ -11,9 +11,6 @@
       table th, table td {
          padding: 5px;
       }
-      .message {
-         color: blue;
-      }
    </style>
     
    <body>
@@ -22,34 +19,37 @@
           <div id="wrapper">
           <div id="tableDiv">
              <h2>Matches</h2>
-             <table id="matchTable" border="1">
-                   <tr>
-                      <th>time</th>
-                      <th>Home Team</th>
-                      <th>Away Team</th>
-                      <th>1</th>
-                      <th>X</th>
-                      <th>2</th>
-                      <th>OVER 2.5</th>
-                      <th>UNDER 2.5</th>
-                   </tr>
-                   <tr th:each ="tbl : ${matches}">
-                      <td th:utext="${tbl.match.time}">...</td>
-                      <td th:utext="${tbl.match.homeTeam}">...</td>
-                      <td th:utext="${tbl.match.awayTeam}">...</td>
-
-                      <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'H'}"
-                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
-                      <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'D'}"
-                          th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
-                      <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'A'}"
-                          th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
-                      <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'OVER'}"
-                          th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
-                      <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'UNDER'}"
-                          th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
-                   </tr>
-             </table>
+            <table id="matchTable" border="1">
+                <thead>
+                    <tr>
+                        <th>TIME</th>
+                        <th>HOME TEAM</th>
+                        <th>AWAY TEAM</th>
+                        <th>1</th>
+                        <th>X</th>
+                        <th>2</th>
+                        <th>OVER 2.5</th>
+                        <th>UNDER 2.5</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each ="tbl : ${matches}">
+                    <td th:utext="${tbl.match.time}">...</td>
+                    <td th:utext="${tbl.match.homeTeam}">...</td>
+                    <td th:utext="${tbl.match.awayTeam}">...</td>
+                    <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'H'}"
+                        th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
+                    <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'D'}"
+                        th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
+                    <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'A'}"
+                        th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
+                    <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'OVER'}"
+                        th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
+                    <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'UNDER'}"
+                        th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
+                    </tr>
+                </tbody>
+            </table>
              <script type="text/javascript" th:inline="javascript">
                 function printOdd(elem, matchId) {
                    /*var tableRow = elem.parentNode;

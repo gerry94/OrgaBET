@@ -1,9 +1,6 @@
 package com.example.Orgabet.controller;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.example.Orgabet.dto.AvgDTO;
 import com.example.Orgabet.dto.TableDTO;
@@ -13,9 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.Orgabet.repositories.MatchRepository;
 import com.example.Orgabet.services.MongoUserDetailsService;
@@ -26,7 +21,7 @@ public class MatchController {
 	MatchRepository matchRepository;
 	@Autowired
 	private MongoUserDetailsService userService;
-
+	
 	public List<TableDTO> tbl;
 	public Coupon coupon = new Coupon();
 	
@@ -52,8 +47,19 @@ public class MatchController {
 		//System.out.println("\n[DBG] Bet object: " + b.toString());
 		coupon.addMatch(b);
 		coupon.printCoupon();
+		
+		//try { System.out.println("[DBG]: " + buildContent(coupon)); } catch(Exception e) { System.out.println("Exception caought!"); }
 	}
 	
+	/*private String buildContent(Coupon c) {
+		Context context = new Context();
+		context.setVariable("coupons", c);
+		Set<String> fragmentsSelectors = new HashSet<>();
+		fragmentsSelectors.add("coupon");
+		
+		return templateEngine.process("coupon",fragmentsSelectors, context);
+	}*/
+
 	@RequestMapping("/match")
 	   public String viewMatches(Model model) {
 
