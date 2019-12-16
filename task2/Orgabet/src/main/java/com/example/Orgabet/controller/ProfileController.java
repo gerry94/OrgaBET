@@ -73,6 +73,7 @@ public class ProfileController
     	User user=repository.findByUsername(username);
     	user.setFirstName(edits.getFirstName());
     	user.setLastName(edits.getLastName());
+    	user.setBanned(edits.isBanned());
     	user=repository.save(user);
     	model.addAttribute("currentUser", currentUser);
     	model.addAttribute("user", user);

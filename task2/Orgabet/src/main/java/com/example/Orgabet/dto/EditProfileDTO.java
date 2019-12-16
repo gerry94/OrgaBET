@@ -7,4 +7,6 @@ import lombok.*;
 public class EditProfileDTO {
   String firstName;
   String lastName;
+  boolean banned;
+
 }
