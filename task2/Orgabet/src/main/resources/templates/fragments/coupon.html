@@ -18,8 +18,10 @@
                 </tr>
             </tbody>
         </table>
-        <button>Save Coupon</button>
-        <button>Clear</button>
+        <form th:action="@{/saveCoupon}" method="post">
+            <button type="submit" value="Submit">Save Coupon</button>
+            <button>Clear</button>
+        </form>
     </div>
 <!--</body>-->
 </html>
