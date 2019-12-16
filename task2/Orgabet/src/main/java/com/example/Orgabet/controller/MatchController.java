@@ -47,19 +47,13 @@ public class MatchController {
 		//System.out.println("\n[DBG] Bet object: " + b.toString());
 		coupon.addMatch(b);
 		coupon.printCoupon();
-		
-		//try { System.out.println("[DBG]: " + buildContent(coupon)); } catch(Exception e) { System.out.println("Exception caought!"); }
 	}
 	
-	/*private String buildContent(Coupon c) {
-		Context context = new Context();
-		context.setVariable("coupons", c);
-		Set<String> fragmentsSelectors = new HashSet<>();
-		fragmentsSelectors.add("coupon");
-		
-		return templateEngine.process("coupon",fragmentsSelectors, context);
-	}*/
-
+	@PostMapping("/saveCoupon")
+	public String saveCoupon() {
+		System.out.println("Saving Coupon....");
+		return "result";
+	}
 	
 	@RequestMapping("/match")
 	   public String viewMatches(@RequestParam(required = false, defaultValue = "football", value="sport") String sport, @RequestParam(required = false, defaultValue = "I1", value="division")String division, Model model) {
