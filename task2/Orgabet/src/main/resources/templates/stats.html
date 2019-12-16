@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
    <head>
       <title th:utext="${title}"></title>
    </head>
@@ -17,9 +18,8 @@
     
       <!-- Include _menu.html -->
       <th:block></th:block>  
-       
-      <h1>ORGABET</h1>
-       
+  <div layout:fragment="content">    
+   
       <h2>Statsis</h2>
        
       <h2>Home</h2>
@@ -37,6 +37,11 @@
                <th>HLO%</th>
                <th>HOO%</th>
                <th>HUO%</th>
+               <th>AW%</th>
+               <th>AD%</th>
+               <th>AL%</th>
+               <th>AO%</th>
+               <th>AU%</th>
             </tr>
             <tr th:each ="tbl : ${statsH}">
                <td th:utext="${tbl.team}">...</td>
@@ -50,7 +55,7 @@
             </tr>
       </table>
       
-      <h2>Away</h2>
+<h2>Away</h2>
       
       <table border="1">
             <tr>
@@ -70,6 +75,6 @@
                <td th:utext="${#numbers.formatDecimal(tblA.homeUnder, 0, 2)}">...</td>
             </tr>
       </table>
-       
+     </div>
    </body>
 </html>

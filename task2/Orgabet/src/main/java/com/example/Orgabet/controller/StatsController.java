@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,16 +18,27 @@ import com.example.Orgabet.dto.TableDTO;
 import com.example.Orgabet.dto.TableStatsDTO;
 import com.example.Orgabet.dto.countDTO;
 import com.example.Orgabet.models.Match;
+import com.example.Orgabet.models.User;
 import com.example.Orgabet.repositories.MatchRepository;
-import com.example.Orgabet.repositories.StatsRepository;
+import com.example.Orgabet.services.MongoUserDetailsService;
+
 
 @Controller
 public class StatsController {
+	
 	@Autowired
-	StatsRepository statsRepository;
+	private MongoUserDetailsService userService;
+	
+	@Autowired
+	MatchRepository statsRepository;
 	
 	@RequestMapping("/stats")
 	public List<String> viewStats(Model model) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	User currentUser = userService.findUserByUsername(auth.getName());
+		model.addAttribute("currentUser", currentUser);
+		
 		
 		List<countDTO> list = statsRepository.selectTeamsHome("Football", "24/08/2019", "I1");
 		List<countDTO> listA = statsRepository.selectTeamsAway("Football", "24/08/2019", "I1");
