@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,17 +18,22 @@ import com.example.Orgabet.dto.TableDTO;
 import com.example.Orgabet.dto.TableStatsDTO;
 import com.example.Orgabet.dto.countDTO;
 import com.example.Orgabet.models.Match;
+import com.example.Orgabet.models.User;
 import com.example.Orgabet.repositories.MatchRepository;
-import com.example.Orgabet.repositories.StatsRepository;
+import com.example.Orgabet.services.MongoUserDetailsService;
+
 
 @Controller
 public class StatsController {
+	
 	@Autowired
-	StatsRepository statsRepository;
+	private MongoUserDetailsService userService;
+	
+	@Autowired
+	MatchRepository statsRepository;
 	
 	@RequestMapping("/stats")
 	public List<String> viewStats(Model model) {
-		
 		//due to inconsistency in the dataset we need to re-format the date string according
 		//to the specific format of each sport
 		String day="24", month="08", year="2019";
@@ -43,6 +50,10 @@ public class StatsController {
 		}
 		List<countDTO> list = statsRepository.selectTeamsHome(sport, date, division);
 		List<countDTO> listA = statsRepository.selectTeamsAway(sport, date, division);
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    		User currentUser = userService.findUserByUsername(auth.getName());
+		model.addAttribute("currentUser", currentUser);
 		
 		List<TableStatsDTO> tbl = new ArrayList<TableStatsDTO>();
 		List<TableStatsDTO> tblA = new ArrayList<TableStatsDTO>();
@@ -60,7 +71,7 @@ public class StatsController {
 			countDTO cnt2 = l2.next();
 			StatsDTO stats2 = statsRepository.computeTeamAway("I1",cnt2.getId(), cnt2.getCount());
 		
-			tblA.add(new TableStatsDTO(stats2.getId(), stats2.getHomeWin(), stats2.getHomeDraw(), stats2.getHomeLost(), stats2.getHomeOver(), stats2.getHomeUnder(), null));
+			tblA.add(new TableStatsDTO(stats2.getId(), stats2.getHomeWin(), stats2.getHomeDraw(), stats2.getHomeLost(), stats2.getHomeOver(), stats2.getHomeUnder(), stats2.getAvgOdds()));
 		}
 		
 		model.addAttribute("statsA", tblA);

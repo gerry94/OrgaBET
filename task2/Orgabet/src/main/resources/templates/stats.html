@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
    <head>
       <title th:utext="${title}"></title>
    </head>
@@ -14,13 +15,34 @@
    </style>
     
    <body>
-    
+ 
+	    
       <!-- Include _menu.html -->
       <th:block></th:block>  
-       
-      <h1>ORGABET</h1>
-       
+
+		
+  	<div layout:fragment="content">    
+   
+  	   <div class="sidenav">
+		  <a href="#">Football</a>
+		  <a href="#">Tennis</a>
+		  <a href="#">Basketball</a>
+		</div>
+		
       <h2>Statsis</h2>
+      
+       
+       <div id="drop-menu">
+			<ul id="menu">
+				<li><a href="#">Period..</a>
+					<ul>
+						<li><a href="#">Last Year</a></li>
+						<li><a href="#">Last 2 Years</a></li>
+						<li><a href="#">Last 3 Years</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
        
       <h2>Home</h2>
        
@@ -37,6 +59,7 @@
                <th>HLO%</th>
                <th>HOO%</th>
                <th>HUO%</th>
+
             </tr>
             <tr th:each ="tbl : ${statsH}">
                <td th:utext="${tbl.team}">...</td>
@@ -45,12 +68,20 @@
                <td th:utext="${#numbers.formatDecimal(tbl.homeLost, 0, 2)}">...</td>
                <td th:utext="${#numbers.formatDecimal(tbl.homeOver, 0, 2)}">...</td>
                <td th:utext="${#numbers.formatDecimal(tbl.homeUnder, 0, 2)}">...</td>
-				<td class="quoteArea" th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'H'}"
+			   <td class="quoteArea" th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'H'}"
+                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+               <td class="quoteArea" th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'D'}"
+                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+               <td class="quoteArea" th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'A'}"
+                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+               <td class="quoteArea" th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'OVER'}"
+                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+               <td class="quoteArea" th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'UNDER'}"
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
             </tr>
       </table>
       
-      <h2>Away</h2>
+<h2>Away</h2>
       
       <table border="1">
             <tr>
@@ -60,6 +91,11 @@
                <th>AL%</th>
                <th>AO%</th>
                <th>AU%</th>
+               <th>AWO%</th>
+               <th>ADO%</th>
+               <th>ALO%</th>
+               <th>AOO%</th>
+               <th>AUO%</th>
             </tr>
             <tr th:each ="tblA : ${statsA}">
                <td th:utext="${tblA.team}">...</td>
@@ -68,8 +104,18 @@
                <td th:utext="${#numbers.formatDecimal(tblA.homeLost, 0, 2)}">...</td>
                <td th:utext="${#numbers.formatDecimal(tblA.homeOver, 0, 2)}">...</td>
                <td th:utext="${#numbers.formatDecimal(tblA.homeUnder, 0, 2)}">...</td>
+               <td class="quoteArea" th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'H'}"
+                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+               <td class="quoteArea" th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'D'}"
+                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+               <td class="quoteArea" th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'A'}"
+                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+               <td class="quoteArea" th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'OVER'}"
+                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+               <td class="quoteArea" th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'UNDER'}"
+                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
             </tr>
       </table>
-       
+     </div>
    </body>
 </html>
