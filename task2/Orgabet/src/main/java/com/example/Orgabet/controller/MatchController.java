@@ -67,7 +67,7 @@ public class MatchController {
     		User currentUser = userService.findUserByUsername(auth.getName());
 		model.addAttribute("currentUser", currentUser);
 		
-		List<Match> list = matchRepository.selectSortedMatches("Basket", "01/04/2019", null);
+		List<Match> list = matchRepository.selectSortedMatches("Football", "01/09/2019", "I1");
 		tbl = new ArrayList<TableDTO>();
 		
 		for(Iterator<Match> l = list.iterator(); l.hasNext();) {
