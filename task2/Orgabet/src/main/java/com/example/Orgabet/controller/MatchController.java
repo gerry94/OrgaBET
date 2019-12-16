@@ -60,14 +60,15 @@ public class MatchController {
 		return templateEngine.process("coupon",fragmentsSelectors, context);
 	}*/
 
+	
 	@RequestMapping("/match")
-	   public String viewMatches(Model model) {
+	   public String viewMatches(@RequestParam(required = false, defaultValue = "football", value="sport") String sport, @RequestParam(required = false, defaultValue = "I1", value="division")String division, Model model) {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     		User currentUser = userService.findUserByUsername(auth.getName());
 		model.addAttribute("currentUser", currentUser);
 		
-		List<Match> list = matchRepository.selectSortedMatches("Football", "01/09/2019", "I1");
+		List<Match> list = matchRepository.selectSortedMatches(sport, "01/09/2019", division);
 		tbl = new ArrayList<TableDTO>();
 		
 		for(Iterator<Match> l = list.iterator(); l.hasNext();) {

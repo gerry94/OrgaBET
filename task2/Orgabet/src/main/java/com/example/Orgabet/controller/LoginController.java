@@ -32,7 +32,7 @@ public class LoginController {
 		            return new ModelAndView("forward:/admin");
 		        }
 		        if ("USER".equals(auth.getAuthority())) {
-		        	return new ModelAndView("forward:/user");
+		        	return new ModelAndView("forward:/match");
 		        }
 		    }
 		}
@@ -55,7 +55,7 @@ public class LoginController {
 		            return new ModelAndView("forward:/admin");
 		        }
 		        if ("USER".equals(auth.getAuthority())) {
-		        	return new ModelAndView("forward:/user");
+		        	return new ModelAndView("forward:/match");
 		        }
 		    }
 		}
@@ -130,7 +130,7 @@ public class LoginController {
 		            return new ModelAndView("forward:/admin");
 		        }
 		        if ("USER".equals(auth.getAuthority())) {
-		        	return new ModelAndView("forward:/user");
+		        	return new ModelAndView("forward:/match");
 		        }
 		    }
 		}

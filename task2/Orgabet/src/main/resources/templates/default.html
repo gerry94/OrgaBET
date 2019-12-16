@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
     <head>
         <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Default</title>
         <meta name="description" content=""/>
@@ -18,7 +19,16 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/match">Matches <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/stats">Statistics <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active" sec:authorize="hasAuthority('ADMIN')">
+                        <a class="nav-link" href="admin/users">User List <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active" sec:authorize="hasAuthority('ADMIN')">
+                        <a class="nav-link" href="admin/addMatches">Add Matches <span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
