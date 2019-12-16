@@ -20,8 +20,8 @@ public interface MatchRepositoryCustom {
 
 	List<countDTO> selectTeamsAway(String sport, String date, String division);
 	
-	StatsDTO computeTeamHome(String division, String team, Double totHome);
+	StatsDTO computeTeamHome(String division, String team, Double totHome, String sport, String date);
 
-	StatsDTO computeTeamAway(String division, String team, Double totHome);
+	StatsDTO computeTeamAway(String division, String team, Double totHome, String sport, String date);
 
 }

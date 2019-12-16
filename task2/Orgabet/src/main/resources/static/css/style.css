@@ -161,3 +161,7 @@ ul#menu ul a:hover {
 .sidenav a:hover {
   color: #f1f1f1;
 }
+
+.statsRow:hover {
+    background-color: lightsalmon;
+}

@@ -9,13 +9,9 @@ import java.util.List;
 @Getter
 @Setter
 public class TableStatsDTO {
-	String team;
-	Double homeWin;
-	Double homeDraw;
-	Double homeLost;
-	Double homeOver;
-	Double homeUnder;
-	List<AvgDTO> avgOdds;
+	public String team;
+	public Double homeWin, homeDraw, homeLost, homeOver, homeUnder;
+	public List<AvgDTO> avgOdds;
 	
 	public TableStatsDTO(String t, Double HW, Double HD, Double HL, Double HO, Double HU, List<AvgDTO> avg) {
 		this.team = t;
