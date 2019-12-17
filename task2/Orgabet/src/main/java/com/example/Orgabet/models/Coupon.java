@@ -1,6 +1,7 @@
 package com.example.Orgabet.models;
 import java.security.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,12 +15,12 @@ import lombok.Setter;
 @Setter
 @Document
 public class Coupon {
-	private Timestamp timestamp;
+	private Date date;
 	private List<Tot> bookmakerTot; //list of total bet multipliers for each available bookmaker
 	private List<Bet> bets; //list of my bets
 	
 	public Coupon() {
-		this.timestamp = null; //non ho idea di come si inizializza
+		this.date = null; //non ho idea di come si inizializza
 		this.bookmakerTot = new ArrayList<>();
 		this.bets = new ArrayList<>();
 	}

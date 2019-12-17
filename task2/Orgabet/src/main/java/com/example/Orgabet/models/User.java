@@ -4,8 +4,7 @@ import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -29,12 +28,19 @@ public class User {
   private Set<Role> roles;
   private String banned;
   private List<Coupon> coupons;
-
+	
+  	public User() {
+  		this.coupons = new ArrayList<>(); //almeno le liste vanno istanziate altrimenti causa NullPointerException
+	}
 	public String getUsername() {
 	  return username;
 	}
 	
 	public String getPassword() {
 		return password;
+	}
+	
+	public void addCoupon(Coupon c) {
+		coupons.add(c);
 	}
 }
