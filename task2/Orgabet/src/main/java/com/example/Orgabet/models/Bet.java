@@ -17,19 +17,15 @@ import lombok.Setter;
 @Setter
 @Document
 public class Bet {
+	private String matchId;
 	private String homeTeam;
 	private String awayTeam;
 	private String result; //quote type (ex: H, D, OVER...)
 	private Double avgOdd;
 	private ArrayList<Quotes> quotes;
 	
-	public Bet(/*String h, String a, String res, Double avg, ArrayList<Quotes> q*/) {
-		/*this.homeTeam = h;
-		this.awayTeam = a;
-		this.result = res;
-		this.avgOdd = avg;*/
+	public Bet() {
 		this.quotes = new ArrayList<Quotes>();
-		//this.quotes.addAll(q);
 	}
 	
 	public void addQuotes(ArrayList<Quotes> q) {

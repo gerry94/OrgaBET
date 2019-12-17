@@ -37,25 +37,53 @@ public class MatchController {
 		return null;
 	}
 	
-	//@ResponseBody
+	@ResponseBody
+	@RequestMapping(value = "/removeBet")
+	public void removeBet(@RequestParam Map<String,String> param) {
+		coupon.removeBet(param.get("id"));
+	}
+	
 	@GetMapping("/printQuote")
 	public String printQuoteAjax(@RequestParam(required = true, value = "id") String id, @RequestParam(required = true, value = "type") String type, Model model) {//@RequestParam Map<String,String> param) {
 		TableDTO t = findById(id);
 		if(t == null) return null;
 		
 		Match m = t.getMatch();
-		Bet b = new Bet();
-		b.setHomeTeam(m.getHomeTeam());
-		b.setAwayTeam(m.getAwayTeam());
-		b.setResult(type);
-		b.setAvgOdd(t.getQuote(type));
-		b.addQuotes(m.getQuoteList(type));
+		//scorrere il coupon per controllare che non ci sia già un match con stesso ID
+		List<Bet> couponBets = this.coupon.getBets();
 		
-		coupon.addMatch(b);
-		coupon.printCoupon();
+		boolean error = false;
+		for(Iterator<Bet> cb = couponBets.iterator(); cb.hasNext();) {
+			if(cb.next().getMatchId().equals(m.getId())) {
+				System.out.println("ERROR: Can't play same match twice!");
+				error = true;
+				break;
+			}
+		}
 		
+		if(!error) {
+			Bet b = new Bet();
+			b.setMatchId(m.getId());
+			b.setHomeTeam(m.getHomeTeam());
+			b.setAwayTeam(m.getAwayTeam());
+			b.setResult(type);
+			b.setAvgOdd(t.getQuote(type));
+			b.addQuotes(m.getQuoteList(type));
+			
+			coupon.addMatch(b);
+			//coupon.printCoupon();
+		}
 		model.addAttribute("coupon", coupon);
 		return "fragments :: coupon";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/clearCoupon")
+	public void clearCoupon()
+	{
+		System.out.println("Coupon cleared!");
+		//clear and refresh the object
+		coupon = new Coupon();
 	}
 	
 	@ResponseBody
@@ -78,8 +106,7 @@ public class MatchController {
 	
 	@RequestMapping("/match")
 	   public String viewMatches(@RequestParam(required = false, defaultValue = "Football", value="sport") String sport, @RequestParam(required = false, defaultValue = "I1", value="division")String division,@RequestParam(required = false, defaultValue = "01/09/2019", value="date") String date, Model model) {
-
-
+		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     		User currentUser = userService.findUserByUsername(auth.getName());
 		model.addAttribute("currentUser", currentUser);

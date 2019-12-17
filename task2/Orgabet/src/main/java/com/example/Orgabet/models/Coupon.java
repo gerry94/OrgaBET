@@ -1,11 +1,7 @@
 package com.example.Orgabet.models;
-import java.security.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
-import lombok.ToString;
+import java.util.*;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Getter;
@@ -20,7 +16,7 @@ public class Coupon {
 	private List<Bet> bets; //list of my bets
 	
 	public Coupon() {
-		this.date = null; //non ho idea di come si inizializza
+		this.date = null;
 		this.bookmakerTot = new ArrayList<>();
 		this.bets = new ArrayList<>();
 	}
@@ -50,7 +46,6 @@ public class Coupon {
 				if(tmp != null) //if an elem is updatet, I keep track of it
 					exisitingQuotes.add(tmp);
 			}
-			
 			//remove from bookmakersTot all elems that are not in existingQuotes
 			this.bookmakerTot.retainAll(exisitingQuotes);
 			
@@ -68,6 +63,17 @@ public class Coupon {
 		return null;
 	}
 	
+	public void removeBet(String id) {
+		for(Iterator<Bet> cb = this.bets.iterator(); cb.hasNext();) {
+			if(cb.next().getMatchId().equals(id))
+			{
+				cb.remove();
+				return;
+			}
+		}
+	}
+	
+	//function used for debug
 	public void printCoupon() {
 		System.out.print("\033[H\033[2J");  //"clear" the screen
 		System.out.flush();

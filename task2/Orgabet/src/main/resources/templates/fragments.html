@@ -5,7 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" media="all" href="../static/css/style.css" th:href="@{/css/style.css}" />
 </head>
-
 <body>
     <div th:fragment="coupon">
         <script type="text/javascript">
@@ -14,22 +13,62 @@
                     type: "POST",
                     url: "/saveCoupon"
                 });
+                clearTBody();
+            }
+
+            function clearCoupon() {
+                $.ajax({
+                    type: "POST",
+                    url: "/clearCoupon"
+                });
+                clearTBody();
+            }
+            function clearTBody() {
+                var old_tbody = document.getElementById("couponTableBody");
+                var new_tbody = document.createElement('tbody');
+                old_tbody.parentNode.replaceChild(new_tbody, old_tbody);
+
+                old_tbody = document.getElementById("bookmakerTotBody");
+                //new_tbody = document.createElement('tbody');
+                old_tbody.parentNode.replaceChild(new_tbody, old_tbody);
+            }
+
+            function removeBet(elem, matchId) {
+                document.getElementById("couponTable").deleteRow(elem.parentNode.rowIndex);
+                $.ajax({
+                    type: "GET",
+                    url: "/removeBet",
+                    data: {id:matchId}
+                });
             }
         </script>
-        <p>MyCoupon</p>
+        <div class="couponTitle"><h3>MyCoupon</h3></div>
 
-        <table id="couponTable">
-            <tbody>
-            <tr th:each="bet:${coupon.bets}">
-                <td th:utext="${bet.homeTeam}">...</td>
-                <td th:utext="${bet.awayTeam}">...</td>
-                <td th:utext="${bet.result}">...</td>
-                <td th:text="${#numbers.formatDecimal(bet.avgOdd, 0, 2)}">...</td>
+        <table id="couponTable" class="couponTable">
+            <tbody id="couponTableBody">
+            <tr class="couponTableRow" th:each="bet:${coupon.bets}">
+                <td th:utext="${bet.homeTeam} +' - '+ ${bet.awayTeam}">...</td>
+                <td th:utext="${bet.result}" style="text-align: center;">...</td>
+                <td th:text="${#numbers.formatDecimal(bet.avgOdd, 0, 2)}" style="text-align: right;">...</td>
+                <td class="removeBet" th:matchId="${bet.matchId}" th:onclick="javascript:removeBet(this, this.getAttribute('matchId'));">-</td>
             </tr>
             </tbody>
         </table>
-        <button th:onclick="javascript:saveCoupon();">Save Coupon</button>
-        <button>Clear</button>
+        <div class="bookmakerTotDiv">
+            <p style="font-weight: bold;">Available Bookmakers:</p>
+            <table id="bookmakerTot" class="couponTable">
+                <tbody id="bookmakerTotBody">
+                    <tr th:each="b: ${coupon.bookmakerTot}">
+                        <td th:utext="${b.bookmaker}">...</td>
+                        <td th:text="${#numbers.formatDecimal(b.quoteTot, 0, 2)}" style="text-align: right;">...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="couponButtonDiv">
+            <button th:onclick="javascript:saveCoupon();" class="couponButton" style="background-color:green;">Save Coupon</button>
+            <button th:onclick="javascript:clearCoupon();" class="couponButton" style="background-color:red;">Clear</button>
+        </div>
     </div>
     </body>
 </html>
