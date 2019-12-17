@@ -5,6 +5,7 @@ import java.util.*;
 import com.example.Orgabet.dto.AvgDTO;
 import com.example.Orgabet.dto.TableDTO;
 import com.example.Orgabet.models.*;
+import com.example.Orgabet.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +22,8 @@ public class MatchController {
 	MatchRepository matchRepository;
 	@Autowired
 	private MongoUserDetailsService userService;
+	@Autowired
+	UserRepository userRepository;
 	
 	public List<TableDTO> tbl;
 	public Coupon coupon = new Coupon();
@@ -37,25 +40,40 @@ public class MatchController {
 	@ResponseBody
 	@RequestMapping(value = "/printQuote")
 	public void printQuoteAjax(@RequestParam Map<String,String> param) {
-		//System.out.println("[DBG] Ajax request: " + param.entrySet());
 		TableDTO t = findById(param.get("id"));
 		if(t == null) return;
 		
 		String oddType = param.get("type");
 		Match m = t.getMatch();
-		Bet b = new Bet(m.getHomeTeam(), m.getAwayTeam(), oddType, t.getQuote(oddType), m.getQuoteList(oddType));
-		//System.out.println("\n[DBG] Bet object: " + b.toString());
+		Bet b = new Bet();//(m.getHomeTeam(), m.getAwayTeam(), oddType, t.getQuote(oddType), m.getQuoteList(oddType));
+		b.setHomeTeam(m.getHomeTeam());
+		b.setAwayTeam(m.getAwayTeam());
+		b.setResult(oddType);
+		b.setAvgOdd(t.getQuote(oddType));
+		b.addQuotes(m.getQuoteList(oddType));
+		
 		coupon.addMatch(b);
 		coupon.printCoupon();
 	}
-
-	@PostMapping("/saveCoupon")
-	public String saveCoupon() {
-		System.out.println("Saving Coupon....");
-		return "result";
+	
+	@ResponseBody
+	@RequestMapping(value = "/saveCoupon")
+	public void saveCoupon() {
+		System.out.println("Saving Coupon...");
+		
+		//codice che salva il Coupon nel current user
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User currentUser = userService.findUserByUsername(auth.getName());
+		
+		coupon.setDate(new Date(System.currentTimeMillis()));
+		currentUser.addCoupon(coupon);
+		userRepository.save(currentUser);
+		
+		System.out.println("Coupon saved!");
+		//clear and refresh the object
+		coupon = new Coupon();
 	}
 	
-
 	@RequestMapping("/match")
 	   public String viewMatches(@RequestParam(required = false, defaultValue = "Football", value="sport") String sport, @RequestParam(required = false, defaultValue = "I1", value="division")String division,@RequestParam(required = false, defaultValue = "01/09/2019", value="date") String date, Model model) {
 

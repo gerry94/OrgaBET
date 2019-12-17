@@ -23,12 +23,16 @@ public class Bet {
 	private Double avgOdd;
 	private ArrayList<Quotes> quotes;
 	
-	public Bet(String h, String a, String res, Double avg, ArrayList<Quotes> q) {
-		this.homeTeam = h;
+	public Bet(/*String h, String a, String res, Double avg, ArrayList<Quotes> q*/) {
+		/*this.homeTeam = h;
 		this.awayTeam = a;
 		this.result = res;
-		this.avgOdd = avg;
+		this.avgOdd = avg;*/
 		this.quotes = new ArrayList<Quotes>();
+		//this.quotes.addAll(q);
+	}
+	
+	public void addQuotes(ArrayList<Quotes> q) {
 		this.quotes.addAll(q);
 	}
 }
