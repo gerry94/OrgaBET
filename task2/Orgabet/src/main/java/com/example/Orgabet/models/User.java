@@ -26,7 +26,7 @@ public class User {
   private String email;
   @DBRef
   private Set<Role> roles;
-  private String banned;
+  private boolean banned;
   private List<Coupon> coupons;
 	
   	public User() {

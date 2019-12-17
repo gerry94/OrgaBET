@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.Orgabet.dto.AvgDTO;
 import com.example.Orgabet.dto.StatsDTO;
@@ -33,10 +34,9 @@ public class StatsController {
 	MatchRepository statsRepository;
 	
 	@RequestMapping("/stats")
-	public List<String> viewStats(Model model) {
+	public List<String> viewStats(@RequestParam(required = false, defaultValue = "Football", value="sport") String sport, @RequestParam(required = false, defaultValue = "I1", value="division")String division,@RequestParam(required = false, defaultValue = "2019", value="year") String year,Model model) {
 		//due to inconsistency in the dataset we need to re-format the date string according
 		//to the specific format of each sport
-		String sport = "Football", year="2019", division = "I1";
 		
 		/*if(sport.equals("Basket"))
 			date = day+"/"+month+"/"+year;

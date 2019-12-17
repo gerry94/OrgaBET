@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
    <head>
       <title>OrgaBet - Profile</title>
@@ -26,6 +27,7 @@
                 <input type="text" name="firstName" id="inputUsername" class="form-control" placeholder="Firstname" required="" th:attr="value = ${user.firstName}" />
 				<label for="inputLastName" class="sr-only">Last Name</label>
                 <input type="text" name="lastName" id="inputUsername" class="form-control" placeholder="Lastname" required="" th:attr="value = ${user.lastName}"/>
+                <div sec:authorize="hasAuthority('ADMIN')">BAN USER<input type="checkbox" sec:authorize="hasAuthority('ADMIN')" id=inputBanned name="banned" th:checked="${user.banned}"></div><br>
                 <button id="submit-form" class="btn btn-lg btn-primary btn-block" type="submit">Apply Edits</button>
             </form>
                
