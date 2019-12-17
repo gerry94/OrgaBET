@@ -23,5 +23,8 @@ public interface MatchRepositoryCustom {
 	StatsDTO computeTeamHome(String division, String team, Double totHome, String sport, String date);
 
 	StatsDTO computeTeamAway(String division, String team, Double totHome, String sport, String date);
+	//Return list of winning tennis player and count of won matches
+	List<countDTO> selectWinningTennisPlayer(String date, String surface);
+	StatsDTO computeTennisPlayer(String surface, String player, Double totWin, String date);
 
 }

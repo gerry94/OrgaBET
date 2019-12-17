@@ -51,9 +51,14 @@ public class StatsController {
 			if(!(year.equals("2018") || year.equals("2019")))
 				year = (year.substring(year.length() - 2));
 		
-		List<countDTO> list = statsRepository.selectTeamsHome(sport, year, division);
-		List<countDTO> listA = statsRepository.selectTeamsAway(sport, year, division);
-
+		List<countDTO> list = null, listA = null;
+		if(sport.equals("Tennis"))
+			list = statsRepository.selectWinningTennisPlayer(year, division);
+		else {
+			list = statsRepository.selectTeamsHome(sport, year, division);
+			listA = statsRepository.selectTeamsAway(sport, year, division);
+		}
+		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     		User currentUser = userService.findUserByUsername(auth.getName());
 		model.addAttribute("currentUser", currentUser);
@@ -63,25 +68,37 @@ public class StatsController {
 		
 		for(Iterator<countDTO> l = list.iterator(); l.hasNext();) {
 			countDTO cnt = l.next();
-			StatsDTO stats = statsRepository.computeTeamHome("I1",cnt.getId(), cnt.getCount(), sport, year);
+			StatsDTO stats = null;
+			
+			if(sport.equals("Tennis"))
+				stats = statsRepository.computeTennisPlayer(division, cnt.getId(), cnt.getCount(), year);
+			else
+				stats = statsRepository.computeTeamHome(division,cnt.getId(), cnt.getCount(), sport, year);
 		
 			tbl.add(new TableStatsDTO(stats.getId(), stats.getHomeWin(), stats.getHomeDraw(), stats.getHomeLost(), stats.getHomeOver(), stats.getHomeUnder(), stats.getAvgOdds()));
 		}
 		
 		model.addAttribute("statsH", tbl);
 		
-		for(Iterator<countDTO> l2 = listA.iterator(); l2.hasNext();) {
-			countDTO cnt2 = l2.next();
-			StatsDTO stats2 = statsRepository.computeTeamAway("I1",cnt2.getId(), cnt2.getCount(), sport, year);
-		
-			tblA.add(new TableStatsDTO(stats2.getId(), stats2.getHomeWin(), stats2.getHomeDraw(), stats2.getHomeLost(), stats2.getHomeOver(), stats2.getHomeUnder(), stats2.getAvgOdds()));
+		if(!sport.equals("Tennis")) {
+			for(Iterator<countDTO> l2 = listA.iterator(); l2.hasNext();) {
+				countDTO cnt2 = l2.next();
+				StatsDTO stats2 = statsRepository.computeTeamAway(division,cnt2.getId(), cnt2.getCount(), sport, year);
+			
+				tblA.add(new TableStatsDTO(stats2.getId(), stats2.getHomeWin(), stats2.getHomeDraw(), stats2.getHomeLost(), stats2.getHomeOver(), stats2.getHomeUnder(), stats2.getAvgOdds()));
+			}
+			
+			model.addAttribute("statsA", tblA);
 		}
-		
-		model.addAttribute("statsA", tblA);
 		
 		List<String> stats = new ArrayList<String>();
 		stats.add("statsH");
-		stats.add("statsA");
+		
+		if(!sport.contentEquals("Tennis"))
+			stats.add("statsA");
+		
+		model.addAttribute("sport", sport);
+		model.addAttribute("division", division);
 		
 		return stats;
 	}
