@@ -37,23 +37,25 @@ public class MatchController {
 		return null;
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "/printQuote")
-	public void printQuoteAjax(@RequestParam Map<String,String> param) {
-		TableDTO t = findById(param.get("id"));
-		if(t == null) return;
+	//@ResponseBody
+	@GetMapping("/printQuote")
+	public String printQuoteAjax(@RequestParam(required = true, value = "id") String id, @RequestParam(required = true, value = "type") String type, Model model) {//@RequestParam Map<String,String> param) {
+		TableDTO t = findById(id);
+		if(t == null) return null;
 		
-		String oddType = param.get("type");
 		Match m = t.getMatch();
-		Bet b = new Bet();//(m.getHomeTeam(), m.getAwayTeam(), oddType, t.getQuote(oddType), m.getQuoteList(oddType));
+		Bet b = new Bet();
 		b.setHomeTeam(m.getHomeTeam());
 		b.setAwayTeam(m.getAwayTeam());
-		b.setResult(oddType);
-		b.setAvgOdd(t.getQuote(oddType));
-		b.addQuotes(m.getQuoteList(oddType));
+		b.setResult(type);
+		b.setAvgOdd(t.getQuote(type));
+		b.addQuotes(m.getQuoteList(type));
 		
 		coupon.addMatch(b);
 		coupon.printCoupon();
+		
+		model.addAttribute("coupon", coupon);
+		return "fragments :: coupon";
 	}
 	
 	@ResponseBody
@@ -82,7 +84,6 @@ public class MatchController {
     		User currentUser = userService.findUserByUsername(auth.getName());
 		model.addAttribute("currentUser", currentUser);
 		
-
 		List<Match> list = matchRepository.selectSortedMatches(sport, date, division);
 
 		tbl = new ArrayList<TableDTO>();
@@ -95,6 +96,7 @@ public class MatchController {
 		}
 		
 		model.addAttribute("matches", tbl);
+		model.addAttribute("coupon",coupon);
 
 	      return "match";
 	   }

@@ -165,3 +165,11 @@ ul#menu ul a:hover {
 .statsRow:hover {
     background-color: lightsalmon;
 }
+
+#couponDiv {
+    display: inline;
+    background-color: gray;
+    border: 1px solid black;
+    width: 50%;
+    height: 50%;
+}

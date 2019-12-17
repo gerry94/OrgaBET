@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all" href="../static/css/style.css" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+    <div th:fragment="coupon">
+        <script type="text/javascript">
+            function saveCoupon() {
+                $.ajax({
+                    type: "POST",
+                    url: "/saveCoupon"
+                });
+            }
+        </script>
+        <p>MyCoupon</p>
+
+        <table id="couponTable">
+            <tbody>
+            <tr th:each="bet:${coupon.bets}">
+                <td th:utext="${bet.homeTeam}">...</td>
+                <td th:utext="${bet.awayTeam}">...</td>
+                <td th:utext="${bet.result}">...</td>
+                <td th:text="${#numbers.formatDecimal(bet.avgOdd, 0, 2)}">...</td>
+            </tr>
+            </tbody>
+        </table>
+        <button th:onclick="javascript:saveCoupon();">Save Coupon</button>
+        <button>Clear</button>
+    </div>
+    </body>
+</html>
