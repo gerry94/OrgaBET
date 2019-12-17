@@ -34,7 +34,7 @@
                 </thead>
                 <tbody>
                     <tr th:each ="tbl : ${matches}">
-                    <td th:utext="${tbl.match.time}">...</td>
+                    <td th:utext="${tbl.match.Time}">...</td>
                     <td th:utext="${tbl.match.homeTeam}">...</td>
                     <td th:utext="${tbl.match.awayTeam}">...</td>
                     <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'H'}"
