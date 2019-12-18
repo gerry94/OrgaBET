@@ -4,10 +4,10 @@
     <head>
         <title>Signup</title>
     </head>
-    <body>
+    <body class="text-center">
         <div layout:fragment="content">
             <form class="form-signin" th:action="@{/signup}" method="post">
-                <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72" />
+                <img class="mb-4" th:src="@{images/logo.jpg}" width="72" height="72"/> <!--src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72" />-->
                 <h1 class="h3 mb-3 font-weight-normal">Signup Here</h1>
                 <div th:if="${param.error}">
                     Invalid email and password.
