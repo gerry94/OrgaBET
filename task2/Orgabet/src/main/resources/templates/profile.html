@@ -35,10 +35,10 @@
 	     <table>
               <tr th:each="c: ${coupons} ">
                   <td th:utext="${c.date}">...</td>
-                  <td><form class="form-signin" th:action="@{${user.username}+'/coupon/'+ ${c.id}}" method="get">
+                  <td><form class="form-signin" th:action="@{__${#httpServletRequest.requestURI}__/coupon/__${c.id}__}" method="get">
                 <button class="btn btn-md btn-success btn-block" type="Submit">View Coupon</button>
             	</form></td>
-            	<td><form class="form-signin" th:action="@{${user.username}+'/deletecoupon/'+ ${c.id}}" method="post">
+            	<td><form class="form-signin" th:action="@{__${#httpServletRequest.requestURI}__/deletecoupon/__${c.id}__}" method="post">
                 <button class="btn btn-md btn-success btn-block" type="Submit">Delete Coupon</button>
             	</form></td>
                </tr>

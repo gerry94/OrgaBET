@@ -47,21 +47,22 @@ public class Coupon implements Comparable<Coupon>{
 			//check each bookmaker and combine the quotes (if possible)
 			for(Iterator<Quotes> quotes = b.getQuotes().iterator(); quotes.hasNext();) {
 				Quotes q = quotes.next();
-				Tot tmp = updateQuote(q);
-				if(tmp != null) //if an elem is updatet, I keep track of it
+				Tot tmp = updateQuote(q, true);
+				if(tmp != null) //if an elem is updated, I keep track of it
 					exisitingQuotes.add(tmp);
 			}
 			//remove from bookmakersTot all elems that are not in existingQuotes
 			this.bookmakerTot.retainAll(exisitingQuotes);
-			
 		}
+		Collections.sort(this.bookmakerTot);
 	}
 	
-	public Tot updateQuote(Quotes q) {
+	public Tot updateQuote(Quotes q, boolean add) { //add=true if i'm adding a quote to the coupon
 		for(Iterator<Tot> t = this.bookmakerTot.iterator(); t.hasNext();) {
 			Tot tmp = t.next();
 			if(tmp.getBookmaker().equals(q.getBookmaker())) {
-				tmp.setQuoteTot(tmp.getQuoteTot()*q.getOdd());
+				if(add) tmp.setQuoteTot(tmp.getQuoteTot()*q.getOdd());
+				else tmp.setQuoteTot(tmp.getQuoteTot()/q.getOdd());
 				return tmp;
 			}
 		}
@@ -69,16 +70,33 @@ public class Coupon implements Comparable<Coupon>{
 	}
 	
 	public void removeBet(String id) {
+		Bet b = new Bet();
 		for(Iterator<Bet> cb = this.bets.iterator(); cb.hasNext();) {
-			if(cb.next().getMatchId().equals(id))
-			{
+			b = cb.next();
+			if(b.getMatchId().equals(id)) {
 				cb.remove();
-				return;
+				break;
 			}
+			else b = new Bet();
 		}
+		
+		if(this.bets.isEmpty()) {
+			this.bookmakerTot.clear(); //clear the list
+			return;
+		}
+		
+		List<Bet> temp = new ArrayList<>(this.bets);
+		
+		this.bets.clear();
+		this.bookmakerTot.clear();
+
+		for(Bet bet: temp)
+			addMatch(bet);
+		
+		Collections.sort(this.bookmakerTot);
 	}
 	
-	//function used for debug
+	//function used for debug in the terminal
 	public void printCoupon() {
 		System.out.print("\033[H\033[2J");  //"clear" the screen
 		System.out.flush();
