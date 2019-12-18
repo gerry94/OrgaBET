@@ -43,4 +43,8 @@ public class User {
 	public void addCoupon(Coupon c) {
 		coupons.add(c);
 	}
+	public List<Coupon> getCoupons() {
+		return coupons;
+	}
+	
 }

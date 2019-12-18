@@ -1,7 +1,9 @@
 package com.example.Orgabet.controller;
 
+import java.util.Iterator;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.Orgabet.dto.EditProfileDTO;
+import com.example.Orgabet.dto.TableDTO;
+import com.example.Orgabet.models.Coupon;
 import com.example.Orgabet.models.User;
 import com.example.Orgabet.repositories.UserRepository;
 import com.example.Orgabet.services.MongoUserDetailsService;
@@ -32,6 +36,15 @@ public class ProfileController
 	private UserRepository repository;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	public Coupon findCouponById(User user, ObjectId id) {
+		for(Iterator<Coupon> c = user.getCoupons().iterator(); c.hasNext();) {
+			Coupon coupon = c.next();
+			if(coupon.getId().equals(id))
+				return coupon;
+		}
+		return null;
+	}
 	
     @GetMapping("admin/users/{username}")
     public String usersGet(@PathVariable("username") String username, Model model)
@@ -62,6 +75,7 @@ public class ProfileController
 	    User user = userService.findUserByUsername(auth.getName());
     	model.addAttribute("currentUser", user);
     	model.addAttribute("user", user);
+    	model.addAttribute("coupons",user.getCoupons());
         return "profile";
     }
     
@@ -77,6 +91,37 @@ public class ProfileController
     	user=repository.save(user);
     	model.addAttribute("currentUser", currentUser);
     	model.addAttribute("user", user);
+    	model.addAttribute("coupons",user.getCoupons());
+        return "profile";
+    }
+    
+    @RequestMapping(value = {"/profile/{username}/coupon/{couponId}", "/admin/users/{username}/coupon/{couponId}"}, method = RequestMethod.GET)
+    public String viewCoupon(@PathVariable("username") String username, @PathVariable("couponId") ObjectId couponId, Model model)
+    {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    User currentUser = userService.findUserByUsername(auth.getName());
+    	User user=repository.findByUsername(username);
+    	Coupon coupon = findCouponById(user,couponId);
+    	model.addAttribute("currentUser", currentUser);
+    	model.addAttribute("user", user);
+    	model.addAttribute("coupon",coupon);
+        return "coupon";
+    }
+    
+    @RequestMapping(value = {"/profile/{username}/deletecoupon/{couponId}", "/admin/users/{username}/deletecoupon/{couponId}"}, method = RequestMethod.POST)
+    public String deleteCoupon(@PathVariable("username") String username, @PathVariable("couponId") ObjectId couponId, Model model)
+    {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    User currentUser = userService.findUserByUsername(auth.getName());
+    	User user=repository.findByUsername(username);
+    	Coupon coupon = findCouponById(user,couponId);
+    	List <Coupon> coupons=user.getCoupons();
+    	coupons.remove(coupon);
+    	user.setCoupons(coupons);
+    	user=repository.save(user);
+    	model.addAttribute("currentUser", currentUser);
+    	model.addAttribute("user", user);
+    	model.addAttribute("coupons",user.getCoupons());
         return "profile";
     }
     
