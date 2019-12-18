@@ -53,8 +53,8 @@ public class Coupon implements Comparable<Coupon>{
 			}
 			//remove from bookmakersTot all elems that are not in existingQuotes
 			this.bookmakerTot.retainAll(exisitingQuotes);
-			
 		}
+		Collections.sort(this.bookmakerTot);
 	}
 	
 	public Tot updateQuote(Quotes q, boolean add) { //add=true if i'm adding a quote to the coupon
@@ -92,6 +92,8 @@ public class Coupon implements Comparable<Coupon>{
 
 		for(Bet bet: temp)
 			addMatch(bet);
+		
+		Collections.sort(this.bookmakerTot);
 	}
 	
 	//function used for debug in the terminal
