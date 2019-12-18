@@ -9,7 +9,7 @@ db.tennis.find()._addSpecial("$snapshot",true).forEach(
 		db.tennis.update(
 			{_id: elem._id},
 			{ $push: {
-				odds: { type:"W", quotes: [{bookmaker: "bet365", odd: elem.B365W},{bookmaker: "betwin", odd: elem.BWW},{bookmaker: "Centrebet", odd: elem.CBW},{bookmaker: "Gamebookers", odd: elem.GBW},{bookmaker: "Expekt", odd: elem.EXW},{bookmaker: "Interwetten", odd: elem.IWW},{bookmaker: "Ladbrokes", odd: elem.LBW},{bookmaker: "Pinnacle", odd: elem.PSW},{bookmaker: "Sportingbet", odd: elem.SBW},{bookmaker: "Stan James", odd: elem.SJW},{bookmaker: "William Hill", odd: elem.WHW},{bookmaker: "Unibet", odd: elem.UBW} ] }
+				odds: { type:"H", quotes: [{bookmaker: "bet365", odd: elem.B365W},{bookmaker: "betwin", odd: elem.BWW},{bookmaker: "Centrebet", odd: elem.CBW},{bookmaker: "Gamebookers", odd: elem.GBW},{bookmaker: "Expekt", odd: elem.EXW},{bookmaker: "Interwetten", odd: elem.IWW},{bookmaker: "Ladbrokes", odd: elem.LBW},{bookmaker: "Pinnacle", odd: elem.PSW},{bookmaker: "Sportingbet", odd: elem.SBW},{bookmaker: "Stan James", odd: elem.SJW},{bookmaker: "William Hill", odd: elem.WHW},{bookmaker: "Unibet", odd: elem.UBW} ] }
 }});});
 
 db.tennis.find()._addSpecial("$snapshot",true).forEach(
@@ -17,7 +17,7 @@ db.tennis.find()._addSpecial("$snapshot",true).forEach(
 		db.tennis.update(
 			{_id: elem._id},
 			{ $push: {
-				odds: { type:"L", quotes: [{bookmaker: "bet365", odd: elem.B365L},{bookmaker: "betwin", odd: elem.BWL},{bookmaker: "Centrebet", odd: elem.CBL},{bookmaker: "Gamebookers", odd: elem.GBL},{bookmaker: "Expekt", odd: elem.EXL},{bookmaker: "Interwetten", odd: elem.IWL},{bookmaker: "Ladbrokes", odd: elem.LBL},{bookmaker: "Pinnacle", odd: elem.PSL},{bookmaker: "Sportingbet", odd: elem.SBL},{bookmaker: "Stan James", odd: elem.SJL},{bookmaker: "William Hill", odd: elem.WHL},{bookmaker: "Unibet", odd: elem.UBL} ] }
+				odds: { type:"A", quotes: [{bookmaker: "bet365", odd: elem.B365L},{bookmaker: "betwin", odd: elem.BWL},{bookmaker: "Centrebet", odd: elem.CBL},{bookmaker: "Gamebookers", odd: elem.GBL},{bookmaker: "Expekt", odd: elem.EXL},{bookmaker: "Interwetten", odd: elem.IWL},{bookmaker: "Ladbrokes", odd: elem.LBL},{bookmaker: "Pinnacle", odd: elem.PSL},{bookmaker: "Sportingbet", odd: elem.SBL},{bookmaker: "Stan James", odd: elem.SJL},{bookmaker: "William Hill", odd: elem.WHL},{bookmaker: "Unibet", odd: elem.UBL} ] }
 }});});
 
 db.tennis.update({}, {$unset: {B365W:1, BWW:1, CBW:1, GBW:1, EXW:1, IWW:1, LBW:1, PSW:1, SBW:1, SJW:1, WHW:1, UBW:1}}, {multi:true} );
