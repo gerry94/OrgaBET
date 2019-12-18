@@ -46,7 +46,7 @@ public class MongoUserDetailsService implements UserDetailsService{
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
       User user = repository.findByUsername(username);
-      if(user != null) {
+      if(user != null && (  ( !user.isBanned() ) || (user.getUsername()=="Admin"))) {
           List<GrantedAuthority> authorities = getUserAuthority(user.getRoles());
           return buildUserForAuthentication(user, authorities);
       } else {
