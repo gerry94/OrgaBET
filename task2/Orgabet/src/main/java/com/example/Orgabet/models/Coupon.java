@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Document
-public class Coupon{
+public class Coupon implements Comparable<Coupon>{
 	private ObjectId id;
 	private Date date;
 	private List<Tot> bookmakerTot; //list of total bet multipliers for each available bookmaker
@@ -104,4 +104,10 @@ public class Coupon{
 
 	    return result;
 	} // end equals
+	
+	@Override
+	public int compareTo(Coupon o) {
+		
+		return -(date.compareTo(o.getDate()));
+	}
 }
