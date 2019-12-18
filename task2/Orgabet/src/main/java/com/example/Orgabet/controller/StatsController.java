@@ -99,6 +99,10 @@ public class StatsController {
 		
 		model.addAttribute("sport", sport);
 		model.addAttribute("division", division);
+		if(year.contentEquals("17"))
+			model.addAttribute("year", 2017);
+		else
+			model.addAttribute("year", year);
 		
 		return stats;
 	}

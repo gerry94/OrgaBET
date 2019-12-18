@@ -52,12 +52,9 @@
 		</ul>
 		</div>
 		
-      <h2>Statistic</h2>
-      
-       
-       <div id="drop-menu">
+		<div id="drop-menu">
 			<ul id="menu">
-				<li><a href="#">2019</a>
+				<li><a href="#" th:utext="${year}"></a>
 					<ul>
 						<li><a th:href="@{/stats?sport=__${sport}__&division=__${division}__&year=2019}">2019</a></li>
 						<li><a th:href="@{/stats?sport=__${sport}__&division=__${division}__&year=2018}">2018</a></li>
@@ -67,7 +64,9 @@
 			</ul>
 		</div>
 		
-      <div id="FootballTable" th:if="${sport.equals('Football')}">
+      <h2>Statistic</h2>
+		
+      <div id="FootballTable" th:if="${sport.equals('Football') and year.equals('2019')}">
       <h2>Home</h2>
        
       <table border="0">
@@ -137,6 +136,69 @@
                <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'OVER'}"
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
                <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'UNDER'}"
+                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+            </tr>
+      </table>
+     </div>
+     
+     <div id="FootballTable" th:if="${sport.equals('Football') and (!year.equals('2019'))}">
+      <h2>Home</h2>
+       
+      <table border="0">
+            <tr>
+               <th>Team</th>
+               <th>WIN(%)</th>
+               <th>DRAW(%)</th>
+               <th>LOSE(%)</th>
+               <th>OVER 2.5(%)</th>
+               <th>UNDER 2.5(%)</th>
+               <th>AVG WIN ODD</th>
+               <th>AVG DRAW ODD</th>
+               <th>AVG LOSE ODD</th>
+
+            </tr>
+            <tr class="statsRow" th:each ="tbl : ${statsH}">
+               <td th:utext="${tbl.team}">...</td>
+               <td th:utext="${#numbers.formatDecimal(tbl.homeWin, 0, 2)}">...</td>
+               <td th:utext="${#numbers.formatDecimal(tbl.homeDraw, 0, 2)}">...</td>
+               <td th:utext="${#numbers.formatDecimal(tbl.homeLost, 0, 2)}">...</td>
+               <td th:utext="${#numbers.formatDecimal(tbl.homeOver, 0, 2)}">...</td>
+               <td th:utext="${#numbers.formatDecimal(tbl.homeUnder, 0, 2)}">...</td>
+			   <td th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'H'}" 
+                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+               <td th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'D'}"
+                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+               <td th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'A'}"
+                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+            </tr>
+      </table>
+      
+		<h2>Away</h2>
+      
+      <table border="0">
+            <tr>
+               <th>Team</th>
+               <th>WIN(%)</th>
+               <th>DRAW(%)</th>
+               <th>LOSE(%)</th>
+               <th>OVER 2.5(%)</th>
+               <th>UNDER 2.5(%)</th>
+               <th>AVG WIN ODD</th>
+               <th>AVG DRAW ODD</th>
+               <th>AVG LOSE ODD</th>
+            </tr>
+            <tr class="statsRow" th:each ="tblA : ${statsA}">
+               <td th:utext="${tblA.team}">...</td>
+               <td th:utext="${#numbers.formatDecimal(tblA.homeWin, 0, 2)}">...</td>
+               <td th:utext="${#numbers.formatDecimal(tblA.homeDraw, 0, 2)}">...</td>
+               <td th:utext="${#numbers.formatDecimal(tblA.homeLost, 0, 2)}">...</td>
+               <td th:utext="${#numbers.formatDecimal(tblA.homeOver, 0, 2)}">...</td>
+               <td th:utext="${#numbers.formatDecimal(tblA.homeUnder, 0, 2)}">...</td>
+               <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'H'}"
+                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+               <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'D'}"
+                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+               <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'A'}"
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
             </tr>
       </table>
