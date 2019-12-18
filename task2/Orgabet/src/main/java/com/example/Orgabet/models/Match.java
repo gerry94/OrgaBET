@@ -29,7 +29,9 @@ public class Match {
 	@Indexed
 	private Date date; //may cause problems if date is not correctly formatted in mongoDB
 	private String time;
+	@Indexed
 	private String homeTeam;
+	@Indexed
 	private String awayTeam;
 	private Integer fullTimeHomeScore;
 	private Integer fullTimeAwayScore;

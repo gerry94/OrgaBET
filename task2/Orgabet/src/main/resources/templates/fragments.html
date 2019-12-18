@@ -83,11 +83,21 @@
                   <td><form class="form-signin" th:action="@{${user.username}+'/coupon/'+ ${c.id}}" method="get">
                 <button class="btn btn-md btn-success btn-block" type="Submit">View Coupon</button>
             	</form></td>
-            	<td><form class="form-signin" th:action="@{${user.username}+'/deletecoupon/'+ ${c.id}}" method="post">
-                <button class="btn btn-md btn-success btn-block" type="Submit">Delete Coupon</button>
-            	</form></td>
+            	<td>
+                <button class="btn btn-md btn-success btn-block" type="button" th:usr="${user.username}" th:coup="${c.id}" th:onclick="javascript:deleteCoupon(this.getAttribute('usr'),this.getAttribute('coup'));">Delete Coupon</button>
+            	</td>
                </tr>
          </table>
+          <script type="text/javascript">
+                      function deleteCoupon(usr, coup) {
+                
+
+                var url = "/removeCoupon/" + usr + "/"+ coup;
+                $('#listDiv').load(url);
+
+
+            }
+        </script>
     </div>
     </body>
 </html>
