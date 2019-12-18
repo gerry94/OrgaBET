@@ -36,11 +36,14 @@ public class MatchController {
 		}
 		return null;
 	}
-	
-	@ResponseBody
-	@RequestMapping(value = "/removeBet")
-	public void removeBet(@RequestParam Map<String,String> param) {
-		coupon.removeBet(param.get("id"));
+
+	@GetMapping("/removeBet")
+	public String rmeoveBet(@RequestParam(required=true, value="id") String id, Model model){
+		coupon.removeBet(id);
+		//coupon.printCoupon();
+		
+		model.addAttribute("coupon", coupon);
+		return "fragments :: coupon";
 	}
 	
 	@GetMapping("/printQuote")

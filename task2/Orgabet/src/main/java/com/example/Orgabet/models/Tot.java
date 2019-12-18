@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Document
-public class Tot {
+public class Tot{
 	private String bookmaker;
 	private Double quoteTot;
 }
