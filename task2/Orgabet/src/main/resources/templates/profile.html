@@ -40,7 +40,7 @@
                 <button class="btn btn-md btn-success btn-block" type="Submit">View Coupon</button>
             	</form></td>
             	<td>
-                <button class="btn btn-md btn-success btn-block" type="button" th:usr="${user.username}" th:coup="${c.id}" th:onclick="javascript:deleteCoupon(this.getAttribute('usr'),this.getAttribute('coup'));">Delete Coupon</button>
+                <button class="btn btn-md btn-success btn-block" type="Button" th:usr="${user.username}" th:coup="${c.id}" th:onclick="javascript:deleteCoupon(this.getAttribute('usr'),this.getAttribute('coup'));">Delete Coupon</button>
             	</td>
                </tr>
          </table>
@@ -48,7 +48,7 @@
                       function deleteCoupon(usr, coup) {
                 
 
-                var url = "/removeCoupon/" + usr + "/"+ coup;
+                var url = "/deletecoupon/" + usr + "/"+ coup;
                 $('#listDiv').load(url);
 
 
@@ -58,6 +58,5 @@
 
     </div>
 	</div>
-       </div>
    </body>
 </html>

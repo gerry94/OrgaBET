@@ -120,6 +120,7 @@ public class ProfileController
     	coupons.remove(coupon);
     	user.setCoupons(coupons);
     	user=repository.save(user);
+    	model.addAttribute("user", user);
     	model.addAttribute("coupons",coupons);
     	return "fragments :: couponList";
     }
