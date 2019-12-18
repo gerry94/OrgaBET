@@ -152,7 +152,7 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		ProjectionOperation proj = Aggregation.project("avg");
 		
 		Aggregation aggr2 = Aggregation.newAggregation(filterSport, filterDate, filterSurface,filterPlayer, unw, unw2, grp2);
-		System.out.println(aggr2.toString());
+	
 		List<AvgDTO> res2 = mongoTemplate.aggregate(aggr2, Match.class, AvgDTO.class).getMappedResults();
 		
 		StatsDTO stats = new StatsDTO(player, winPerc, null, lostPerc, null, null, res2);

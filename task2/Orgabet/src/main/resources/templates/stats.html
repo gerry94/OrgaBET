@@ -242,9 +242,9 @@
                <td th:utext="${tbl.team}">...</td>
                <td th:utext="${#numbers.formatDecimal(tbl.homeWin, 0, 2)}">...</td>
                <td th:utext="${#numbers.formatDecimal(tbl.homeLost, 0, 2)}">...</td>
-			   <td th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'W'}" 
+			   <td th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'H'}" 
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
-               <td th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'L'}"
+               <td th:each="a: ${tbl.avgOdds}" th:if="${a.id == 'A'}"
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
             </tr>
       </table>
