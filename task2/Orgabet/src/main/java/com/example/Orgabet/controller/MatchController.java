@@ -2,8 +2,12 @@ package com.example.Orgabet.controller;
 
 import java.util.*;
 
+import javax.swing.ListModel;
+
 import com.example.Orgabet.dto.AvgDTO;
 import com.example.Orgabet.dto.TableDTO;
+import com.example.Orgabet.dto.divisionDTO;
+import com.example.Orgabet.dto.listDivisionDTO;
 import com.example.Orgabet.models.*;
 import com.example.Orgabet.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,11 +112,32 @@ public class MatchController {
 	}
 	
 	@RequestMapping("/match")
-	   public String viewMatches(@RequestParam(required = false, defaultValue = "Football", value="sport") String sport, @RequestParam(required = false, defaultValue = "I1", value="division")String division,@RequestParam(required = false, defaultValue = "01/09/2019", value="date") String date, Model model) {
+	   public String viewMatches(@RequestParam(required = false, defaultValue = "Football", value="sport") String sport, @RequestParam(required = false, defaultValue = "I2", value="division")String division,@RequestParam(required = false, defaultValue = "21/09/2019", value="date") String date, Model model) {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     		User currentUser = userService.findUserByUsername(auth.getName());
 		model.addAttribute("currentUser", currentUser);
+		
+		List<divisionDTO> selectedDivisionsF = matchRepository.selectSortedDivisions(date, "Football");
+		
+		List<listDivisionDTO> listF = new ArrayList<listDivisionDTO>();
+		
+		for(Iterator<divisionDTO> l = selectedDivisionsF.iterator(); l.hasNext();) {
+			divisionDTO div = l.next();
+			
+			listF.add(new listDivisionDTO(div.getId(),div.getDivision()));
+		}
+		model.addAttribute("divisionsF", listF);
+		
+		List<divisionDTO> selectedDivisionsT = matchRepository.selectSortedDivisions(date, "Tennis");
+		
+		List<listDivisionDTO> listT = new ArrayList<listDivisionDTO>();
+		for(Iterator<divisionDTO> l = selectedDivisionsT.iterator(); l.hasNext();) {
+			divisionDTO div = l.next();
+			
+			listT.add(new listDivisionDTO(div.getId(),div.getDivision()));
+		}
+		model.addAttribute("divisionsT", listT);
 		
 		List<Match> list = matchRepository.selectSortedMatches(sport, date, division);
 
@@ -122,12 +147,15 @@ public class MatchController {
 			Match match = l.next();
 			
 			List<AvgDTO> list2 = matchRepository.computeAverageOdds(match.getId());
-			 tbl.add(new TableDTO(match, list2));
+			tbl.add(new TableDTO(match, list2));
 		}
 		
 		model.addAttribute("matches", tbl);
 		model.addAttribute("coupon",coupon);
+		model.addAttribute("sport",sport);
+		model.addAttribute("date",date);
 
-	      return "match";
+		return "match";
 	   }
+
 }

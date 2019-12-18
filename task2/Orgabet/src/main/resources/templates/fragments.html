@@ -29,7 +29,6 @@
                 old_tbody.parentNode.replaceChild(new_tbody, old_tbody);
 
                 old_tbody = document.getElementById("bookmakerTotBody");
-                //new_tbody = document.createElement('tbody');
                 old_tbody.parentNode.replaceChild(new_tbody, old_tbody);
             }
 
@@ -38,12 +37,6 @@
 
                 var url = "/removeBet" + "?id="+matchId;
                 $('#couponDiv').load(url);
-
-                /*$.ajax({
-                    type: "GET",
-                    url: "/removeBet",
-                    data: {id:matchId}
-                });*/
             }
         </script>
         <div class="couponTitle"><h3>MyCoupon</h3></div>
@@ -53,7 +46,7 @@
             <tr class="couponTableRow" th:each="bet:${coupon.bets}">
                 <td th:utext="${bet.homeTeam} +' - '+ ${bet.awayTeam}">...</td>
                 <td th:utext="${bet.result}" style="text-align: center;">...</td>
-                <td th:text="${#numbers.formatDecimal(bet.avgOdd, 0, 2)}" style="text-align: right;">...</td>
+                <td th:text="${#numbers.formatDecimal(bet.avgOdd, 0, 2)}" style="text-align: right; padding-left: 5px;">...</td>
                 <td class="removeBet" th:matchId="${bet.matchId}" th:onclick="javascript:removeBet(this, this.getAttribute('matchId'));">-</td>
             </tr>
             </tbody>
