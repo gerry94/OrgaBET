@@ -30,9 +30,9 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		SortOperation srt = Aggregation.sort(Sort.Direction.ASC, "division");
 		
 		Aggregation aggr = Aggregation.newAggregation(filterSport, filterDate, grp, srt);
-		System.out.println(aggr.toString());
+		
 		List<divisionDTO> res = mongoTemplate.aggregate(aggr, Match.class, divisionDTO.class).getMappedResults();
-		System.out.println(res.toString());
+		
 		return res;
 	}
 	
@@ -40,16 +40,14 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 	public List<Match> selectSortedMatches(String sport, String date, String division) {
 		MatchOperation filterSport = Aggregation.match(new Criteria("sport").is(sport));
 		MatchOperation filterDate = Aggregation.match(new Criteria("date").is(date));
-		MatchOperation filterDiv = null;
-		if(sport.equals("Football"))
-			 filterDiv = Aggregation.match(new Criteria("division").is(division));
+		MatchOperation filterDiv = Aggregation.match(new Criteria("division").is(division));
 		
 		SortOperation srt = Aggregation.sort(Sort.Direction.ASC, "time");
 		
 		Aggregation aggr;
-		if(sport.equals("Football"))
-			 aggr = Aggregation.newAggregation(filterSport, filterDate, filterDiv, srt);
-		else aggr = Aggregation.newAggregation(filterSport, filterDate, srt);
+		if(sport.equals("Basket"))
+			 aggr = Aggregation.newAggregation(filterSport, filterDate, srt);
+		else aggr = Aggregation.newAggregation(filterSport, filterDate, filterDiv, srt);
 		
 		List<Match> res = mongoTemplate.aggregate(aggr, Match.class, Match.class).getMappedResults();
 		return res;
