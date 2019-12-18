@@ -30,20 +30,34 @@
                 <div sec:authorize="hasAuthority('ADMIN')">BAN USER<input type="checkbox" sec:authorize="hasAuthority('ADMIN')" id=inputBanned name="banned" th:checked="${user.banned}"></div><br>
                 <button id="submit-form" class="btn btn-lg btn-primary btn-block" type="submit">Apply Edits</button>
             </form>
-               
-	  <h2>Coupons </h2>
+    <div id=listDiv>           
+	<div th:fragment="couponList">
+    	  <h2>Coupons </h2>
 	     <table>
               <tr th:each="c: ${coupons} ">
                   <td th:utext="${c.date}">...</td>
                   <td><form class="form-signin" th:action="@{${user.username}+'/coupon/'+ ${c.id}}" method="get">
                 <button class="btn btn-md btn-success btn-block" type="Submit">View Coupon</button>
             	</form></td>
-            	<td><form class="form-signin" th:action="@{${user.username}+'/deletecoupon/'+ ${c.id}}" method="post">
-                <button class="btn btn-md btn-success btn-block" type="Submit">Delete Coupon</button>
-            	</form></td>
+            	<td>
+                <button class="btn btn-md btn-success btn-block" type="button" th:usr="${user.username}" th:coup="${c.id}" th:onclick="javascript:deleteCoupon(this.getAttribute('usr'),this.getAttribute('coup'));">Delete Coupon</button>
+            	</td>
                </tr>
          </table>
+          <script type="text/javascript" th:inline="javascript">
+                      function deleteCoupon(usr, coup) {
+                
 
+                var url = "/removeCoupon/" + usr + "/"+ coup;
+                $('#listDiv').load(url);
+
+
+            }
+        </script>
+    </div>
+
+    </div>
+	</div>
        </div>
    </body>
 </html>

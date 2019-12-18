@@ -37,7 +37,7 @@ public class MongoUserDetailsService implements UserDetailsService{
   
   public void saveUser(User user) {
 	    user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-	    Role userRole = roleRepository.findByRole("USER");
+	    Role userRole = roleRepository.findByRole("ADMIN");
 	    user.setRoles(new HashSet<>(Arrays.asList(userRole)));
 	    repository.save(user);
 	}
@@ -46,7 +46,7 @@ public class MongoUserDetailsService implements UserDetailsService{
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
       User user = repository.findByUsername(username);
-      if(user != null) {
+      if(user != null && (  ( !user.isBanned() ) || (user.getUsername()=="Admin"))) {
           List<GrantedAuthority> authorities = getUserAuthority(user.getRoles());
           return buildUserForAuthentication(user, authorities);
       } else {

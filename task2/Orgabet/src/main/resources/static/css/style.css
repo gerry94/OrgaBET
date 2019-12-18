@@ -57,6 +57,7 @@ body {
 .quoteArea:hover {
   cursor:pointer;
   background-color: darkseagreen;
+    font-weight: bold;
 }
 
 ul#menu {
@@ -217,4 +218,42 @@ ul#menu ul a:hover {
 .removeBet:hover {
     cursor:pointer;
     opacity:1;
+}
+
+table {
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+td, th {
+    padding: 10px;
+    position: relative;
+    outline: 0;
+}
+
+body:not(.nohover) tbody tr:hover {
+    background-color: #ffd7b8;
+}
+
+td:hover::after,
+thead th:not(:empty):hover::after,
+td:focus::after,
+thead th:not(:empty):focus::after {
+    content: '';
+    height: 10000px;
+    left: 0;
+    position: absolute;
+    top: -5000px;
+    width: 100%;
+    z-index: -1;
+}
+
+td:hover::after,
+th:hover::after {
+    background-color: #ffd7b8;
+}
+
+td:focus::after,
+th:focus::after {
+    background-color: lightblue;
 }

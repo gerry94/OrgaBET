@@ -42,6 +42,7 @@ public class User {
 	
 	public void addCoupon(Coupon c) {
 		coupons.add(c);
+		Collections.sort(coupons);
 	}
 	public List<Coupon> getCoupons() {
 		return coupons;

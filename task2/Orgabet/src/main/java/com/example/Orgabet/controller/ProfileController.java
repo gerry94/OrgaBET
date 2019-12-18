@@ -54,6 +54,7 @@ public class ProfileController
 		model.addAttribute("currentUser", currentUser);
     	User user=repository.findByUsername(username);
     	model.addAttribute("user", user);
+    	model.addAttribute("coupons",user.getCoupons());
         return "profile";
     }
     
@@ -108,8 +109,8 @@ public class ProfileController
         return "coupon";
     }
     
-    @RequestMapping(value = {"/profile/{username}/deletecoupon/{couponId}", "/admin/users/{username}/deletecoupon/{couponId}"}, method = RequestMethod.POST)
-    public String deleteCoupon(@PathVariable("username") String username, @PathVariable("couponId") ObjectId couponId, Model model)
+    @RequestMapping(value = {"/deletecoupon/{username}/{couponId}"})
+    public String deleteCoupon(@PathVariable("username") String username, @PathVariable("couponId") ObjectId couponId,Model model)
     {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    User currentUser = userService.findUserByUsername(auth.getName());
@@ -119,10 +120,8 @@ public class ProfileController
     	coupons.remove(coupon);
     	user.setCoupons(coupons);
     	user=repository.save(user);
-    	model.addAttribute("currentUser", currentUser);
-    	model.addAttribute("user", user);
-    	model.addAttribute("coupons",user.getCoupons());
-        return "profile";
+    	model.addAttribute("coupons",coupons);
+    	return "fragments :: couponList";
     }
     
 }

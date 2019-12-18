@@ -9,7 +9,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Document
-public class Tot {
+public class Tot implements Comparable<Tot> {
 	private String bookmaker;
 	private Double quoteTot;
+	
+	@Override
+	public int compareTo(Tot o)
+	{
+		return (int)(o.getQuoteTot()-this.quoteTot);
+	}
 }
