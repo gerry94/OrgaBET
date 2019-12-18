@@ -92,6 +92,7 @@
       <h2>Home</h2>
        
       <table border="0">
+          <thead style="background-color: #343a40; color:white; font-weight:bold;">
             <tr>
                <th>Team</th>
                <th>WIN(%)</th>
@@ -106,6 +107,8 @@
                <th>AVG UNDER 2.5 ODD</th>
 
             </tr>
+          </thead>
+          <tbody
             <tr class="statsRow" th:each ="tbl : ${statsH}">
                <td th:utext="${tbl.team}">...</td>
                <td th:utext="${#numbers.formatDecimal(tbl.homeWin, 0, 2)}">...</td>
@@ -125,10 +128,12 @@
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
             </tr>
       </table>
+      </table>
       
 		<h2>Away</h2>
       
       <table border="0">
+          <thead style="background-color: #343a40; color:white; font-weight:bold;">
             <tr>
                <th>Team</th>
                <th>WIN(%)</th>
@@ -142,6 +147,7 @@
                <th>AVG OVER 2.5 ODD</th>
                <th>AVG UNDER 2.5 ODD</th>
             </tr>
+          </thead>
             <tr class="statsRow" th:each ="tblA : ${statsA}">
                <td th:utext="${tblA.team}">...</td>
                <td th:utext="${#numbers.formatDecimal(tblA.homeWin, 0, 2)}">...</td>
@@ -167,6 +173,7 @@
       <h2>Home</h2>
        
       <table border="0">
+          <thead style="background-color: #343a40; color:white; font-weight:bold;">
             <tr>
                <th>Team</th>
                <th>WIN(%)</th>
@@ -179,6 +186,7 @@
                <th>AVG LOSE ODD</th>
 
             </tr>
+          </thead>
             <tr class="statsRow" th:each ="tbl : ${statsH}">
                <td th:utext="${tbl.team}">...</td>
                <td th:utext="${#numbers.formatDecimal(tbl.homeWin, 0, 2)}">...</td>
@@ -198,6 +206,7 @@
 		<h2>Away</h2>
       
       <table border="0">
+          <thead style="background-color: #343a40; color:white; font-weight:bold;">
             <tr>
                <th>Team</th>
                <th>WIN(%)</th>
@@ -209,6 +218,7 @@
                <th>AVG DRAW ODD</th>
                <th>AVG LOSE ODD</th>
             </tr>
+          </thead>
             <tr class="statsRow" th:each ="tblA : ${statsA}">
                <td th:utext="${tblA.team}">...</td>
                <td th:utext="${#numbers.formatDecimal(tblA.homeWin, 0, 2)}">...</td>
@@ -230,6 +240,7 @@
       <h2 th:utext="${division}"></h2>
        
       <table border="0">
+          <thead style="background-color: #343a40; color:white; font-weight:bold;">
             <tr>
                <th>Player</th>
                <th>WIN(%)</th>
@@ -238,6 +249,7 @@
                <th>AVG LOSE ODD</th>
 
             </tr>
+          </thead>
             <tr class="statsRow" th:each ="tbl : ${statsH}">
                <td th:utext="${tbl.team}">...</td>
                <td th:utext="${#numbers.formatDecimal(tbl.homeWin, 0, 2)}">...</td>
@@ -254,6 +266,7 @@
       <h2>Home</h2>
        
       <table border="0">
+          <thead style="background-color: #343a40; color:white; font-weight:bold;">
             <tr>
                <th>Team</th>
                <th>WIN(%)</th>
@@ -262,6 +275,7 @@
                <th>AVG LOSE ODD</th>
 
             </tr>
+          </thead>
             <tr class="statsRow" th:each ="tbl : ${statsH}">
                <td th:utext="${tbl.team}">...</td>
                <td th:utext="${#numbers.formatDecimal(tbl.homeWin, 0, 2)}">...</td>
@@ -276,12 +290,14 @@
 	<h2>Away</h2>
       
       <table border="0">
+          <thead style="background-color: #343a40; color:white; font-weight:bold;">
             <tr>
                <th>Team</th>
                <th>WIN(%)</th>
                <th>LOSE(%)</th>
                <th>AVG WIN ODD</th>
             </tr>
+          </thead>
             <tr class="statsRow" th:each ="tblA : ${statsA}">
                <td th:utext="${tblA.team}">...</td>
                <td th:utext="${#numbers.formatDecimal(tblA.homeWin, 0, 2)}">...</td>

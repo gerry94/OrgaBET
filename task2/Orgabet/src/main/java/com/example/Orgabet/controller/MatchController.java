@@ -108,7 +108,7 @@ public class MatchController {
 	}
 	
 	@RequestMapping("/match")
-	   public String viewMatches(@RequestParam(required = false, defaultValue = "Football", value="sport") String sport, @RequestParam(required = false, defaultValue = "I1", value="division")String division,@RequestParam(required = false, defaultValue = "01/09/2019", value="date") String date, Model model) {
+	   public String viewMatches(@RequestParam(required = false, defaultValue = "Football", value="sport") String sport, @RequestParam(required = false, defaultValue = "I2", value="division")String division,@RequestParam(required = false, defaultValue = "21/09/2019", value="date") String date, Model model) {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     		User currentUser = userService.findUserByUsername(auth.getName());
