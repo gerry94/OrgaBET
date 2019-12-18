@@ -16,6 +16,37 @@
    <body>
       <!-- Include _menu.html -->
       <div layout:fragment="content">
+
+                 <div class="sidenav">
+              <ul style="list-style-type:none;">
+                  <li class="shownav"><a>Football</a>
+                     <ul class="listnav"  th:each="divisionF : ${divisionsF}" style="list-style-type:none;">
+                        <li>
+                            <a th:text="${divisionF.division}" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}"></a>
+                        </li>
+                      </ul>
+                  </li>
+
+                  <li class="shownav"><a>Basketball</a>
+                    <ul class="listnav"  style="list-style-type:none;">
+                          <li><a th:href="@{'/match?sport=Basket&date='+${date}}">NBA</a></li>
+                      </ul>
+                  </li>
+
+                  <li class="shownav"><a>Tennis</a>
+                    <ul class="listnav"  th:each="divisionT : ${divisionsT}" style="list-style-type:none;">
+                        <li>
+                            <a th:text="${divisionT.division}" th:href="@{'/match?sport=Tennis&division='+${divisionT.division}+'&date='+${date}}"></a>
+                        </li>
+                      </ul>
+                  </li>
+
+
+              </ul>
+          </div>
+
+
+          
           <div id="wrapper">
           <div id="tableDiv">
              <h2>Matches</h2>
@@ -23,13 +54,15 @@
                 <thead>
                     <tr>
                         <th>TIME</th>
-                        <th>HOME TEAM</th>
-                        <th>AWAY TEAM</th>
+                        <th th:if="${!sport.equals('Tennis')}">HOME TEAM</th>
+                        <th th:if="${!sport.equals('Tennis')}">AWAY TEAM</th>
+                        <th th:if="${sport.equals('Tennis')}">PLAYER ONE</th>
+                        <th th:if="${sport.equals('Tennis')}">PLAYER TWO</th>
                         <th>1</th>
-                        <th>X</th>
+                        <th th:if="${sport.equals('Football')}">X</th>
                         <th>2</th>
-                        <th>OVER 2.5</th>
-                        <th>UNDER 2.5</th>
+                        <th th:if="${sport.equals('Football')}">OVER 2.5</th>
+                        <th th:if="${sport.equals('Football')}">UNDER 2.5</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,13 +72,13 @@
                     <td th:utext="${tbl.match.awayTeam}">...</td>
                     <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'H'}"
                         th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
-                    <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'D'}"
+                    <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'D' and sport.equals('Football')}"
                         th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
                     <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'A'}"
                         th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
-                    <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'OVER'}"
+                    <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'OVER' and sport.equals('Football')}"
                         th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
-                    <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'UNDER'}"
+                    <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'UNDER' and sport.equals('Football')}"
                         th:text="${#numbers.formatDecimal(a.avg, 0, 2)}" th:matchId="${tbl.match.id}" th:onclick="javascript:printOdd(this, this.getAttribute('matchId'));">...</td>
                     </tr>
                 </tbody>

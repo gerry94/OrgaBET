@@ -2,8 +2,12 @@ package com.example.Orgabet.controller;
 
 import java.util.*;
 
+import javax.swing.ListModel;
+
 import com.example.Orgabet.dto.AvgDTO;
 import com.example.Orgabet.dto.TableDTO;
+import com.example.Orgabet.dto.divisionDTO;
+import com.example.Orgabet.dto.listDivisionDTO;
 import com.example.Orgabet.models.*;
 import com.example.Orgabet.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,6 +115,27 @@ public class MatchController {
     		User currentUser = userService.findUserByUsername(auth.getName());
 		model.addAttribute("currentUser", currentUser);
 		
+		List<divisionDTO> selectedDivisionsF = matchRepository.selectSortedDivisions(date, "Football");
+		
+		List<listDivisionDTO> listF = new ArrayList<listDivisionDTO>();
+		
+		for(Iterator<divisionDTO> l = selectedDivisionsF.iterator(); l.hasNext();) {
+			divisionDTO div = l.next();
+			
+			listF.add(new listDivisionDTO(div.getId(),div.getDivision()));
+		}
+		model.addAttribute("divisionsF", listF);
+		
+		List<divisionDTO> selectedDivisionsT = matchRepository.selectSortedDivisions(date, "Tennis");
+		
+		List<listDivisionDTO> listT = new ArrayList<listDivisionDTO>();
+		for(Iterator<divisionDTO> l = selectedDivisionsT.iterator(); l.hasNext();) {
+			divisionDTO div = l.next();
+			
+			listT.add(new listDivisionDTO(div.getId(),div.getDivision()));
+		}
+		model.addAttribute("divisionsT", listT);
+		
 		List<Match> list = matchRepository.selectSortedMatches(sport, date, division);
 
 		tbl = new ArrayList<TableDTO>();
@@ -119,12 +144,15 @@ public class MatchController {
 			Match match = l.next();
 			
 			List<AvgDTO> list2 = matchRepository.computeAverageOdds(match.getId());
-			 tbl.add(new TableDTO(match, list2));
+			tbl.add(new TableDTO(match, list2));
 		}
 		
 		model.addAttribute("matches", tbl);
 		model.addAttribute("coupon",coupon);
+		model.addAttribute("sport",sport);
+		model.addAttribute("date",date);
 
-	      return "match";
+		return "match";
 	   }
+
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.Orgabet.dto.AvgDTO;
 import com.example.Orgabet.dto.StatsDTO;
 import com.example.Orgabet.dto.countDTO;
+import com.example.Orgabet.dto.divisionDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -22,7 +23,20 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 	}
 	
 	@Override
-
+	public List<divisionDTO> selectSortedDivisions(String date, String sport){
+		MatchOperation filterSport = Aggregation.match(new Criteria("sport").is(sport));
+		MatchOperation filterDate = Aggregation.match(new Criteria("date").is(date));
+		GroupOperation grp = Aggregation.group("sport","division");
+		SortOperation srt = Aggregation.sort(Sort.Direction.ASC, "division");
+		
+		Aggregation aggr = Aggregation.newAggregation(filterSport, filterDate, grp, srt);
+		System.out.println(aggr.toString());
+		List<divisionDTO> res = mongoTemplate.aggregate(aggr, Match.class, divisionDTO.class).getMappedResults();
+		System.out.println(res.toString());
+		return res;
+	}
+	
+	@Override
 	public List<Match> selectSortedMatches(String sport, String date, String division) {
 		MatchOperation filterSport = Aggregation.match(new Criteria("sport").is(sport));
 		MatchOperation filterDate = Aggregation.match(new Criteria("date").is(date));
