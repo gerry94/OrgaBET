@@ -110,7 +110,7 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 	public List<countDTO> selectWinningTennisPlayer(String date, String surface){
 		MatchOperation filterSport = Aggregation.match(new Criteria("sport").is("Tennis"));
 		
-		MatchOperation filterDate = Aggregation.match(new Criteria("date").regex("^"+date));
+		MatchOperation filterDate = Aggregation.match(new Criteria("date").regex(date+"$"));
 
 		MatchOperation filterSurface = Aggregation.match(new Criteria("surface").is(surface));
 		
@@ -129,7 +129,7 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 	public StatsDTO computeTennisPlayer(String surface, String player, Double totWin, String date) {
 		Double winPerc = 0.00, lostPerc = 0.00;
 		MatchOperation filterSport = Aggregation.match(new Criteria("sport").is("Tennis"));
-		MatchOperation filterDate = Aggregation.match(new Criteria("date").regex("^"+date));
+		MatchOperation filterDate = Aggregation.match(new Criteria("date").regex(date+"$"));
 		MatchOperation filterSurface = Aggregation.match(new Criteria("surface").is(surface));
 		MatchOperation filterPlayer = Aggregation.match(new Criteria("awayTeam").is(player));
 		
@@ -152,7 +152,7 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		ProjectionOperation proj = Aggregation.project("avg");
 		
 		Aggregation aggr2 = Aggregation.newAggregation(filterSport, filterDate, filterSurface,filterPlayer, unw, unw2, grp2);
-		
+	
 		List<AvgDTO> res2 = mongoTemplate.aggregate(aggr2, Match.class, AvgDTO.class).getMappedResults();
 		
 		StatsDTO stats = new StatsDTO(player, winPerc, null, lostPerc, null, null, res2);
