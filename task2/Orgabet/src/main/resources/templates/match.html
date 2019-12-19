@@ -20,15 +20,34 @@
                  <div class="sidenav">
               <ul style="list-style-type:none;">
                   <li class="shownav"><a>Football</a>
-                     <ul class="listnav"  th:each="divisionF : ${divisionsF}" style="list-style-type:none;">
-                        <li>
-                            <a th:text="${divisionF.division}" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}"></a>
-                        </li>
+                     <ul class="listnav"  th:each="divisionF : ${divisionsF}" th:switch="${divisionF.division}" style="list-style-type:none;">
+                        <li><a th:case="I1" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Serie A</a></li>
+                        <li><a th:case="I2" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Serie B</a></li>
+				  		<li><a th:case="E0" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Premier League</a></li>
+				  		<li><a th:case="E1" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Championship</a></li>
+				  		<li><a th:case="E2" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">League One</a></li>
+				  		<li><a th:case="E3" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">League Two</a></li>
+				  		<li><a th:case="EC" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">National League</a></li>
+				  		<li><a th:case="SP1" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Primera Division</a></li>
+				  		<li><a th:case="SP2" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Segunda Division</a></li>
+				  		<li><a th:case="F1" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Ligue 1</a></li>
+				  		<li><a th:case="F2" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Ligue 2</a></li>
+				  		<li><a th:case="D1" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Bundesliga</a></li>
+				  		<li><a th:case="D2" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Bundesliga 2</a></li>
+				  		<li><a th:case="N1" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Eredivisie</a></li>
+				  		<li><a th:case="G1" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Souper Ligka</a></li>
+				  		<li><a th:case="B1" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Pro League</a></li>
+				  		<li><a th:case="P1" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Primeira Liga</a></li>
+				  		<li><a th:case="T1" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Super Lig</a></li>
+				  		<li><a th:case="SC0" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Scot Premiership</a></li>
+				  		<li><a th:case="SC1" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Scot Champions</a></li>
+				  		<li><a th:case="SC2" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Scot League 1</a></li>
+				  		<li><a th:case="SC3" th:href="@{'/match?sport=Football&division='+${divisionF.division}+'&date='+${date}}">Scot League 2</a></li>
                       </ul>
                   </li>
 
                   <li class="shownav"><a>Basketball</a>
-                    <ul class="listnav"  style="list-style-type:none;">
+                    <ul class="listnav" th:if="${B==true}" style="list-style-type:none;">
                           <li><a th:href="@{'/match?sport=Basket&date='+${date}}">NBA</a></li>
                       </ul>
                   </li>
@@ -53,7 +72,7 @@
             <table id="matchTable" border="1">
                 <thead style="background-color: #343a40; color:white; font-weight:bold;">
                     <tr>
-                        <th>TIME</th>
+                        <th th:if="${!sport.equals('Tennis')}">TIME</th>
                         <th th:if="${!sport.equals('Tennis')}">HOME TEAM</th>
                         <th th:if="${!sport.equals('Tennis')}">AWAY TEAM</th>
                         <th th:if="${sport.equals('Tennis')}">PLAYER ONE</th>
@@ -67,7 +86,7 @@
                 </thead>
                 <tbody>
                     <tr th:each ="tbl : ${matches}">
-                    <td th:utext="${tbl.match.Time}">...</td>
+                    <td th:if="${!sport.equals('Tennis')}" th:utext="${tbl.match.Time}">...</td>
                     <td th:utext="${tbl.match.homeTeam}">...</td>
                     <td th:utext="${tbl.match.awayTeam}">...</td>
                     <td class="quoteArea" th:each="a: ${tbl.avg}" th:if="${a.id == 'H'}"

@@ -29,28 +29,29 @@
   	   <ul style="list-style-type:none;">
 		  <li class="shownav"><a>Football</a>
 		  	<ul class="listnav" style="list-style-type:none;">
-		  		<li class="liDiv"><a href="/stats?sport=Football&division=I1&year=2019">Serie A</a></li>
-		  		<li><a href="/stats?sport=Football&division=I2&year=2019">Serie B</a></li>
+		  		<li class="liDiv"><a href="/stats?sport=Football&division=B1&year=2019">Pro League</a></li>
+		  		<li><a href="/stats?sport=Football&division=D1&year=2019">Bundesliga</a></li>
+		  		<li><a href="/stats?sport=Football&division=D2&year=2019">Bundesliga 2</a></li>
 		  		<li><a href="/stats?sport=Football&division=E0&year=2019">Premier League</a></li>
 		  		<li><a href="/stats?sport=Football&division=E1&year=2019">Championship</a></li>
 		  		<li><a href="/stats?sport=Football&division=E2&year=2019">League One</a></li>
 		  		<li><a href="/stats?sport=Football&division=E3&year=2019">League Two</a></li>
 		  		<li><a href="/stats?sport=Football&division=EC&year=2019">National League</a></li>
-		  		<li><a href="/stats?sport=Football&division=SP1&year=2019">Primera Division</a></li>
-		  		<li><a href="/stats?sport=Football&division=SP2&year=2019">Segunda Division</a></li>
 		  		<li><a href="/stats?sport=Football&division=F1&year=2019">Ligue 1</a></li>
 		  		<li><a href="/stats?sport=Football&division=F2&year=2019">Ligue 2</a></li>
-		  		<li><a href="/stats?sport=Football&division=D1&year=2019">Bundesliga</a></li>
-		  		<li><a href="/stats?sport=Football&division=D2&year=2019">Bundesliga 2</a></li>
-		  		<li><a href="/stats?sport=Football&division=N1&year=2019">Eredivisie</a></li>
 		  		<li><a href="/stats?sport=Football&division=G1&year=2019">Souper Ligka</a></li>
-		  		<li><a href="/stats?sport=Football&division=B1&year=2019">Pro League</a></li>
-		  		<li><a href="/stats?sport=Football&division=P1&year=2019">Primeira Liga</a></li>
-		  		<li><a href="/stats?sport=Football&division=T1&year=2019">Super Lig</a></li>
+		  		<li><a href="/stats?sport=Football&division=I1&year=2019">Serie A</a></li>
+		  		<li><a href="/stats?sport=Football&division=I2&year=2019">Serie B</a></li>
+		  		<li><a href="/stats?sport=Football&division=N1&year=2019">Eredivisie</a></li>
+	  			<li><a href="/stats?sport=Football&division=P1&year=2019">Primeira Liga</a></li>
 		  		<li><a href="/stats?sport=Football&division=SC0&year=2019">Scot Premiership</a></li>
 		  		<li><a href="/stats?sport=Football&division=SC1&year=2019">Scot Champions</a></li>
 		  		<li><a href="/stats?sport=Football&division=SC2&year=2019">Scot League 1</a></li>
 		  		<li><a href="/stats?sport=Football&division=SC3&year=2019">Scot League 2</a></li>
+		  		<li><a href="/stats?sport=Football&division=SP1&year=2019">Primera Division</a></li>
+		  		<li><a href="/stats?sport=Football&division=SP2&year=2019">Segunda Division</a></li>
+		  		<li><a href="/stats?sport=Football&division=T1&year=2019">Super Lig</a></li>
+
 		  	</ul>
 		  </li>
 		  
@@ -108,7 +109,7 @@
 
             </tr>
           </thead>
-          <tbody
+        
             <tr class="statsRow" th:each ="tbl : ${statsH}">
                <td th:utext="${tbl.team}">...</td>
                <td th:utext="${#numbers.formatDecimal(tbl.homeWin, 0, 2)}">...</td>
@@ -155,11 +156,11 @@
                <td th:utext="${#numbers.formatDecimal(tblA.homeLost, 0, 2)}">...</td>
                <td th:utext="${#numbers.formatDecimal(tblA.homeOver, 0, 2)}">...</td>
                <td th:utext="${#numbers.formatDecimal(tblA.homeUnder, 0, 2)}">...</td>
-               <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'H'}"
+               <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'A'}"
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
                <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'D'}"
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
-               <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'A'}"
+               <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'H'}"
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
                <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'OVER'}"
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
@@ -226,11 +227,11 @@
                <td th:utext="${#numbers.formatDecimal(tblA.homeLost, 0, 2)}">...</td>
                <td th:utext="${#numbers.formatDecimal(tblA.homeOver, 0, 2)}">...</td>
                <td th:utext="${#numbers.formatDecimal(tblA.homeUnder, 0, 2)}">...</td>
-               <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'H'}"
+               <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'A'}"
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
                <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'D'}"
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
-               <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'A'}"
+               <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'H'}"
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
             </tr>
       </table>
@@ -296,15 +297,16 @@
                <th>WIN(%)</th>
                <th>LOSE(%)</th>
                <th>AVG WIN ODD</th>
+               <th>AVG LOSE ODD</th>
             </tr>
           </thead>
             <tr class="statsRow" th:each ="tblA : ${statsA}">
                <td th:utext="${tblA.team}">...</td>
                <td th:utext="${#numbers.formatDecimal(tblA.homeWin, 0, 2)}">...</td>
                <td th:utext="${#numbers.formatDecimal(tblA.homeLost, 0, 2)}">...</td>
-               <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'H'}"
-                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
                <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'A'}"
+                           th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
+               <td th:each="a: ${tblA.avgOdds}" th:if="${a.id == 'H'}"
                            th:text="${#numbers.formatDecimal(a.avg, 0, 2)}">...</td>
             </tr>
       </table>

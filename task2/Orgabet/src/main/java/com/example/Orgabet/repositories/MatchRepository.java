@@ -11,4 +11,5 @@ import com.example.Orgabet.models.Match;
 public interface MatchRepository extends MongoRepository<Match, String>, MatchRepositoryCustom {
 
 	ArrayList<Match> findByHomeTeam(String ht);
+	ArrayList<Match> findBySportAndDate(String sport, String date);
 }

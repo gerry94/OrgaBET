@@ -79,7 +79,7 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		MatchOperation filterDiv = null;
 		if(sport.equals("Football"))
 			 filterDiv = Aggregation.match(new Criteria("division").is(division));
-		// db.match.find({sport:"Tennis", date:{ $regex:/^2018/ } })
+	
 		GroupOperation grp =  Aggregation.group("homeTeam").count().as("count");
 		
 		SortOperation srt = Aggregation.sort(Sort.Direction.ASC, "_id");
@@ -139,15 +139,16 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 	
 	@Override
 	public StatsDTO computeTennisPlayer(String surface, String player, Double totWin, String date) {
-		Double winPerc = 0.00, lostPerc = 0.00;
+		Double winPerc = 100.00, lostPerc = 0.00;
 		MatchOperation filterSport = Aggregation.match(new Criteria("sport").is("Tennis"));
 		MatchOperation filterDate = Aggregation.match(new Criteria("date").regex(date+"$"));
 		MatchOperation filterSurface = Aggregation.match(new Criteria("surface").is(surface));
 		MatchOperation filterPlayer = Aggregation.match(new Criteria("awayTeam").is(player));
-		
+		//count number of lost matches for a single player
 		GroupOperation grp =  Aggregation.group("awayTeam").count().as("count");
 		
 		Aggregation aggr = Aggregation.newAggregation(filterSport, filterDate, filterSurface, filterPlayer, grp);
+		
 		List<countDTO> res = mongoTemplate.aggregate(aggr, Match.class, countDTO.class).getMappedResults();
 		
 		try {
@@ -156,6 +157,7 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		
 		lostPerc = 100.00 - winPerc;
 		
+		filterPlayer =  Aggregation.match(new Criteria("homeTeam").is(player));
 		UnwindOperation unw = Aggregation.unwind("odds");
 		UnwindOperation unw2 = Aggregation.unwind("odds.quotes");
 		
@@ -164,7 +166,7 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		ProjectionOperation proj = Aggregation.project("avg");
 		
 		Aggregation aggr2 = Aggregation.newAggregation(filterSport, filterDate, filterSurface,filterPlayer, unw, unw2, grp2);
-	
+		
 		List<AvgDTO> res2 = mongoTemplate.aggregate(aggr2, Match.class, AvgDTO.class).getMappedResults();
 		
 		StatsDTO stats = new StatsDTO(player, winPerc, null, lostPerc, null, null, res2);
