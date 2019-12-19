@@ -32,7 +32,7 @@ public class LoginController {
 		            return new ModelAndView("forward:/admin");
 		        }
 		        if ("USER".equals(auth.getAuthority())) {
-		        	return new ModelAndView("forward:/user");
+		        	return new ModelAndView("forward:/match");
 		        }
 		    }
 		}
@@ -55,7 +55,7 @@ public class LoginController {
 		            return new ModelAndView("forward:/admin");
 		        }
 		        if ("USER".equals(auth.getAuthority())) {
-		        	return new ModelAndView("forward:/user");
+		        	return new ModelAndView("forward:/match");
 		        }
 		    }
 		}
@@ -106,17 +106,6 @@ public class LoginController {
 	    return modelAndView;
 	}
 	
-	@RequestMapping(value = "/user", method = RequestMethod.GET)
-	public ModelAndView user() {
-	    ModelAndView modelAndView = new ModelAndView();
-	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    User user = userService.findUserByUsername(auth.getName());
-	    modelAndView.addObject("currentUser", user);
-	    modelAndView.addObject("firstName", "Welcome " + user.getFirstName());
-	    modelAndView.addObject("userMessage", "Content Available Only for Users logged in");
-	    modelAndView.setViewName("user");
-	    return modelAndView;
-	}
 	
 	@RequestMapping(value = {"/","/home"}, method = RequestMethod.GET)
 	public ModelAndView home() {
@@ -130,7 +119,7 @@ public class LoginController {
 		            return new ModelAndView("forward:/admin");
 		        }
 		        if ("USER".equals(auth.getAuthority())) {
-		        	return new ModelAndView("forward:/user");
+		        	return new ModelAndView("forward:/match");
 		        }
 		    }
 		}
