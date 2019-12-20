@@ -86,16 +86,18 @@ public class MatchController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/clearCoupon")
-	public void clearCoupon()
+	public String clearCoupon(Model model)
 	{
 		System.out.println("Coupon cleared!");
 		//clear and refresh the object
 		coupon = new Coupon();
+		model.addAttribute("coupon", coupon);
+		return "fragments :: coupon";
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/saveCoupon")
-	public void saveCoupon() {
+	public String saveCoupon(Model model) {
 		System.out.println("Saving Coupon...");
 		
 		//codice che salva il Coupon nel current user
@@ -109,6 +111,8 @@ public class MatchController {
 		System.out.println("Coupon saved!");
 		//clear and refresh the object
 		coupon = new Coupon();
+		model.addAttribute("coupon", coupon);
+		return "fragments :: coupon";
 	}
 	
 	public String tomorrowDate(String date) {

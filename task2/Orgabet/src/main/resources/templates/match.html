@@ -168,25 +168,15 @@
                   <div th:fragment="coupon">
                       <script type="text/javascript">
                           function saveCoupon() {
-                              $.ajax({
-                                  type: "POST",
-                                  url: "/saveCoupon"
-                              });
-                              clearTBody();
+                            var url = "/saveCoupon";
+							$('#couponDiv').load(url);
                           }
 
                           function clearCoupon() {
-                              $.ajax({
-                                  type: "POST",
-                                  url: "/clearCoupon"
-                              });
-                              clearTBody();
+                              var url = "/clearCoupon"
+                              $('#couponDiv').load(url);
                           }
-                          function clearTBody() {
-                              var old_tbody = document.getElementById("couponTableBody");
-                              var new_tbody = document.createElement('tbody');
-                              old_tbody.parentNode.replaceChild(new_tbody, old_tbody);
-                          }
+
                       </script>
                       <div class="couponTitle"><h3>MyCoupon</h3></div>
 
