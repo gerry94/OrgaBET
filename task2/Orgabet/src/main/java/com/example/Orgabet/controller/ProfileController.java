@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.Orgabet.dto.EditProfileDTO;
 import com.example.Orgabet.dto.TableDTO;
@@ -124,5 +125,16 @@ public class ProfileController
     	model.addAttribute("coupons",coupons);
     	return "fragments :: couponList";
     }
+    
+    @RequestMapping(value = {"/profile/{username}/delete"}, method = RequestMethod.POST)
+    public ModelAndView profileEdit(@PathVariable("username") String username)
+    {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    User currentUser = userService.findUserByUsername(auth.getName());
+    	Long success=repository.deleteUserByUsername(username);
+    	
+    	return new ModelAndView("redirect:/logout");
+    }
+    
     
 }

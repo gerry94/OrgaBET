@@ -30,6 +30,9 @@
                 <div sec:authorize="hasAuthority('ADMIN')">BAN USER<input type="checkbox" sec:authorize="hasAuthority('ADMIN')" id=inputBanned name="banned" th:checked="${user.banned}"></div><br>
                 <button id="submit-form" class="btn btn-lg btn-primary btn-block" type="submit">Apply Edits</button>
             </form>
+            <form  sec:authorize="hasAuthority('USER')" id="form-profile" th:action="@{__${#httpServletRequest.requestURI}__/delete}" method="post">
+            	<button id="submit-form" class="btn btn-lg btn-primary btn-block" type="submit">Delete profile</button>
+            </form>
     <div id=listDiv>           
 	<div th:fragment="couponList">
     	  <h2>Coupons </h2>
