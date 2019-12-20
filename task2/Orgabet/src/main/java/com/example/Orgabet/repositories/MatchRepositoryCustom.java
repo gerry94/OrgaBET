@@ -13,9 +13,9 @@ import com.example.Orgabet.models.Match;
 public interface MatchRepositoryCustom {
 	
 	//Function to select divisions to show up in a date
-	List<divisionDTO> selectSortedDivisions(String date, String sport);
+	List<divisionDTO> selectSortedDivisions(String date, String date2, String date3, String sport);
 	//Functions for average odd aggregation
-	List<Match> selectSortedMatches(String sport, String date, String div);
+	List<Match> selectSortedMatches(String sport, String date, String date2, String date3, String division);
 	List<AvgDTO> computeAverageOdds(String id);
 	
 	//Functions for statistics aggregations
@@ -29,6 +29,4 @@ public interface MatchRepositoryCustom {
 	//Return list of winning tennis player and count of won matches
 	List<countDTO> selectWinningTennisPlayer(String date, String surface);
 	StatsDTO computeTennisPlayer(String surface, String player, Double totWin, String date);
-	
-
 }

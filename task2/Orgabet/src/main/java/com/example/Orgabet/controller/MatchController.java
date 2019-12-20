@@ -111,6 +111,28 @@ public class MatchController {
 		coupon = new Coupon();
 	}
 	
+	public String tomorrowDate(String date) {
+		Integer day = Integer.parseInt(date.substring(0,2));
+		day++;
+		String date2 = date.replaceFirst(date.substring(0,2), day.toString()); 
+		
+		return date2;
+	}
+	
+	public boolean checkBasket(String date,String date2,String date3) {
+		Boolean check = true;
+		ArrayList<Match> matchB = matchRepository.findBySportAndDate("Basket",date);
+		if(matchB.size() == 0) {
+			matchB = matchRepository.findBySportAndDate("Basket",date2);
+			if(matchB.size() == 0) {
+				matchB = matchRepository.findBySportAndDate("Basket",date3);
+				if(matchB.size() == 0)
+					check = false;
+			}
+		}
+		return check;
+	}
+	
 	@RequestMapping("/match")
 	   public String viewMatches(@RequestParam(required = false, defaultValue = "Football", value="sport") String sport, @RequestParam(required = false, defaultValue = "I1", value="division")String division,@RequestParam(required = false, defaultValue = "21/09/2019", value="date") String date, Model model) {
 		
@@ -118,7 +140,10 @@ public class MatchController {
     		User currentUser = userService.findUserByUsername(auth.getName());
 		model.addAttribute("currentUser", currentUser);
 		
-		List<divisionDTO> selectedDivisionsF = matchRepository.selectSortedDivisions(date, "Football");
+		String date2 = tomorrowDate(date);
+		String date3 = tomorrowDate(date2);
+		
+		List<divisionDTO> selectedDivisionsF = matchRepository.selectSortedDivisions(date, date2, date3, "Football");
 		
 		List<listDivisionDTO> listF = new ArrayList<listDivisionDTO>();
 		
@@ -129,12 +154,10 @@ public class MatchController {
 		}
 		model.addAttribute("divisionsF", listF);
 		
-		model.addAttribute("B",true);
-		ArrayList<Match> checkB = matchRepository.findBySportAndDate("Basket",date);
-		if(checkB.size() == 0)
-			model.addAttribute("B", false);
+		Boolean check = checkBasket(date, date2, date3);
+		model.addAttribute("B",check);
 		
-		List<divisionDTO> selectedDivisionsT = matchRepository.selectSortedDivisions(date, "Tennis");
+		List<divisionDTO> selectedDivisionsT = matchRepository.selectSortedDivisions(date, date2, date3, "Tennis");
 		
 		List<listDivisionDTO> listT = new ArrayList<listDivisionDTO>();
 		for(Iterator<divisionDTO> l = selectedDivisionsT.iterator(); l.hasNext();) {
@@ -144,8 +167,8 @@ public class MatchController {
 		}
 		model.addAttribute("divisionsT", listT);
 		
-		List<Match> list = matchRepository.selectSortedMatches(sport, date, division);
-
+		List<Match> list = matchRepository.selectSortedMatches(sport, date, date2, date3, division);
+		
 		tbl = new ArrayList<TableDTO>();
 		
 		for(Iterator<Match> l = list.iterator(); l.hasNext();) {
@@ -154,11 +177,12 @@ public class MatchController {
 			List<AvgDTO> list2 = matchRepository.computeAverageOdds(match.getId());
 			tbl.add(new TableDTO(match, list2));
 		}
-		
+
 		model.addAttribute("matches", tbl);
 		model.addAttribute("coupon",coupon);
 		model.addAttribute("sport",sport);
 		model.addAttribute("date",date);
+		model.addAttribute("division",division);
 
 		return "match";
 	   }

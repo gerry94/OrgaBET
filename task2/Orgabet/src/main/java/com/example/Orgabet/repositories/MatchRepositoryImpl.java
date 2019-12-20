@@ -23,9 +23,12 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 	}
 	
 	@Override
-	public List<divisionDTO> selectSortedDivisions(String date, String sport){
+	public List<divisionDTO> selectSortedDivisions(String date, String date2, String date3, String sport){
 		MatchOperation filterSport = Aggregation.match(new Criteria("sport").is(sport));
-		MatchOperation filterDate = Aggregation.match(new Criteria("date").is(date));
+		MatchOperation filterDate;
+		if(!sport.equals("Tennis"))
+			filterDate = Aggregation.match(new Criteria().orOperator(new Criteria("date").is(date), new Criteria("date").is(date2),  new Criteria("date").is(date3)));
+		else filterDate = Aggregation.match(new Criteria("date").is(date));
 		GroupOperation grp = Aggregation.group("sport","division");
 		SortOperation srt = Aggregation.sort(Sort.Direction.ASC, "division");
 		
@@ -37,12 +40,15 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 	}
 	
 	@Override
-	public List<Match> selectSortedMatches(String sport, String date, String division) {
+	public List<Match> selectSortedMatches(String sport, String date, String date2, String date3, String division) {
 		MatchOperation filterSport = Aggregation.match(new Criteria("sport").is(sport));
-		MatchOperation filterDate = Aggregation.match(new Criteria("date").is(date));
+		MatchOperation filterDate;
+		if(!sport.equals("Tennis"))
+			filterDate = Aggregation.match(new Criteria().orOperator(new Criteria("date").is(date), new Criteria("date").is(date2),  new Criteria("date").is(date3)));
+		else filterDate = Aggregation.match(new Criteria("date").is(date));
 		MatchOperation filterDiv = Aggregation.match(new Criteria("division").is(division));
-		
-		SortOperation srt = Aggregation.sort(Sort.Direction.ASC, "time");
+	
+		SortOperation srt = Aggregation.sort(Sort.Direction.ASC, "date");
 		
 		Aggregation aggr;
 		if(sport.equals("Basket"))

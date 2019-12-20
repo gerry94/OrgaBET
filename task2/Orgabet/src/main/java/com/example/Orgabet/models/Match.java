@@ -27,7 +27,7 @@ public class Match {
 	@Indexed
 	private String division;
 	@Indexed
-	private Date date; //may cause problems if date is not correctly formatted in mongoDB
+	private String date; //may cause problems if date is not correctly formatted in mongoDB
 	private String time;
 	@Indexed
 	private String homeTeam;

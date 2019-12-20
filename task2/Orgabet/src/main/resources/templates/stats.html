@@ -87,7 +87,38 @@
 			</ul>
 		</div>
 		
-      <h2>Statistic</h2>
+     <h2 th:if="${sport.equals('Football')}" th:switch="${division}">          
+                <span th:case="I1">Serie A</span>
+                <span th:case="I2">Serie B</span>
+                <span th:case="E0">Premier League</span>
+                <span th:case="E1">Championship</span>
+                <span th:case="E2">League One</span>
+                <span th:case="E3">League Two</span>
+                <span th:case="EC">National League</span>
+                <span th:case="SP1">Primerspan Division</span>
+                <span th:case="SP2">Segundspan Division</span>
+                <span th:case="F1">Ligue 1</span>
+                <span th:case="F2">Ligue 2</span>
+                <span th:case="D1">Bundesliga</span>
+                <span th:case="D2">Bundesligspan 2</span>
+                <span th:case="N1">Eredivisie</span>
+                <span th:case="G1">Souper Ligka</span>
+                <span th:case="B1">Pro League</span>
+                <span th:case="P1">Primeirspan Liga</span>
+                <span th:case="T1">Super Lig</span>
+                <span th:case="SC0">Scot Premiership</span>
+                <span th:case="SC1">Scot Champions</span>
+                <span th:case="SC2">Scot League 1</span>
+                <span th:case="SC3">Scot League 2</span>
+            </h2>
+
+            <h2 th:if="${sport.equals('Basket')}">
+                <span>NBA</span>
+            </h2>
+
+            <h2 th:if="${sport.equals('Tennis')}">
+                <span th:utext="${division}"></span>
+            </h2>
 		
       <div id="FootballTable" th:if="${sport.equals('Football') and year.equals('2019')}">
       <h2>Home</h2>
@@ -238,7 +269,7 @@
      </div>
      
      <div id="tennisTable" th:if="${sport.equals('Tennis')}">
-      <h2 th:utext="${division}"></h2>
+     
        
       <table border="0">
           <thead style="background-color: #343a40; color:white; font-weight:bold;">
