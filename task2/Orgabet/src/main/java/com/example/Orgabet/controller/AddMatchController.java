@@ -29,7 +29,7 @@ public class AddMatchController
 		return "addMatches";
 	}
 	
-	@PostMapping("/uploadFile")
+	@PostMapping("admin/addMatches")
 	public String handleFileUpload(@RequestParam("file") MultipartFile multipartFile) throws IOException
 	{
 		File file = new File(System.getProperty("java.io.tmpdir")+"/"+multipartFile.getName());
