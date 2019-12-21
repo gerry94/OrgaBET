@@ -44,8 +44,6 @@ public class MatchController {
 	@GetMapping("/removeBet")
 	public String rmeoveBet(@RequestParam(required=true, value="id") String id, Model model){
 		coupon.removeBet(id);
-		//coupon.printCoupon();
-		
 		model.addAttribute("coupon", coupon);
 		return "fragments :: coupon";
 	}

@@ -1,12 +1,14 @@
 package com.example.Orgabet.repositories;
 
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 import com.example.Orgabet.dto.AvgDTO;
 import com.example.Orgabet.dto.StatsDTO;
 import com.example.Orgabet.dto.countDTO;
 import com.example.Orgabet.dto.divisionDTO;
 
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -14,6 +16,7 @@ import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 
 import com.example.Orgabet.models.Match;
+
 public class MatchRepositoryImpl implements MatchRepositoryCustom {
 	private final MongoTemplate mongoTemplate;
 	
@@ -368,5 +371,21 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		
 		stats = new StatsDTO(team, awayWin, awayDraw, awayLost, awayOver, awayUnder, res5);
 		return stats;
+	}
+	
+	@Override
+	public void uploadFile(File f) {
+		
+		//Read each line of the json file. Each file is one observation document.
+		List<Document> observationDocuments = new ArrayList<>();
+		try (BufferedReader br = new BufferedReader(new FileReader(f.getPath()));) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				observationDocuments.add(Document.parse(line));
+			}
+		} catch (IOException ex) {
+			ex.getMessage();
+		}
+		mongoTemplate.getCollection("match").insertMany(observationDocuments);
 	}
 }

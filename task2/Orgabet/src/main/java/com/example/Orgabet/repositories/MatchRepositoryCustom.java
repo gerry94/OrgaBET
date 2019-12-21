@@ -1,6 +1,7 @@
 package com.example.Orgabet.repositories;
 
 
+import java.io.File;
 import java.util.List;
 
 import com.example.Orgabet.dto.AvgDTO;
@@ -29,4 +30,6 @@ public interface MatchRepositoryCustom {
 	//Return list of winning tennis player and count of won matches
 	List<countDTO> selectWinningTennisPlayer(String date, String surface);
 	StatsDTO computeTennisPlayer(String surface, String player, Double totWin, String date);
+	
+	void uploadFile(File f);
 }
