@@ -9,6 +9,7 @@ import com.example.Orgabet.dto.StatsDTO;
 import com.example.Orgabet.dto.countDTO;
 import com.example.Orgabet.dto.divisionDTO;
 import com.example.Orgabet.models.Match;
+import org.bson.Document;
 
 
 public interface MatchRepositoryCustom {
@@ -31,5 +32,5 @@ public interface MatchRepositoryCustom {
 	List<countDTO> selectWinningTennisPlayer(String date, String surface);
 	StatsDTO computeTennisPlayer(String surface, String player, Double totWin, String date);
 	
-	void uploadFile(File f);
+	void uploadFile(File f, List<Document> doc);
 }

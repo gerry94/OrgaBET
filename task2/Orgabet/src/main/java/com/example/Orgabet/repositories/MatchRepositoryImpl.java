@@ -374,18 +374,7 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 	}
 	
 	@Override
-	public void uploadFile(File f) {
-		
-		//Read each line of the json file. Each file is one observation document.
-		List<Document> observationDocuments = new ArrayList<>();
-		try (BufferedReader br = new BufferedReader(new FileReader(f.getPath()));) {
-			String line;
-			while ((line = br.readLine()) != null) {
-				observationDocuments.add(Document.parse(line));
-			}
-		} catch (IOException ex) {
-			ex.getMessage();
-		}
+	public void uploadFile(File f, List<Document> observationDocuments) {
 		mongoTemplate.getCollection("match").insertMany(observationDocuments);
 	}
 }
