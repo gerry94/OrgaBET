@@ -126,7 +126,7 @@ public class ProfileController
     	return "fragments :: couponList";
     }
     
-    @RequestMapping(value = {"/profile/{username}/delete"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/user/{username}/delete"}, method = RequestMethod.POST)
     public ModelAndView profileEdit(@PathVariable("username") String username)
     {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
