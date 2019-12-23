@@ -47,5 +47,10 @@ public class User {
 	public List<Coupon> getCoupons() {
 		return coupons;
 	}
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	public boolean isBanned() {
+	return banned;}
 	
 }
