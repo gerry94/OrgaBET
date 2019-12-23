@@ -82,7 +82,7 @@ public class MatchController {
 		return "fragments :: coupon";
 	}
 	
-	@ResponseBody
+	
 	@RequestMapping(value = "/clearCoupon")
 	public String clearCoupon(Model model)
 	{
@@ -93,7 +93,7 @@ public class MatchController {
 		return "fragments :: coupon";
 	}
 	
-	@ResponseBody
+	
 	@RequestMapping(value = "/saveCoupon")
 	public String saveCoupon(Model model) {
 		System.out.println("Saving Coupon...");

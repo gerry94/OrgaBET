@@ -169,6 +169,12 @@
                               var url = "/clearCoupon"
                               $('#couponDiv').load(url);
                           }
+                                      function removeBet(elem, matchId) {
+                document.getElementById("couponTable").deleteRow(elem.parentNode.rowIndex);
+
+                var url = "/removeBet" + "?id="+matchId;
+                $('#couponDiv').load(url);
+            }
 
                       </script>
                       <div class="couponTitle"><h3>MyCoupon</h3></div>

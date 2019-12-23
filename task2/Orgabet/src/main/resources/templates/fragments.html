@@ -8,29 +8,15 @@
 <body>
     <div th:fragment="coupon">
         <script type="text/javascript">
-            function saveCoupon() {
-                $.ajax({
-                    type: "POST",
-                    url: "/saveCoupon"
-                });
-                clearTBody();
-            }
+                          function saveCoupon() {
+                            var url = "/saveCoupon";
+							$('#couponDiv').load(url);
+                          }
 
-            function clearCoupon() {
-                $.ajax({
-                    type: "POST",
-                    url: "/clearCoupon"
-                });
-                clearTBody();
-            }
-            function clearTBody() {
-                var old_tbody = document.getElementById("couponTableBody");
-                var new_tbody = document.createElement('tbody');
-                old_tbody.parentNode.replaceChild(new_tbody, old_tbody);
-
-                old_tbody = document.getElementById("bookmakerTotBody");
-                old_tbody.parentNode.replaceChild(new_tbody, old_tbody);
-            }
+                          function clearCoupon() {
+                              var url = "/clearCoupon"
+                              $('#couponDiv').load(url);
+                          }
 
             function removeBet(elem, matchId) {
                 document.getElementById("couponTable").deleteRow(elem.parentNode.rowIndex);
