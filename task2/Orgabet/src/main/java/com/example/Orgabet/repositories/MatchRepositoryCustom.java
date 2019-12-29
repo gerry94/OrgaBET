@@ -21,16 +21,16 @@ public interface MatchRepositoryCustom {
 	List<AvgDTO> computeAverageOdds(String id);
 	
 	//Functions for statistics aggregations
-	List<countDTO> selectTeamsHome(String sport, String date, String division);
+	List<countDTO> selectTeamsHome(String sport, Integer year, String division);
 
-	List<countDTO> selectTeamsAway(String sport, String date, String division);
+	List<countDTO> selectTeamsAway(String sport, Integer year, String division);
 	
-	StatsDTO computeTeamHome(String division, String team, Double totHome, String sport, String date);
+	StatsDTO computeTeamHome(String division, String team, Double totHome, String sport, Integer year);
 
-	StatsDTO computeTeamAway(String division, String team, Double totHome, String sport, String date);
+	StatsDTO computeTeamAway(String division, String team, Double totHome, String sport, Integer year);
 	//Return list of winning tennis player and count of won matches
-	List<countDTO> selectWinningTennisPlayer(String date, String surface);
-	StatsDTO computeTennisPlayer(String surface, String player, Double totWin, String date);
+	List<countDTO> selectWinningTennisPlayer(Integer year, String surface);
+	StatsDTO computeTennisPlayer(String surface, String player, Double totWin, Integer year);
 	
 	void uploadFile(File f, List<Document> doc);
 }

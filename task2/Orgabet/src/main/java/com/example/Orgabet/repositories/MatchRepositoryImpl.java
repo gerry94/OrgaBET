@@ -81,9 +81,9 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 	}
 	
 	@Override
-	public List<countDTO> selectTeamsHome(String sport, String date, String division){
+	public List<countDTO> selectTeamsHome(String sport, Integer year, String division){
 		MatchOperation filterSport = Aggregation.match(new Criteria("sport").is(sport));
-		MatchOperation filterDate = Aggregation.match(new Criteria("date").regex(date+"$"));
+		MatchOperation filterYear = Aggregation.match(new Criteria("year").is(year));
 		
 		MatchOperation filterDiv = null;
 		if(sport.equals("Football"))
@@ -95,8 +95,8 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		
 		Aggregation aggr;
 		if(sport.equals("Football"))
-			 aggr = Aggregation.newAggregation(filterSport, filterDate, filterDiv, grp, srt);
-		else aggr = Aggregation.newAggregation(filterSport, filterDate, grp, srt);
+			 aggr = Aggregation.newAggregation(filterSport, filterYear, filterDiv, grp, srt);
+		else aggr = Aggregation.newAggregation(filterSport, filterYear, grp, srt);
 		
 		List<countDTO> res = mongoTemplate.aggregate(aggr, Match.class, countDTO.class).getMappedResults();
 		
@@ -104,10 +104,10 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 	}
 	
 	@Override
-	public List<countDTO> selectTeamsAway(String sport, String date,String division){
+	public List<countDTO> selectTeamsAway(String sport, Integer year,String division){
 		MatchOperation filterSport = Aggregation.match(new Criteria("sport").is(sport));
 		
-		MatchOperation filterDate = Aggregation.match(new Criteria("date").regex(date+"$"));
+		MatchOperation filterYear = Aggregation.match(new Criteria("year").is(year));
 		
 		MatchOperation filterDiv = null;
 		if(sport.equals("Football"))
@@ -119,8 +119,8 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		
 		Aggregation aggr;
 		if(sport.equals("Football"))
-			 aggr = Aggregation.newAggregation(filterSport, filterDate, filterDiv, grp, srt);
-		else aggr = Aggregation.newAggregation(filterSport, filterDate, grp, srt);
+			 aggr = Aggregation.newAggregation(filterSport, filterYear, filterDiv, grp, srt);
+		else aggr = Aggregation.newAggregation(filterSport, filterYear, grp, srt);
 		
 		List<countDTO> res = mongoTemplate.aggregate(aggr, Match.class, countDTO.class).getMappedResults();
 		
@@ -128,10 +128,10 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 	}
 	
 	@Override
-	public List<countDTO> selectWinningTennisPlayer(String date, String surface){
+	public List<countDTO> selectWinningTennisPlayer(Integer year, String surface){
 		MatchOperation filterSport = Aggregation.match(new Criteria("sport").is("Tennis"));
 		
-		MatchOperation filterDate = Aggregation.match(new Criteria("date").regex(date+"$"));
+		MatchOperation filterYear = Aggregation.match(new Criteria("year").is(year));
 
 		MatchOperation filterSurface = Aggregation.match(new Criteria("surface").is(surface));
 		
@@ -139,7 +139,7 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		
 		SortOperation srt = Aggregation.sort(Sort.Direction.ASC, "_id");
 		
-		Aggregation aggr = Aggregation.newAggregation(filterSport, filterDate, filterSurface, grp, srt);
+		Aggregation aggr = Aggregation.newAggregation(filterSport, filterYear, filterSurface, grp, srt);
 		
 		List<countDTO> res = mongoTemplate.aggregate(aggr, Match.class, countDTO.class).getMappedResults();
 		
@@ -147,16 +147,16 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 	}
 	
 	@Override
-	public StatsDTO computeTennisPlayer(String surface, String player, Double totWin, String date) {
+	public StatsDTO computeTennisPlayer(String surface, String player, Double totWin, Integer year) {
 		Double winPerc = 100.00, lostPerc = 0.00;
 		MatchOperation filterSport = Aggregation.match(new Criteria("sport").is("Tennis"));
-		MatchOperation filterDate = Aggregation.match(new Criteria("date").regex(date+"$"));
+		MatchOperation filterYear = Aggregation.match(new Criteria("year").is(year));
 		MatchOperation filterSurface = Aggregation.match(new Criteria("surface").is(surface));
 		MatchOperation filterPlayer = Aggregation.match(new Criteria("awayTeam").is(player));
 		//count number of lost matches for a single player
 		GroupOperation grp =  Aggregation.group("awayTeam").count().as("count");
 		
-		Aggregation aggr = Aggregation.newAggregation(filterSport, filterDate, filterSurface, filterPlayer, grp);
+		Aggregation aggr = Aggregation.newAggregation(filterSport, filterYear, filterSurface, filterPlayer, grp);
 		
 		List<countDTO> res = mongoTemplate.aggregate(aggr, Match.class, countDTO.class).getMappedResults();
 		
@@ -174,7 +174,7 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		
 		ProjectionOperation proj = Aggregation.project("avg");
 		
-		Aggregation aggr2 = Aggregation.newAggregation(filterSport, filterDate, filterSurface,filterPlayer, unw, unw2, grp2);
+		Aggregation aggr2 = Aggregation.newAggregation(filterSport, filterYear, filterSurface,filterPlayer, unw, unw2, grp2);
 		
 		List<AvgDTO> res2 = mongoTemplate.aggregate(aggr2, Match.class, AvgDTO.class).getMappedResults();
 		
@@ -184,7 +184,7 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 	}
 	
 	@Override 
-	public StatsDTO computeTeamHome(String division, String team, Double totHome, String sport, String date) {
+	public StatsDTO computeTeamHome(String division, String team, Double totHome, String sport, Integer year) {
 		StatsDTO stats = null;
 		double homeWin = 0.00, homeDraw = 0.00, homeLost = 0.00, homeOver = 0.00, homeUnder = 0.00;
 		
@@ -194,18 +194,19 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		MatchOperation filterTeam = Aggregation.match(new Criteria("homeTeam").is(team));
 		MatchOperation filterHomeWin = Aggregation.match(new Criteria("fullTimeResult").is("H"));
 		
-		MatchOperation filterDate = Aggregation.match(new Criteria("date").regex(date+"$"));
+		MatchOperation filterYear = Aggregation.match(new Criteria("year").is(year));
 		
 		GroupOperation grpHW =  Aggregation.group("homeTeam").count().as("count");
 		Aggregation aggr;
 		if(sport.equals("Football"))
-			aggr = Aggregation.newAggregation(filterDiv, filterTeam, filterDate, filterHomeWin, grpHW);
-		else aggr = Aggregation.newAggregation(filterTeam, filterDate, filterHomeWin, grpHW);
+			aggr = Aggregation.newAggregation(filterDiv, filterTeam, filterYear, filterHomeWin, grpHW);
+		else aggr = Aggregation.newAggregation(filterTeam, filterYear, filterHomeWin, grpHW);
 		
 		List<countDTO> res = mongoTemplate.aggregate(aggr, Match.class, countDTO.class).getMappedResults();
 		
 		try {
 			homeWin = ((res.get(0).getCount())/totHome) * 100;
+			
 		} catch(Exception e){
 			
 		}
@@ -214,8 +215,8 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		GroupOperation grpHD =  Aggregation.group("homeTeam").count().as("count");
 		Aggregation aggr2;
 		if(sport.equals("Football"))
-			aggr2 = Aggregation.newAggregation(filterDiv, filterTeam, filterDate, filterHomeDraw, grpHD);
-		else aggr2 = Aggregation.newAggregation(filterTeam, filterDate, filterHomeDraw, grpHD);
+			aggr2 = Aggregation.newAggregation(filterDiv, filterTeam, filterYear, filterHomeDraw, grpHD);
+		else aggr2 = Aggregation.newAggregation(filterTeam, filterYear, filterHomeDraw, grpHD);
 		
 		List<countDTO> res2 = mongoTemplate.aggregate(aggr2, Match.class, countDTO.class).getMappedResults();
 		
@@ -230,8 +231,8 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		
 		Aggregation aggr3;
 		if(sport.equals("Football"))
-			aggr3 = Aggregation.newAggregation(filterDiv, filterTeam, filterDate, filterHomeLost, grpHL);
-		else aggr3 = Aggregation.newAggregation(filterTeam, filterDate, filterHomeLost, grpHL);
+			aggr3 = Aggregation.newAggregation(filterDiv, filterTeam, filterYear, filterHomeLost, grpHL);
+		else aggr3 = Aggregation.newAggregation(filterTeam, filterYear, filterHomeLost, grpHL);
 		
 		List<countDTO> res3 = mongoTemplate.aggregate(aggr3, Match.class, countDTO.class).getMappedResults();
 		
@@ -247,8 +248,8 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		
 		Aggregation aggr4;
 		if(sport.equals("Football"))
-			aggr4 = Aggregation.newAggregation(filterDiv, filterTeam, filterDate, prjHO, filterHomeOver, grpHO);
-		else aggr4 = Aggregation.newAggregation(filterTeam, filterDate, filterHomeOver, grpHO);
+			aggr4 = Aggregation.newAggregation(filterDiv, filterTeam, filterYear, prjHO, filterHomeOver, grpHO);
+		else aggr4 = Aggregation.newAggregation(filterTeam, filterYear, filterHomeOver, grpHO);
 		
 		List<countDTO> res4 = mongoTemplate.aggregate(aggr4, Match.class, countDTO.class).getMappedResults();
 		
@@ -269,8 +270,8 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		
 		Aggregation aggr5;
 		if(sport.equals("Football"))
-			aggr5 = Aggregation.newAggregation(filterDiv, filterTeam, filterDate, unw, unw2, grp);
-		else aggr5 = Aggregation.newAggregation(filterTeam, filterDate, unw, unw2, grp);
+			aggr5 = Aggregation.newAggregation(filterDiv, filterTeam, filterYear, unw, unw2, grp);
+		else aggr5 = Aggregation.newAggregation(filterTeam, filterYear, unw, unw2, grp);
 
 		List<AvgDTO> res5 = mongoTemplate.aggregate(aggr5, Match.class, AvgDTO.class).getMappedResults();
 		
@@ -280,7 +281,7 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 	}
 	
 	@Override 
-	public StatsDTO computeTeamAway(String division, String team, Double totAway, String sport, String date) {
+	public StatsDTO computeTeamAway(String division, String team, Double totAway, String sport, Integer year) {
 		StatsDTO stats = null;
 		double awayWin = 0.00, awayDraw = 0.00, awayLost = 0.00, awayOver = 0.00, awayUnder = 0.00;
 		
@@ -288,13 +289,13 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		MatchOperation filterTeam = Aggregation.match(new Criteria("awayTeam").is(team));
 		MatchOperation filterAwayWin = Aggregation.match(new Criteria("fullTimeResult").is("A"));
 		
-		MatchOperation filterDate = Aggregation.match(new Criteria("date").regex(date+"$"));
+		MatchOperation filterYear = Aggregation.match(new Criteria("year").is(year));
 		
 		GroupOperation grpAW =  Aggregation.group("awayTeam").count().as("count");
 		Aggregation aggr;
 		if(sport.equals("Football"))
-			aggr = Aggregation.newAggregation(filterDiv, filterTeam, filterDate, filterAwayWin, grpAW);
-		else aggr = Aggregation.newAggregation(filterTeam, filterDate, filterAwayWin, grpAW);
+			aggr = Aggregation.newAggregation(filterDiv, filterTeam, filterYear, filterAwayWin, grpAW);
+		else aggr = Aggregation.newAggregation(filterTeam, filterYear, filterAwayWin, grpAW);
 		
 		List<countDTO> res = mongoTemplate.aggregate(aggr, Match.class, countDTO.class).getMappedResults();
 		
@@ -309,8 +310,8 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		
 		Aggregation aggr2;
 		if(sport.equals("Football"))
-			aggr2 = Aggregation.newAggregation(filterDiv, filterTeam, filterDate, filterAwayDraw, grpAD);
-		else aggr2 = Aggregation.newAggregation(filterTeam, filterDate, filterAwayDraw, grpAD);
+			aggr2 = Aggregation.newAggregation(filterDiv, filterTeam, filterYear, filterAwayDraw, grpAD);
+		else aggr2 = Aggregation.newAggregation(filterTeam, filterYear, filterAwayDraw, grpAD);
 		
 		List<countDTO> res2 = mongoTemplate.aggregate(aggr2, Match.class, countDTO.class).getMappedResults();
 		
@@ -325,8 +326,8 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 
 		Aggregation aggr3;
 		if(sport.equals("Football"))
-			aggr3 = Aggregation.newAggregation(filterDiv, filterTeam, filterDate, filterAwayLost, grpAL);
-		else aggr3 = Aggregation.newAggregation(filterTeam, filterDate, filterAwayLost, grpAL);
+			aggr3 = Aggregation.newAggregation(filterDiv, filterTeam, filterYear, filterAwayLost, grpAL);
+		else aggr3 = Aggregation.newAggregation(filterTeam, filterYear, filterAwayLost, grpAL);
 		
 		List<countDTO> res3 = mongoTemplate.aggregate(aggr3, Match.class, countDTO.class).getMappedResults();
 		
@@ -342,8 +343,8 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		
 		Aggregation aggr4;
 		if(sport.equals("Football"))
-			aggr4 = Aggregation.newAggregation(filterDiv, filterTeam, filterDate, prjAO, filterAwayOver, grpAO);
-		else aggr4 = Aggregation.newAggregation(filterTeam, filterDate, filterAwayOver, grpAO);
+			aggr4 = Aggregation.newAggregation(filterDiv, filterTeam, filterYear, prjAO, filterAwayOver, grpAO);
+		else aggr4 = Aggregation.newAggregation(filterTeam, filterYear, filterAwayOver, grpAO);
 		
 		List<countDTO> res4 = mongoTemplate.aggregate(aggr4, Match.class, countDTO.class).getMappedResults();
 		
@@ -364,8 +365,8 @@ public class MatchRepositoryImpl implements MatchRepositoryCustom {
 		
 		Aggregation aggr5;
 		if(sport.equals("Football"))
-			aggr5 = Aggregation.newAggregation(filterDiv, filterTeam, filterDate, unw, unw2, grp);
-		else aggr5 = Aggregation.newAggregation(filterTeam, filterDate, unw, unw2, grp);
+			aggr5 = Aggregation.newAggregation(filterDiv, filterTeam, filterYear, unw, unw2, grp);
+		else aggr5 = Aggregation.newAggregation(filterTeam, filterYear, unw, unw2, grp);
 		
 		List<AvgDTO> res5 = mongoTemplate.aggregate(aggr5, Match.class, AvgDTO.class).getMappedResults();
 		

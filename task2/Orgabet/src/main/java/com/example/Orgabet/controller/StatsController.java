@@ -34,7 +34,7 @@ public class StatsController {
 	MatchRepository statsRepository;
 	
 	@RequestMapping("/stats")
-	public List<String> viewStats(@RequestParam(required = false, defaultValue = "Football", value="sport") String sport, @RequestParam(required = false, defaultValue = "I1", value="division")String division,@RequestParam(required = false, defaultValue = "2019", value="year") String year,Model model) {
+	public List<String> viewStats(@RequestParam(required = false, defaultValue = "Football", value="sport") String sport, @RequestParam(required = false, defaultValue = "I1", value="division")String division,@RequestParam(required = false, defaultValue = "2019", value="year") Integer year,Model model) {
 		//due to inconsistency in the dataset we need to re-format the date string according
 		//to the specific format of each sport
 		
@@ -47,9 +47,7 @@ public class StatsController {
 				date = day+"/"+month+"/"+year;
 			else date = day+"/"+month+"/"+(year.substring(year.length() - 2));
 		}*/
-		if(sport.equals("Football"))
-			if(!(year.equals("2018") || year.equals("2019")))
-				year = (year.substring(year.length() - 2));
+	
 		
 		List<countDTO> list = null, listA = null;
 		if(sport.equals("Tennis"))
@@ -99,10 +97,7 @@ public class StatsController {
 		
 		model.addAttribute("sport", sport);
 		model.addAttribute("division", division);
-		if(year.contentEquals("17"))
-			model.addAttribute("year", 2017);
-		else
-			model.addAttribute("year", year);
+		model.addAttribute("year", year.toString());
 		
 		return stats;
 	}
