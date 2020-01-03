@@ -114,9 +114,55 @@ public class MatchController {
 	}
 	
 	public String tomorrowDate(String date) {
+		Integer maxDay;
+		Integer month = Integer.parseInt(date.substring(3,5));
+		Integer year = Integer.parseInt(date.substring(6,10));
+		
+		switch(month) {
+			case 4:
+				maxDay = 30;
+				break;
+			case 6:
+				maxDay = 30;
+				break;
+			case 9:
+				maxDay = 30;
+				break;
+			case 11:
+				maxDay = 30;
+				break;
+			case 2:
+				if (year%4 == 0)
+					maxDay = 29;
+				else maxDay = 28;
+				break;
+			default:
+				maxDay = 31;
+				break;
+		}
+		
 		Integer day = Integer.parseInt(date.substring(0,2));
-		day++;
-		String date2 = date.replaceFirst(date.substring(0,2), day.toString()); 
+		if(day < maxDay)
+			day++;
+		else {
+			day = 1;
+			if(month == 12)
+			{
+				month = 1;
+				year++;
+			}
+			else month++;
+		}
+		
+		String date2;
+		if(day > 9 && month > 9)
+			date2 = day.toString() + "/" + month.toString() + "/" + year.toString();
+		else if(day > 9)
+			date2 = day.toString() + "/0" + month.toString() + "/" + year.toString();
+		else if(month > 9)
+			date2 = "0" + day.toString() + "/" + month.toString() + "/" + year.toString();
+		else 
+			date2 = "0" + day.toString() + "/0" + month.toString() + "/" + year.toString();
 		
 		return date2;
 	}
