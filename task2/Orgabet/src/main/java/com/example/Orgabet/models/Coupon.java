@@ -97,7 +97,7 @@ public class Coupon implements Comparable<Coupon>{
 	}
 	
 	//function used for debug in the terminal
-	public void printCoupon() {
+	/*public void printCoupon() {
 		System.out.print("\033[H\033[2J");  //"clear" the screen
 		System.out.flush();
 		
@@ -108,7 +108,7 @@ public class Coupon implements Comparable<Coupon>{
 		for(Tot t: this.bookmakerTot)
 			System.out.println(t.getBookmaker() +": "+t.getQuoteTot());
 		System.out.println("=========================================");
-	}
+	}*/
   	
 	public boolean equals(Coupon other){
 	    boolean result;

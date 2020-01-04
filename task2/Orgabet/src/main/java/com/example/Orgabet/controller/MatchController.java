@@ -182,7 +182,7 @@ public class MatchController {
 	}
 	
 	@RequestMapping("/match")
-	   public String viewMatches(@RequestParam(required = false, defaultValue = "Football", value="sport") String sport, @RequestParam(required = false, defaultValue = "I1", value="division")String division,@RequestParam(required = false, defaultValue = "23/11/2019", value="date") String date, Model model) {
+	   public String viewMatches(@RequestParam(required = false, defaultValue = "Football", value="sport") String sport, @RequestParam(required = false, defaultValue = "I1", value="division")String division,@RequestParam(required = false, defaultValue = "30/11/2019", value="date") String date, Model model) {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     		User currentUser = userService.findUserByUsername(auth.getName());
@@ -225,7 +225,9 @@ public class MatchController {
 			List<AvgDTO> list2 = matchRepository.computeAverageOdds(match.getId());
 			tbl.add(new TableDTO(match, list2));
 		}
-
+		
+		Collections.sort(tbl);
+		
 		model.addAttribute("matches", tbl);
 		model.addAttribute("coupon",coupon);
 		model.addAttribute("sport",sport);
@@ -234,5 +236,4 @@ public class MatchController {
 
 		return "match";
 	   }
-
 }
