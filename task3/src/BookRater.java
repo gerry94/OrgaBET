@@ -117,15 +117,15 @@ public class BookRater {
 					case "!list":
 						System.out.println("Books that you have read:\n");
 						System.out.println("========================================================================================================================");
-						System.out.printf("%-15s %-60s %-25s %-15s %n", "Book Code", "Title", "Author", "Availability");
+						System.out.printf("%-15s %-60s %-25s %n", "Book Code", "Title", "Author");
 						System.out.println("========================================================================================================================");
 						
-						//print di prova
+						//print di prova - non sono realmente i libri di questo utente
 						List<String> lista = gm.getBooks();
 						for(String s : lista) {
-							System.out.println(s);
+							System.out.printf("%-15s %-60s %-25s %n", "...", s,"...");
 						}
-						System.out.println("The following additional commands are available: ");
+						System.out.println("\nThe following additional commands are available: ");
 						System.out.println("\t!add --> add a specific book to your wishlist.");
 						System.out.println("\t!tag --> add a metadata TAG to one of the books you have read.");
 						System.out.println("\t!rate --> rate a book with a score from 1 to 5 stars.");
