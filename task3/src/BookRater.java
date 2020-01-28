@@ -29,7 +29,7 @@ public class BookRater {
 		System.out.println("");
 	}
 	
-	public static String login(DBManager dbm, Scanner scan)
+	public static String login(Scanner scan)
 	{		
 		System.out.print("\033[H\033[2J");  //"clear" the screen
 	    	System.out.flush();
@@ -50,10 +50,18 @@ public class BookRater {
 			}
 			else
 			{
-				user_name = dbm.login(idUser);
-				if(user_name.contentEquals(""))
+				List<String> result = new ArrayList<String>();
+                result = lm.login(login_code.getText());
+                
+				if (result == null){
+                    idUser = "";
 					System.out.println("Incorrect credentials: please try again or contact a librarian for help.");
-			}
+                }
+                else {
+                     user_name = result.get(0);
+                     idUser = login_code.getText();
+                     privilege = Integer.parseInt(result.get(1));}
+                     }
 		} while(user_name.equals(""));
 		
 		System.out.println("Welcome " + user_name +". The following commands are available: ");
@@ -63,7 +71,8 @@ public class BookRater {
 	}
 	
 	public static void main(String[] args) {
-		DBManager dbm = new DBManager(3306, "test", "password", "bibliosDB");
+		public static LibraryManager lm = new LibraryManager();
+        lm.setup();
 		GraphManager gm = new GraphManager("bolt://localhost:7687", "neo4j", "test");
 		
 		String command, cin, option;
