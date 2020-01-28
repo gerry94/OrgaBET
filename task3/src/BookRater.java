@@ -1,3 +1,5 @@
+import org.graalvm.compiler.graph.Graph;
+
 import java.util.*;
 
 public class BookRater {
@@ -30,7 +32,7 @@ public class BookRater {
 	public static String login(DBManager dbm, Scanner scan)
 	{		
 		System.out.print("\033[H\033[2J");  //"clear" the screen
-	    	System.out.flush(); 
+	    	System.out.flush();
 	    
 		System.out.println("====================== Welcome in BookRater ======================");
 		String user_name = "", idUser = "";
@@ -62,7 +64,10 @@ public class BookRater {
 	
 	public static void main(String[] args) {
 		DBManager dbm = new DBManager(3306, "test", "password", "bibliosDB");
+		GraphManager gm = new GraphManager("bolt://localhost:7687", "neo4j", "test");
+		
 		String command, cin, option;
+		
 		dbm.start();
 		
 		Scanner scan = new Scanner(System.in).useDelimiter("\n");
@@ -114,8 +119,12 @@ public class BookRater {
 						System.out.println("========================================================================================================================");
 						System.out.printf("%-15s %-60s %-25s %-15s %n", "Book Code", "Title", "Author", "Availability");
 						System.out.println("========================================================================================================================");
-						System.out.println("lista e cazzate varie");
 						
+						//print di prova
+						List<String> lista = gm.getBooks();
+						for(String s : lista) {
+							System.out.println(s);
+						}
 						System.out.println("The following additional commands are available: ");
 						System.out.println("\t!add --> add a specific book to your wishlist.");
 						System.out.println("\t!tag --> add a metadata TAG to one of the books you have read.");
@@ -209,6 +218,5 @@ public class BookRater {
 		}
 		else System.out.println(REDC + "Invalid command." + ENDC + "Type '!help' to view available commands.");
 		}
-			
-	} //while
+	} //main
 }
