@@ -190,15 +190,12 @@ public class BookRater {
 						break;
 					
 					case "!logout":
-						idUser=login(dbm,scan);
-						privilege = dbm.check_privilege(idUser);
-						printMsg(privilege);
+						lm.logout();
 						break;
 					case "!exit":
 						if(privilege){
 							System.out.println("Closing program...");
-							dbm.stop();
-							scan.close();
+							lm.exit();
 							System.exit(0);
 							break;
 						}
