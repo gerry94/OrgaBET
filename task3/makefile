@@ -1,5 +1,8 @@
 .PHONY: all clean
 
-all: pom.xml src/main/java/*.java
-	mvn clean javafx:run
+all: pom.xml src/BookRater.java src/DBManager.java
+	mvn -q clean install
+	make run
+run:
+	mvn -q exec:java
 	
