@@ -1,10 +1,6 @@
 package main.java;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
 
 import javax.persistence.*;
 
@@ -19,6 +15,7 @@ public class User implements Serializable {
 	
 	private String name;
 	private String surname;
+	private int idNode; //id of the corresponding node in the graphDB
 	
 	@Column(columnDefinition = "tinyint(4) default 0")
 	private int privilege;
@@ -29,6 +26,8 @@ public class User implements Serializable {
 	public String getId() {
 		return id;
 	}
+	
+	public int getIdNode() { return this.idNode; }
 	
 	public void setUserId(String id) {
 		this.id=id;

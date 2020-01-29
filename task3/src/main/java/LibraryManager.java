@@ -9,6 +9,7 @@ public class LibraryManager {
 	private static EntityManagerFactory factory;
 	private String loggedUser=null;
 	private int privilege;
+	private int idNode;
 	
 	public void setup()	{
 		factory = Persistence.createEntityManagerFactory("bibliosDB");
@@ -31,6 +32,8 @@ public class LibraryManager {
 			entityManager.getTransaction().commit();
 			loggedUser = user.getId();
 			privilege = user.getPrivilege();
+			idNode = user.getIdNode();
+			
 			name = user.getName();
 			name = name.concat(" ");
 			name = name.concat(user.getSurname());
@@ -63,6 +66,7 @@ public class LibraryManager {
 	public int getPrivilege() {
 		return this.privilege;
 	}
+	public int getIdNode() { return this.idNode; }
 //User table operations
 	public String findUser(String userid)
 	{
