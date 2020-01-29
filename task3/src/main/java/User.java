@@ -1,3 +1,5 @@
+package main.java;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,11 +22,6 @@ public class User implements Serializable {
 	
 	@Column(columnDefinition = "tinyint(4) default 0")
 	private int privilege;
-
-
-	@OneToMany( mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Loan> loans = new ArrayList<>();
-	
 	
 	public User() {
 	}
@@ -55,34 +52,6 @@ public class User implements Serializable {
 	
 	public int getPrivilege() {
 		return privilege;
-	}
-	
-	public List<Loan> getLoans()
-	{
-			return this.loans;
-	}
-	
-	
-	//helper method to sync a loan addition
-	public void addLoan(Book book) {
-		Loan loan = new Loan(this, book);
-		loans.add(loan);
-		book.getLoans().add(loan);
-	}
-	
-	//helper method to sync a loan removal
-	public void removeLoan(Book book) {
-		for (Iterator<Loan> iterator = loans.iterator(); iterator.hasNext(); ) 
-		{
-			Loan loan = iterator.next();
-	            if (loan.getUser().equals(this) &&
-	                    loan.getBook().equals(book)) {
-	            			iterator.remove();
-							book.getLoans().remove(loan);
-							loan.setUser( null );
-							loan.setBook( null );
-	            }
-		}
 	}
 	
 	@Override

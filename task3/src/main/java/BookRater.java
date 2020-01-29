@@ -1,16 +1,17 @@
-import org.graalvm.compiler.graph.Graph;
+package main.java;
 
+import org.graalvm.compiler.graph.Graph;
 import java.util.*;
 
 public class BookRater {
 	
 	public static final String REDC="\033[0;31m", GREENC="\033[0;32m", ENDC="\033[0m";
 	
-	public static void printMsg(boolean privilege)
+	public static void printMsg(int privilege)
 	{
 		System.out.println("!help --> view available commands.");
 		
-		if(privilege)
+		if(privilege == 1)
 		{
 			System.out.println("!add --> add a new book in the library's Catalogue.");
 			System.out.println("!remove --> remove a book from the library's Catalogue.");
@@ -24,12 +25,12 @@ public class BookRater {
 		}
 		
 		System.out.println("!logout --> logout from the program.");
-		if(privilege)
+		if(privilege == 1)
 			System.out.println("!exit --> logout and shutdown the system.");
 		System.out.println("");
 	}
 	
-	public static String login(Scanner scan)
+	public static String login(Scanner scan, LibraryManager lm)
 	{		
 		System.out.print("\033[H\033[2J");  //"clear" the screen
 	    	System.out.flush();
@@ -40,51 +41,45 @@ public class BookRater {
 		do {
 			System.out.println("Please, insert your credentials:");
 			System.out.print(">");
-			System.out.flush(); 
+			System.out.flush();
 			idUser = scan.next();
 			
-			if(!idUser.matches("[a-zA-Z0-9]+") || idUser.contentEquals("")) //checks that input is alphanumeric only
+			if (!idUser.matches("[a-zA-Z0-9]+") || idUser.contentEquals("")) //checks that input is alphanumeric only
 			{
 				System.out.println(REDC + "Invalid input: please try again or contact a librarian for help." + ENDC);
 				continue;
-			}
-			else
-			{
+			} else {
 				List<String> result = new ArrayList<String>();
-                result = lm.login(login_code.getText());
-                
-				if (result == null){
-                    idUser = "";
+				result = lm.login(idUser);
+				
+				if (result == null)
+				{
+					idUser = "";
 					System.out.println("Incorrect credentials: please try again or contact a librarian for help.");
-                }
-                else {
-                     user_name = result.get(0);
-                     idUser = login_code.getText();
-                     privilege = Integer.parseInt(result.get(1));}
-                     }
-		} while(user_name.equals(""));
-		
-		System.out.println("Welcome " + user_name +". The following commands are available: ");
-		System.out.println("");
-		return idUser;
-		
+				} else {
+					user_name = result.get(0);
+				}
+			}
+		} while (user_name.equals(""));
+			
+			System.out.println("Welcome " + user_name + ". The following commands are available: \n");
+			printMsg(lm.getPrivilege());
+			return idUser;
 	}
 	
 	public static void main(String[] args) {
-		public static LibraryManager lm = new LibraryManager();
-        lm.setup();
+		LibraryManager lm = new LibraryManager();
+        	lm.setup();
 		GraphManager gm = new GraphManager("bolt://localhost:7687", "neo4j", "test");
 		
 		String command, cin, option;
 		
-		dbm.start();
-		
 		Scanner scan = new Scanner(System.in).useDelimiter("\n");
 		
-		String idUser=login(dbm,scan);
-		boolean privilege = dbm.check_privilege(idUser);
-		printMsg(privilege);
+		login(scan, lm);
 		
+		int privilege = lm.getPrivilege();
+
 		while(true)
 		{
 			System.out.print(">");
@@ -171,8 +166,7 @@ public class BookRater {
 						option = scan.next();
 						if(option.matches("[a-zA-Z!]+")) //only a-z character and ! are allowed
 						{
-							switch (option)
-							{
+							switch (option) {
 								case ("!remove"):
 									break;
 								default:
@@ -193,30 +187,26 @@ public class BookRater {
 						lm.logout();
 						break;
 					case "!exit":
-						if(privilege){
+						if(privilege == 1) {
 							System.out.println("Closing program...");
 							lm.exit();
 							System.exit(0);
 							break;
 						}
 					case "!add":
-						if(privilege)
-						{
+						if(privilege == 1) {
 							System.out.println("Insert book ID: ");
 							System.out.print(">");
 							System.out.flush();
-							
-							break;
 						}
+						break;
 					case "!remove":
-						if(privilege)
-						{
+						if(privilege == 1) {
 							System.out.println("Insert the ID of the book to be removed: ");
 							System.out.print(">");
 							System.out.flush();
-							
-							break;
 						}
+						break;
 					default:
 						System.out.println(REDC + "Invalid command." + ENDC + "Type '!help' to view available commands.");
 						break;

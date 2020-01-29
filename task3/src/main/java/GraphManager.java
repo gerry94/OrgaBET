@@ -1,3 +1,5 @@
+package main.java;
+
 import org.neo4j.driver.v1.*;
 
 import java.util.ArrayList;

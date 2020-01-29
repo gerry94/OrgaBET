@@ -1,4 +1,5 @@
-DBManager.class
-GraphManager$1.class
-GraphManager.class
-BookRater.class
+main/java/BookRater.class
+main/java/GraphManager.class
+main/java/GraphManager$1.class
+main/java/User.class
+main/java/LibraryManager.class
