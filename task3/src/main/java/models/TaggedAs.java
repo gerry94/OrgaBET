@@ -1,4 +1,4 @@
-package main.java;
+package main.java.models;
 
 import org.neo4j.ogm.annotation.*;
 

@@ -1,11 +1,11 @@
-package main.java;
+package main.java.models;
 
 import org.neo4j.ogm.annotation.*;
 
 import java.util.*;
 
 @NodeEntity
-public class Book extends Entity {
+public class Book {
 	@Property(name = "book_id")
 	private int bookId;
 	
