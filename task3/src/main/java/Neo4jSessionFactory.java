@@ -1,15 +1,17 @@
 package main.java;
 
-import org.neo4j.ogm.config.*;
-import org.neo4j.ogm.session.*;
+
+import org.neo4j.ogm.config.ClasspathConfigurationSource;
+import org.neo4j.ogm.config.Configuration;
+import org.neo4j.ogm.config.ConfigurationSource;
+import org.neo4j.ogm.session.Session;
+import org.neo4j.ogm.session.SessionFactory;
 
 public class Neo4jSessionFactory
 {
-	private final static Configuration configuration = new Configuration.Builder()
-						.uri("bolt://localhost:7687")
-						.credentials("neo4j", "test")
-						.build();
-	private final static SessionFactory sessionFactory = new SessionFactory(configuration, "main.java");
+	ConfigurationSource props = new ClasspathConfigurationSource("META-INF/neo4j.properties");
+	Configuration configuration = new Configuration.Builder(props).build();
+	SessionFactory sessionFactory = new SessionFactory(configuration, "main.java.models");
 	private static Neo4jSessionFactory factory = new Neo4jSessionFactory();
 	
 	public static Neo4jSessionFactory getInstance() {

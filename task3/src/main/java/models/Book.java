@@ -3,7 +3,13 @@ package main.java.models;
 import org.neo4j.ogm.annotation.*;
 
 import java.util.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@ToString
 @NodeEntity
 public class Book {
 	@Property(name = "book_id")

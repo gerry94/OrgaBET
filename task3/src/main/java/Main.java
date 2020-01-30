@@ -5,9 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.stage.*;
 import javafx.geometry.*;
-import org.neo4j.ogm.config.*;
-import org.neo4j.ogm.session.*;
-import org.neo4j.ogm.transaction.Transaction;
+import main.java.models.Book;
 
 import java.io.IOException;
 
@@ -23,7 +21,11 @@ public class Main extends Application {
         lm = new LibraryManager();
         lm.setup();
 
-        gm = new GraphManager("bolt://localhost:7687", "neo4j", "test");
+        //gm = new GraphManager("bolt://localhost:7687", "neo4j", "test");
+        gm = new GraphManager();
+        gm.setup();
+        Book b=gm.find(Long.parseLong("101"));
+        System.out.println(b.toString());
     /*
         final Configuration configuration = new Configuration.Builder()
                 .uri("bolt://localhost:7687")

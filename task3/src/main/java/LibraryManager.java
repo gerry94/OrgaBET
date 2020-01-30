@@ -3,6 +3,7 @@ package main.java;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import main.java.models.*;
 
 public class LibraryManager {
 	private static EntityManager entityManager;
