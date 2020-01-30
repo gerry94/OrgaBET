@@ -1,12 +1,13 @@
 package main.java;
 
-import javafx.application.Application;
-import javafx.application.Platform;
+import javafx.application.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
-import javafx.stage.Stage;
-import javafx.stage.Screen;
+import javafx.stage.*;
 import javafx.geometry.*;
+import org.neo4j.ogm.config.*;
+import org.neo4j.ogm.session.*;
+import org.neo4j.ogm.transaction.Transaction;
 
 import java.io.IOException;
 
@@ -21,9 +22,20 @@ public class Main extends Application {
     {
         lm = new LibraryManager();
         lm.setup();
-        
+
         gm = new GraphManager("bolt://localhost:7687", "neo4j", "test");
-        
+    /*
+        final Configuration configuration = new Configuration.Builder()
+                .uri("bolt://localhost:7687")
+                .credentials("neo4j", "test")
+                .build();
+
+        SessionFactory sessionFactory = new SessionFactory(configuration, "main.java");
+        final Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        System.out.println("==> There are " + session.countEntitiesOfType(Book.class) + " books in the DB.");
+        tx.close();
+        */
         stage = primaryStage;
         stage.setTitle("BookRater");
         changeScene(0); //0: login

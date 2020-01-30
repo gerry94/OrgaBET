@@ -24,7 +24,7 @@ public class GraphManager implements AutoCloseable
 		List<String> names = new ArrayList<>();
 		StatementResult result = tx.run( "MATCH (a:Book) RETURN DISTINCT a.title LIMIT 15" );
 		while ( result.hasNext() ) {
-			names.add( result.next().get( 0 ).asString() );
+			names.add(result.next().get(0).asString());
 		}
 		return names;
 	}
