@@ -1,14 +1,12 @@
 package main.java.models;
 
-import org.neo4j.ogm.annotation.*;
-
-@RelationshipEntity(type = "TAGGED_AS")
+//@RelationshipEntity(type = "TAGGED_AS")
 public class TaggedAs
 {
-	@StartNode
+//	@StartNode
 	Book book;
 	
-	@EndNode
+//	@EndNode
 	Tag tag;
 	
 	int count;

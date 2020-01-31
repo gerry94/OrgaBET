@@ -1,14 +1,12 @@
 package main.java.models;
 
-import org.neo4j.ogm.annotation.*;
-
-@RelationshipEntity(type = "RATED")
+//@RelationshipEntity(type = "RATED")
 public class Rated
 {
-	@StartNode
+//	@StartNode
 	UserNode user;
 	
-	@EndNode
+//	@EndNode
 	Book book;
 	
 	int rating;

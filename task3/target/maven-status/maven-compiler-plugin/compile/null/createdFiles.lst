@@ -9,6 +9,7 @@ main/java/models/Entity.class
 main/java/controllers/RatingPopUpController.class
 main/java/LibraryManager.class
 main/java/models/UserNode.class
+main/java/GraphManager$1.class
 main/java/GraphManager.class
 main/java/controllers/Controller.class
 main/java/models/Book.class

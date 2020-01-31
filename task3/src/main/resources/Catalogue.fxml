@@ -33,6 +33,7 @@
             <Label layoutX="468.0" layoutY="40.0" text="Catalogue" />
             <Button fx:id="mark_but" layoutX="54.0" layoutY="599.0" mnemonicParsing="false" onAction="#markAsRead" text="Mark as Read" />
             <Button fx:id="add_but" layoutX="522.0" layoutY="599.0" mnemonicParsing="false" onAction="#addToWishList" text="Add to Wish List" />
+            <Button fx:id="view_but" layoutX="716.0" layoutY="85.0" mnemonicParsing="false" onAction="#viewRated" text="View Rated" />
          </children>
       </AnchorPane>
    </children>

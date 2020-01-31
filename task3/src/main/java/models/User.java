@@ -1,10 +1,15 @@
 package main.java.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
 
+@Getter
+@Setter
 @Entity
 public class User implements Serializable {
 
