@@ -119,19 +119,18 @@ public class GraphManager implements AutoCloseable
 	}
 	
 	//============================query incompleta========================================
-	//manca da incrementare attributo count nella relazione TAGGED AS
-	private static void insertTag(Transaction tx, int userId, int bookId, String tag) {
-		String query = ""; //MATCH (b:Book) WHERE b.book_id="1" MERGE (t:Tag {tag_name: "AAAA"}) MERGE (b)-[ta:TAGGED_AS]->(t)
+	private static void insertTag(Transaction tx, int bookId, String tag) {
+		String query = "MATCH (b:Book {book_id:\""+bookId+"\"}) MERGE (t:Tag {tag_name:\""+tag+"\"}) MERGE (b)-[r:TAGGED_AS]->(t) ON CREATE SET r.count=1 ON MATCH SET r.count=r.count+1";
 		System.out.println("Query: "+query);
 		tx.run(query);
 	}
 	
-	public boolean addTag(int userId, int bookId, String tag) {
+	public boolean addTag(int bookId, String tag) {
 		try (Session session = driver.session()) {
 			return session.writeTransaction( new TransactionWork<Boolean>() {
 				@Override
 				public Boolean execute(Transaction tx) {
-					insertTag(tx, userId, bookId, tag);
+					insertTag(tx, bookId, tag);
 					return true;
 				}
 			} );

@@ -9,6 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import main.java.models.*;
 import main.java.Main;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.ResourceBundle;
 public class CatalogueController extends Controller {
 	
 	@FXML
-	private Button logout_but, next_but, previous_but, back, mark_but, add_but, view_but;
+	private Button logout_but, next_but, previous_but, back, mark_but, add_but, view_but, tag_but;
 	
 	@FXML
 	private Label welcome_msg;
@@ -30,6 +31,9 @@ public class CatalogueController extends Controller {
 	
 	@FXML
 	private Label page_count;
+	
+	@FXML
+	private TextField tag_field;
 	
 	boolean viewRated = false;
 	
@@ -114,6 +118,17 @@ public class CatalogueController extends Controller {
 	@FXML
 	void previousPage(ActionEvent event) {
 	
+	}
+	
+	@FXML
+	void addTag(ActionEvent event) {
+		if(tag_field.getText().isEmpty()) {
+			System.out.println("Tag field is empty!");
+		}
+		else {
+			Main.gm.addTag(book_table.getSelectionModel().getSelectedItem().getBookId(), tag_field.getText());
+		}
+		tag_field.clear();
 	}
 	
 }

@@ -15,6 +15,7 @@ main/java/GraphManager.class
 main/java/controllers/Controller.class
 main/java/models/Book.class
 main/java/controllers/SuggestionsController.class
+main/java/GraphManager$4.class
 main/java/GraphManager$3.class
 main/java/Neo4jSessionFactory.class
 main/java/controllers/UserHomeController.class
