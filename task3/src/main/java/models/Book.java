@@ -19,13 +19,13 @@ public class Book {
 	private String author;
 	
 	//@Relationship(type = "TAGGED_AS") //default is outgoing
-	Set<TaggedAs> tags;
+	//Set<TaggedAs> tags;
 	
 	//@Relationship(type = "RATED", direction = Relationship.INCOMING)
-	Set<Rated> ratings;
+	//Set<Rated> ratings;
 	
 	//@Relationship(type = "TO_READ", direction = Relationship.INCOMING)
-	Set<User> wantsToRead;
+	//Set<User> wantsToRead;
 	
 	//Neo4j-OGM also also requires a public no-args constructor to be able to construct objects from all our annotated entities.
 	public Book() { }

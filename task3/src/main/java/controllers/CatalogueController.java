@@ -4,10 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import main.java.models.*;
 import main.java.Main;
@@ -29,10 +26,7 @@ public class CatalogueController extends Controller {
 	private TableView<Book> book_table;
 	
 	@FXML
-	private TableColumn<?, ?> idCol;
-	
-	@FXML
-	private TableColumn titleCol, authorCol, ratingCol, readCol;
+	private TableColumn idCol, titleCol, authorCol, ratingCol;
 	
 	@FXML
 	private Label page_count;
@@ -46,9 +40,9 @@ public class CatalogueController extends Controller {
 		titleCol.setResizable(false);
 		authorCol.setResizable(false);
 		ratingCol.setResizable(false);
-		readCol.setResizable(false);
 		
-		//associating the table's column with the corresponding attributes of the book class
+		//associating the table's column with the corresponding attributes of the book
+		idCol.setCellValueFactory(new PropertyValueFactory<Book, Integer>("bookId"));
 		titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
 		authorCol.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
 
@@ -79,8 +73,8 @@ public class CatalogueController extends Controller {
 	@FXML
 	void viewRated(ActionEvent event) {
 		viewRated = !viewRated;
-		if(viewRated) view_but.setText("View non-Rated");
-		else view_but.setText("View Rated");
+		if(viewRated) { view_but.setText("View non-Rated"); mark_but.setDisable(true); }
+		else { view_but.setText("View Rated"); mark_but.setDisable(false); }
 		
 		List<Book> tmpBooks = Main.gm.getBooks(Main.lm.getIdNode(), viewRated);
 		
@@ -91,12 +85,24 @@ public class CatalogueController extends Controller {
 	}
 	@FXML
 	void addToWishList(ActionEvent event) {
-	
+		Book selectedBook = book_table.getSelectionModel().getSelectedItem();
+		
+		if(selectedBook == null) {
+			System.out.println("No book was selected. Please select a book a retry.");
+			return;
+		}
+		
+		System.out.println("Selected book: "+selectedBook.getBookId()+", "+ selectedBook.getTitle()+", "+ selectedBook.getAuthor());
+		Main.gm.addWish(Main.lm.getIdNode(), selectedBook.getBookId());
 	}
 	
 	@FXML
-	void markAsRead(ActionEvent event) throws IOException
-	{
+	void markAsRead(ActionEvent event) throws IOException {
+		Book selectedBook = book_table.getSelectionModel().getSelectedItem();
+		
+		if(selectedBook == null) {
+			System.out.println("No book was selected. Please select a book a retry.");
+		}
 		Main.changeScene(6); //open the rating popup
 	}
 	

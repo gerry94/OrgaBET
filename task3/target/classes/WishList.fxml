@@ -20,11 +20,9 @@
             <Label fx:id="welcome_msg" layoutX="38.0" layoutY="56.0" text="Welcome, &lt;username&gt;" />
             <TableView fx:id="book_table" layoutX="41.0" layoutY="155.0" prefHeight="419.0" prefWidth="913.0">
                <columns>
-                  <TableColumn fx:id="idCol" prefWidth="65.0" text="ID" />
-                  <TableColumn fx:id="titleCol" minWidth="0.0" prefWidth="386.0" text="Title" />
-                  <TableColumn fx:id="authorCol" prefWidth="215.66668701171875" text="Author" />
-                  <TableColumn fx:id="categoryCol" minWidth="0.0" prefWidth="164.99993896484375" text="Category" />
-                  <TableColumn fx:id="copiesCol" minWidth="0.0" prefWidth="78.33331298828125" text="# Copies" />
+                  <TableColumn fx:id="titleCol" minWidth="0.0" prefWidth="599.0" text="Title" />
+                  <TableColumn fx:id="authorCol" prefWidth="218.0" text="Author" />
+                  <TableColumn fx:id="ratingCol" minWidth="0.0" prefWidth="95.0" text="AVG Rating" />
                </columns>
             </TableView>
             <Button fx:id="next_but" layoutX="799.0" layoutY="124.0" mnemonicParsing="false" onAction="#nextPage" text="Next" />

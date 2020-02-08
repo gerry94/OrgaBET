@@ -79,7 +79,7 @@ public class Controller implements Initializable {
                 Main.changeScene(2);
         }
     }
-
+    
     @FXML
     protected void setMenuOption(ActionEvent event) {
         menuOption = ((MenuItem) event.getSource()).getText();
