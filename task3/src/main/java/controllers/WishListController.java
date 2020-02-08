@@ -28,7 +28,7 @@ public class WishListController extends Controller
 	private TableColumn idCol, titleCol, authorCol, ratingCol;
 	
 	@FXML
-	private Button mark_but, next_but, previous_but;
+	private Button mark_but, next_but, previous_but, remove_but;
 	
 	@FXML
 	private Label page_count;
@@ -72,7 +72,22 @@ public class WishListController extends Controller
 	}
 	@FXML
 	void removeSelected(ActionEvent event) {
-	
+		Book selectedBook = book_table.getSelectionModel().getSelectedItem();
+		
+		if(selectedBook == null) {
+			System.out.println("No book was selected. Please select a book a retry.");
+			return;
+		}
+		
+		System.out.println("Removed book from WishList: "+selectedBook.getBookId()+", "+ selectedBook.getTitle()+", "+ selectedBook.getAuthor());
+		Main.gm.removeWish(Main.lm.getIdNode(), selectedBook.getBookId());
+		
+		//refresh table
+		List<Book> tmpBooks = Main.gm.getWishList(Main.lm.getIdNode());
+		ObservableList<Book> books = FXCollections.observableArrayList();
+		for (Book b : tmpBooks)
+			books.add(b);
+		updateTable(books);
 	}
 	
 	@FXML

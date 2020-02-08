@@ -6,6 +6,7 @@ main/java/models/User.class
 main/java/models/Tag.class
 main/java/models/Rated.class
 main/java/models/Entity.class
+main/java/GraphManager$5.class
 main/java/controllers/RatingPopUpController.class
 main/java/GraphManager$2.class
 main/java/LibraryManager.class

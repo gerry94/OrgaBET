@@ -75,14 +75,15 @@ public class GraphManager implements AutoCloseable
 	private static List<Book> browseWishList(Transaction tx, int userId)
 	{
 		List<Book> tmpBooks = new ArrayList<>();
-		String query = "MATCH (p:User)-[r:TO_READ]->(b:Book) WHERE p.user_id=\""+userId+"\" RETURN DISTINCT b.original_title, b.authors LIMIT 10";
+		String query = "MATCH (p:User)-[r:TO_READ]->(b:Book) WHERE p.user_id=\""+userId+"\" RETURN DISTINCT b.book_id, b.original_title, b.authors LIMIT 10";
 		
 		StatementResult result = tx.run(query);
 		while ( result.hasNext() ) {
 			Record tmpRes = result.next();
 			Book b = new Book();
-			b.setTitle(tmpRes.get(0).asString());
-			b.setAuthor(tmpRes.get(1).asString());
+			b.setBookId(Integer.parseInt(tmpRes.get(0).asString()));
+			b.setTitle(tmpRes.get(1).asString());
+			b.setAuthor(tmpRes.get(2).asString());
 			tmpBooks.add(b);
 		}
 		return tmpBooks;
@@ -118,7 +119,24 @@ public class GraphManager implements AutoCloseable
 		}
 	}
 	
-	//============================query incompleta========================================
+	private static void deleteWish(Transaction tx, int userId, int bookId) {
+		String query = "MATCH (u:User {user_id:\""+userId+"\"})-[r:TO_READ]->(b:Book {book_id:\""+bookId+"\"}) DELETE r";
+		System.out.println("Query: "+query);
+		tx.run(query);
+	}
+	
+	public boolean removeWish(int userId, int bookId) {
+		try (Session session = driver.session()) {
+			return session.writeTransaction( new TransactionWork<Boolean>() {
+				@Override
+				public Boolean execute(Transaction tx) {
+					deleteWish(tx, userId, bookId);
+					return true;
+				}
+			} );
+		}
+	}
+
 	private static void insertTag(Transaction tx, int bookId, String tag) {
 		String query = "MATCH (b:Book {book_id:\""+bookId+"\"}) MERGE (t:Tag {tag_name:\""+tag+"\"}) MERGE (b)-[r:TAGGED_AS]->(t) ON CREATE SET r.count=1 ON MATCH SET r.count=r.count+1";
 		System.out.println("Query: "+query);
@@ -136,8 +154,6 @@ public class GraphManager implements AutoCloseable
 			} );
 		}
 	}
-	
-	//=========================================================================
 	
 	//markRead() dovrà anche eliminare un libro dalla wishlist, se presente?
 }
