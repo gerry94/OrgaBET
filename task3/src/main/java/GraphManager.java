@@ -6,30 +6,6 @@ import java.util.*;
 
 public class GraphManager implements AutoCloseable
 {
-	/*
-	//Configuration configuration = new Configuration.Builder()
-	//	.uri("bolt://neo4j:test@localhost")
-	//	.build();
-	Neo4jSessionFactory sessionFactory = Neo4jSessionFactory.getInstance();
-	private static final int DEPTH_LIST = 0;
-	private static final int DEPTH_ENTITY = 1;
-	//protected Session session = Neo4jSessionFactory.getInstance().getNeo4jSession();
-	public void setup()	{
-	
-	}
-	
-	public void exit() {
-	
-	}
-	
-	Book find(Long id) {
-		Session session = Neo4jSessionFactory.getInstance().getNeo4jSession();
-		return session.load(getEntityType(), id, DEPTH_ENTITY);
-	}
-	
-	Class<Book> getEntityType() {
-		return Book.class;
-	}*/
 	private final Driver driver;
 	public GraphManager(String uri, String user, String password ) {
 		driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
@@ -45,9 +21,13 @@ public class GraphManager implements AutoCloseable
 	{
 		List<Book> tmpBooks = new ArrayList<>();
 		String query;
-		if(rated) query = "MATCH (p:User)-[r:RATED]->(b:Book) WHERE p.user_id=\""+userId+"\" RETURN DISTINCT b.book_id, b.original_title, b.authors LIMIT 10";
-		else query = "MATCH (p:User),(b:Book) WHERE NOT (p)-[:RATED]->(b) AND p.user_id=\""+userId+"\" RETURN b.book_id, b.original_title, b.authors LIMIT 10;"; //"MATCH (a:Book) RETURN DISTINCT a.original_title, a.authors LIMIT 10";
+		if(rated) query = "MATCH (p:User {user_id:\""+userId+"\"})-[r:RATED]->(b:Book) RETURN b.book_id, b.original_title, b.authors, r.rating LIMIT 10";
+		else query = "MATCH ()-[r:RATED]->(b:Book) WHERE NOT (:User {user_id:\""+userId+"\"})-[:RATED]->(b) RETURN b.book_id, b.original_title, b.authors, AVG(r.rating) LIMIT 10";
 		
+		// ""MATCH ()-[r:RATED]->(b:Book) RETURN b.book_id, b.original_title, b.authors, AVG(r.rating) LIMIT 10";
+		//"MATCH (p:User {user_id:\""+userId+"\"}),(b:Book) WHERE NOT (p)-[:RATED]->(b) MATCH ()-[r:RATED]->(b) RETURN b.book_id, b.original_title, b.authors, AVG(r.rating) LIMIT 10;";
+		
+		System.out.println("Query: "+query);
 		StatementResult result = tx.run(query);
 		while ( result.hasNext() ) {
 			Record tmpRes = result.next();
@@ -55,6 +35,7 @@ public class GraphManager implements AutoCloseable
 			b.setBookId(Integer.parseInt(tmpRes.get(0).asString()));
 			b.setTitle(tmpRes.get(1).asString());
 			b.setAuthor(tmpRes.get(2).asString());
+			b.setAvgRating(tmpRes.get(3).asDouble());
 			tmpBooks.add(b);
 		}
 		return tmpBooks;
@@ -154,6 +135,25 @@ public class GraphManager implements AutoCloseable
 			} );
 		}
 	}
+
+	private static void insertRating(Transaction tx, int bookId, int userId, int rating) {
+		String query = "MATCH (u:User {user_id:\""+userId+"\"}),(b:Book {book_id:\""+bookId+"\"}) MERGE (u)-[r:RATED]->(b) SET r.rating="+rating;
+		System.out.println("Query: "+query);
+		tx.run(query);
+		
+		//removes book from WishList, in case it was there
+		tx.run("MATCH (u:User {user_id:\""+userId+"\"})-[r:TO_READ]->(b:Book {book_id:\""+bookId+"\"}) DELETE r");
+	}
 	
-	//markRead() dovrà anche eliminare un libro dalla wishlist, se presente?
+	public boolean addRating(int bookId, int userId, int rating) {
+		try (Session session = driver.session()) {
+			return session.writeTransaction( new TransactionWork<Boolean>() {
+				@Override
+				public Boolean execute(Transaction tx) {
+					insertRating(tx, bookId, userId, rating);
+					return true;
+				}
+			} );
+		}
+	}
 }

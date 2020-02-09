@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.stage.*;
 import javafx.geometry.*;
+import main.java.controllers.RatingPopUpController;
 import main.java.models.Book;
 
 import java.io.IOException;
@@ -25,22 +26,6 @@ public class Main extends Application {
         
         gm = new GraphManager("bolt://localhost:7687", "neo4j", "test");
 
-        /*gm = new GraphManager();
-        gm.setup();
-        Book b=gm.find(Long.parseLong("101"));
-        System.out.println(b.toString());*/
-    /*
-        final Configuration configuration = new Configuration.Builder()
-                .uri("bolt://localhost:7687")
-                .credentials("neo4j", "test")
-                .build();
-
-        SessionFactory sessionFactory = new SessionFactory(configuration, "main.java");
-        final Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        System.out.println("==> There are " + session.countEntitiesOfType(Book.class) + " books in the DB.");
-        tx.close();
-        */
         stage = primaryStage;
         stage.setTitle("BookRater");
         changeScene(0); //0: login
@@ -49,7 +34,7 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
+    
     public static void changeScene(int type) throws IOException {
         switch(type) {
             case 0:
@@ -72,18 +57,33 @@ public class Main extends Application {
             	root = FXMLLoader.load(Main.class.getResource("/Catalogue.fxml"));
                 stage.setScene(new Scene(root, 1000, 640));
             	break;
-            case 5:
-            	//root = FXMLLoader.load(Main.class.getResource("/ReadBooks.fxml"));
-                //stage.setScene(new Scene(root, 800, 640));
+            /*case 5:
+            	root = FXMLLoader.load(Main.class.getResource("/ReadBooks.fxml"));
+                stage.setScene(new Scene(root, 800, 640));
             	break;
             case 6:
                 root = FXMLLoader.load(Main.class.getResource("/RatingPopUp.fxml"));
                 stage.setScene(new Scene(root, 360, 230));
-                break;
+                break;*/
             default:
                 break;
         }
 
+        stage.show();
+        centerStage(stage);
+    }
+    
+    public static void ratingPopUp(Book b, int page) throws IOException
+    {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("/RatingPopUp.fxml"));
+        root = loader.load();
+        
+        RatingPopUpController cvc = loader.getController();
+        cvc.setSelectedBook(b); // Passing the book-object to the other Controller
+        cvc.setReturnPage(page); //telling which interface to return to - 3 wish, 4 catalogue
+        
+        stage.setScene(new Scene(root, 360, 230));
         stage.show();
         centerStage(stage);
     }

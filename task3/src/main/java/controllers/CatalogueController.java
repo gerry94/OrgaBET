@@ -49,20 +49,17 @@ public class CatalogueController extends Controller {
 		idCol.setCellValueFactory(new PropertyValueFactory<Book, Integer>("bookId"));
 		titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
 		authorCol.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
-
+		ratingCol.setCellValueFactory(new PropertyValueFactory<Book, Double>("avgRating"));
+		
+		//tableOffset = 0;
+		
 		List<Book> tmpBooks = Main.gm.getBooks(Main.lm.getIdNode(), viewRated);
 		
 		ObservableList<Book> books = FXCollections.observableArrayList();
 		for(Book b: tmpBooks)
 			books.add(b);
 		updateTable(books);
-		/*categoryCol.setCellValueFactory(new PropertyValueFactory<Book, String>("category"));
-		
-		//filling the table with the list returned by the query
-		
-		updateTable(Main.lm.browseBooks(tableOffset, filterAvailable));
-		tableOffset = 0;
-		
+		/*
 		previous_but.setDisable(true);
 		totalPages = ((Main.lm.getNumBooks() + 9)/10);
 		currentPage = 1;
@@ -77,8 +74,18 @@ public class CatalogueController extends Controller {
 	@FXML
 	void viewRated(ActionEvent event) {
 		viewRated = !viewRated;
-		if(viewRated) { view_but.setText("View non-Rated"); mark_but.setDisable(true); }
-		else { view_but.setText("View Rated"); mark_but.setDisable(false); }
+		if(viewRated) {
+			view_but.setText("View non-Read");
+			mark_but.setText("Change Rating");
+			ratingCol.setText("My Rating");
+			add_but.setDisable(true);
+		}
+		else {
+			view_but.setText("View Read");
+			mark_but.setText("Mark as Read");
+			ratingCol.setText("AVG Rating");
+			add_but.setDisable(false);
+		}
 		
 		List<Book> tmpBooks = Main.gm.getBooks(Main.lm.getIdNode(), viewRated);
 		
@@ -106,8 +113,9 @@ public class CatalogueController extends Controller {
 		
 		if(selectedBook == null) {
 			System.out.println("No book was selected. Please select a book a retry.");
+			return;
 		}
-		Main.changeScene(6); //open the rating popup
+		Main.ratingPopUp(selectedBook, 4); //4: catalogue page
 	}
 	
 	@FXML

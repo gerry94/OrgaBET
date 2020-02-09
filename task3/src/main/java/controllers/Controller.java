@@ -7,6 +7,7 @@ import javafx.scene.paint.*;
 import javafx.event.*;
 import javafx.scene.input.*;
 import main.java.Main;
+import main.java.models.Book;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,18 +36,16 @@ public class Controller implements Initializable {
     protected Button previous_but;
     @FXML
     protected Label page_count;
-    @FXML
-    protected MenuButton search_filter;
+    
     @FXML
     protected Button search_but;
 
     private static String username;
     private static int privilege;
 
-    protected String menuOption;
     protected static String userId;
     protected int tableOffset, currentPage, totalPages;
-
+    
     @FXML
     public void logout(ActionEvent event) throws IOException {
         Main.lm.logout();
@@ -80,12 +79,7 @@ public class Controller implements Initializable {
         }
     }
     
-    @FXML
-    protected void setMenuOption(ActionEvent event) {
-        menuOption = ((MenuItem) event.getSource()).getText();
-        search_filter.setText(menuOption);
-    }
-
+    
     @FXML
     protected void back(ActionEvent event) throws IOException {
         Main.changeScene(1);

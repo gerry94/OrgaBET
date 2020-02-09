@@ -18,6 +18,7 @@ public class Book {
 	//@Property(name = "authors")
 	private String author;
 	
+	private Double avgRating;
 	//@Relationship(type = "TAGGED_AS") //default is outgoing
 	//Set<TaggedAs> tags;
 	

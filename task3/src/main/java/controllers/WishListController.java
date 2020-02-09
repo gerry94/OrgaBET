@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import main.java.Main;
 import main.java.models.Book;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -46,6 +47,7 @@ public class WishListController extends Controller
 		idCol.setCellValueFactory(new PropertyValueFactory<Book, Integer>("bookId"));
 		titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
 		authorCol.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
+		
 		
 		List<Book> tmpBooks = Main.gm.getWishList(Main.lm.getIdNode());
 		
@@ -91,7 +93,14 @@ public class WishListController extends Controller
 	}
 	
 	@FXML
-	void markRead(ActionEvent event) {
-	
+	void markRead(ActionEvent event) throws IOException
+	{
+		Book selectedBook = book_table.getSelectionModel().getSelectedItem();
+		
+		if(selectedBook == null) {
+			System.out.println("No book was selected. Please select a book a retry.");
+			return;
+		}
+		Main.ratingPopUp(selectedBook, 3); //3 for wish page
 	}
 }

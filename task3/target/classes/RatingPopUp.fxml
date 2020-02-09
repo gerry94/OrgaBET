@@ -14,11 +14,11 @@
          <children>
             <MenuButton fx:id="rating_but" layoutX="74.0" layoutY="77.0" mnemonicParsing="false" text="Rating">
               <items>
-                <MenuItem mnemonicParsing="false" text="1" />
-                <MenuItem mnemonicParsing="false" text="2" />
-                  <MenuItem mnemonicParsing="false" text="3" />
-                  <MenuItem mnemonicParsing="false" text="4" />
-                  <MenuItem mnemonicParsing="false" text="5" />
+                <MenuItem mnemonicParsing="false" onAction="#setMenuOption" text="1" />
+                <MenuItem mnemonicParsing="false" onAction="#setMenuOption" text="2" />
+                  <MenuItem mnemonicParsing="false" onAction="#setMenuOption" text="3" />
+                  <MenuItem mnemonicParsing="false" onAction="#setMenuOption" text="4" />
+                  <MenuItem mnemonicParsing="false" onAction="#setMenuOption" text="5" />
               </items>
             </MenuButton>
             <Button fx:id="confirm_but" layoutX="239.0" layoutY="77.0" mnemonicParsing="false" onAction="#confirmRating" text="Confirm" />
