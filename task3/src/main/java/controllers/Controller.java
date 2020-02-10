@@ -82,7 +82,8 @@ public class Controller implements Initializable {
     
     @FXML
     protected void back(ActionEvent event) throws IOException {
-        Main.changeScene(1);
+        if(privilege == 0) Main.changeScene(1);
+        else Main.changeScene(5);
     }
 
     protected void resetPageButtons() {

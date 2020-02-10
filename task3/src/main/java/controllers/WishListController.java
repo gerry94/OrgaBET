@@ -47,31 +47,40 @@ public class WishListController extends Controller
 		idCol.setCellValueFactory(new PropertyValueFactory<Book, Integer>("bookId"));
 		titleCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
 		authorCol.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
+		ratingCol.setCellValueFactory(new PropertyValueFactory<Book, Double>("avgRating"));
 		
+		tableOffset = 0;
+		updateTable();
 		
-		List<Book> tmpBooks = Main.gm.getWishList(Main.lm.getIdNode());
+		previous_but.setDisable(true);
+		totalPages = ((Main.gm.getNumWish(Main.lm.getIdNode()) + 14)/15);
+		currentPage = 1;
+		
+		page_count.setText("Page " + currentPage + " of " + totalPages);
+	}
+	
+	private void updateTable() {
+		List<Book> tmpBooks = Main.gm.getWishList(Main.lm.getIdNode(), tableOffset*15);
 		
 		ObservableList<Book> books = FXCollections.observableArrayList();
-		for (Book b : tmpBooks)
+		for(Book b: tmpBooks)
 			books.add(b);
-		updateTable(books);
-	}
-	
-	public void updateTable(ObservableList<Book> list) {
-		book_table.setItems(list);
+		
+		book_table.setItems(books);
 	}
 	
 	@FXML
-	void nextPage(ActionEvent event)
-	{
-	
+	public void nextPage(ActionEvent ev) {
+		super.nextPage();
+		updateTable();
 	}
 	
 	@FXML
-	void previousPage(ActionEvent event)
-	{
-	
+	public void previousPage(ActionEvent ev) {
+		super.previousPage();
+		updateTable();
 	}
+	
 	@FXML
 	void removeSelected(ActionEvent event) {
 		Book selectedBook = book_table.getSelectionModel().getSelectedItem();
@@ -85,11 +94,8 @@ public class WishListController extends Controller
 		Main.gm.removeWish(Main.lm.getIdNode(), selectedBook.getBookId());
 		
 		//refresh table
-		List<Book> tmpBooks = Main.gm.getWishList(Main.lm.getIdNode());
-		ObservableList<Book> books = FXCollections.observableArrayList();
-		for (Book b : tmpBooks)
-			books.add(b);
-		updateTable(books);
+		totalPages = ((Main.gm.getNumWish(Main.lm.getIdNode()) + 14)/15);
+		updateTable();
 	}
 	
 	@FXML

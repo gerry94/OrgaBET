@@ -16,7 +16,8 @@ public class AdminHomeController extends Controller
 	}
 	
 	@FXML
-	void addBook(ActionEvent event) {
-	
+	void addBook(ActionEvent event) throws IOException
+	{
+		Main.changeScene(6);
 	}
 }

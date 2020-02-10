@@ -44,7 +44,7 @@ public class CatalogueController extends Controller {
 		if(Main.lm.getPrivilege()==1) remove_but.setVisible(true);
 		
 		//blocking table column resize
-		idCol.setResizable(false);
+		//idCol.setResizable(false);
 		titleCol.setResizable(false);
 		authorCol.setResizable(false);
 		ratingCol.setResizable(false);
@@ -56,17 +56,17 @@ public class CatalogueController extends Controller {
 		ratingCol.setCellValueFactory(new PropertyValueFactory<Book, Double>("avgRating"));
 		
 		tableOffset = 0;
-		updateTable(tableOffset);
-		/*
+		updateTable();
+		
 		previous_but.setDisable(true);
-		totalPages = ((Main.lm.getNumBooks() + 9)/10);
+		totalPages = ((Main.gm.getNumBooks(Main.lm.getIdNode(), false) + 14)/15);
 		currentPage = 1;
 		
-		page_count.setText("Page " + currentPage + " of " + totalPages);*/
+		page_count.setText("Page " + currentPage + " of " + totalPages);
 	}
 	
-	public void updateTable(int offset) {
-		List<Book> tmpBooks = Main.gm.getBooks(Main.lm.getIdNode(), viewRated);
+	public void updateTable() {
+		List<Book> tmpBooks = Main.gm.getBooks(Main.lm.getIdNode(), viewRated, tableOffset*15);
 		
 		ObservableList<Book> books = FXCollections.observableArrayList();
 		for(Book b: tmpBooks)
@@ -83,15 +83,20 @@ public class CatalogueController extends Controller {
 			mark_but.setText("Change Rating");
 			ratingCol.setText("My Rating");
 			add_but.setDisable(true);
+			totalPages = ((Main.gm.getNumBooks(Main.lm.getIdNode(), true)+14)/15);
+			super.resetPageButtons();
 		}
 		else {
 			view_but.setText("View Read");
 			mark_but.setText("Mark as Read");
 			ratingCol.setText("AVG Rating");
 			add_but.setDisable(false);
+			totalPages = ((Main.gm.getNumBooks(Main.lm.getIdNode(), false)+14)/15);
+			super.resetPageButtons();
+			//quando torno a NON-RATED  il total Page = 9999
 		}
 		
-		updateTable(tableOffset);
+		updateTable();
 	}
 	@FXML
 	void addToWishList(ActionEvent event) {
@@ -118,13 +123,15 @@ public class CatalogueController extends Controller {
 	}
 	
 	@FXML
-	void nextPage(ActionEvent event) {
-	
+	public void nextPage(ActionEvent ev) {
+		super.nextPage();
+		updateTable();
 	}
 	
 	@FXML
-	void previousPage(ActionEvent event) {
-	
+	public void previousPage(ActionEvent ev) {
+		super.previousPage();
+		updateTable();
 	}
 	
 	@FXML
@@ -147,7 +154,7 @@ public class CatalogueController extends Controller {
 			return;
 		}
 		Main.gm.removeBook(selectedBook.getBookId());
-		updateTable(tableOffset);
+		updateTable();
 	}
 }
 

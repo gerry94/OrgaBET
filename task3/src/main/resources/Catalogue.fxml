@@ -21,8 +21,8 @@
             <Label fx:id="welcome_msg" layoutX="38.0" layoutY="56.0" text="Welcome, &lt;username&gt;" />
             <TableView fx:id="book_table" layoutX="41.0" layoutY="155.0" prefHeight="419.0" prefWidth="913.0">
                <columns>
-                  <TableColumn fx:id="idCol" minWidth="0.0" prefWidth="30.666671752929688" text="ID" />
-                  <TableColumn fx:id="titleCol" minWidth="0.0" prefWidth="498.6666564941406" text="Title" />
+                  <TableColumn fx:id="idCol" minWidth="0.0" prefWidth="57.0" text="ID" />
+                  <TableColumn fx:id="titleCol" minWidth="0.0" prefWidth="473.0" text="Title" />
                   <TableColumn fx:id="authorCol" prefWidth="285.66668701171875" text="Author" />
                   <TableColumn fx:id="ratingCol" minWidth="0.0" prefWidth="96.33331298828125" text="Avg_Rating" />
                </columns>

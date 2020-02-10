@@ -16,53 +16,97 @@ public class GraphManager implements AutoCloseable
 		driver.close();
 	}
 	
-	//forse va chiamata browseBooks?
-	private static List<Book> matchBooks(Transaction tx, int userId, boolean rated)
+	private static int countBooks(Transaction tx, int userId, boolean read) {
+		StatementResult res;
+		if(!read) res = tx.run("MATCH (:Book) RETURN COUNT(*)");
+		else res = tx.run("MATCH (u:User {user_id:\""+userId+"\"}) -[:RATED]->(:Book) RETURN COUNT(*)");
+		
+		int val = -1;
+		
+		if(res.hasNext()) {
+			Record rec = res.next();
+			val = rec.get(0).asInt();
+		}
+		return val;
+	}
+	
+	public int getNumBooks(int userId, boolean read) {
+		try (Session session = driver.session()) {
+			return session.readTransaction( new TransactionWork<Integer>() {
+				@Override
+				public Integer execute(Transaction tx) {
+					return countBooks(tx, userId, read);
+				}
+			} );
+		}
+	}
+	
+	private static int countWish(Transaction tx, int userId) {
+		StatementResult res = tx.run("MATCH (u:User {user_id:\""+userId+"\"})-[:TO_READ]->(:Book) RETURN COUNT(*)");
+		int val = -1;
+		
+		if(res.hasNext()) {
+			Record rec = res.next();
+			val = rec.get(0).asInt();
+		}
+		return val;
+	}
+	
+	public int getNumWish(int userId) {
+		try (Session session = driver.session()) {
+			return session.readTransaction( new TransactionWork<Integer>() {
+				@Override
+				public Integer execute(Transaction tx) {
+					return countWish(tx, userId);
+				}
+			} );
+		}
+	}
+	private static List<Book> browseBooks(Transaction tx, int userId, boolean rated, int offset)
 	{
 		List<Book> tmpBooks = new ArrayList<>();
 		String query;
-		if(rated) query = "MATCH (p:User {user_id:\""+userId+"\"})-[r:RATED]->(b:Book) RETURN b.book_id, b.original_title, b.authors, r.rating LIMIT 10";
-		else query = "MATCH (p:User {user_id:\""+userId+"\"}),(b:Book) WHERE NOT (p)-[:RATED]->(b) RETURN b.book_id, b.original_title, b.authors, b.average_rating LIMIT 10;";
-		//"MATCH ()-[r:RATED]->(b:Book) WHERE NOT (:User {user_id:\""+userId+"\"})-[:RATED]->(b) RETURN b.book_id, b.original_title, b.authors, AVG(r.rating) LIMIT 10";
+		if(rated) query = "MATCH (p:User {user_id:\""+userId+"\"})-[r:RATED]->(b:Book) RETURN b.book_id, b.original_title, b.authors, r.rating  SKIP "+offset+" LIMIT 15";
+		else query = "MATCH (p:User {user_id:\""+userId+"\"}),(b:Book) WHERE NOT (p)-[:RATED]->(b) RETURN b.book_id, b.original_title, b.authors, b.average_rating ORDER BY b.average_rating DESC SKIP "+offset+" LIMIT 15;";
 		
 		System.out.println("Query: "+query);
 		StatementResult result = tx.run(query);
-		while ( result.hasNext() ) {
+		while ( result.hasNext() )
+		{
 			Record tmpRes = result.next();
 			Book b = new Book();
 			b.setBookId(Integer.parseInt(tmpRes.get(0).asString()));
 			b.setTitle(tmpRes.get(1).asString());
 			b.setAuthor(tmpRes.get(2).asString());
 			Double avg;
-			
-			try {
+			try
+			{
 				avg = tmpRes.get(3).asDouble();
 			} catch(Exception e) {
 				avg = Double.parseDouble(tmpRes.get(3).asString());
 			}
-			
-			b.setAvgRating( (Math.floor(avg*10) /10) );
+			b.setAvgRating(avg);
 			tmpBooks.add(b);
 		}
 		return tmpBooks;
 	}
 	
-	public List<Book> getBooks(int userId, boolean rated) //rated indica se voglio la lista di libri letti&votati oppure no
+	public List<Book> getBooks(int userId, boolean rated, int offset) //rated indica se voglio la lista di libri letti&votati oppure no
 	{
 		try (Session session = driver.session()) {
 			return session.readTransaction( new TransactionWork<List<Book>>() {
 				@Override
 				public List<Book> execute(Transaction tx) {
-					return matchBooks(tx, userId, rated);
+					return browseBooks(tx, userId, rated, offset);
 				}
 			} );
 		}
 	}
 	
-	private static List<Book> browseWishList(Transaction tx, int userId)
+	private static List<Book> browseWishList(Transaction tx, int userId, int offset)
 	{
 		List<Book> tmpBooks = new ArrayList<>();
-		String query = "MATCH (p:User)-[r:TO_READ]->(b:Book) WHERE p.user_id=\""+userId+"\" RETURN DISTINCT b.book_id, b.original_title, b.authors LIMIT 10";
+		String query = "MATCH (p:User)-[r:TO_READ]->(b:Book) WHERE p.user_id=\""+userId+"\" RETURN DISTINCT b.book_id, b.original_title, b.authors, b.average_rating ORDER BY b.average_rating DESC SKIP "+offset+" LIMIT 10";
 		
 		StatementResult result = tx.run(query);
 		while ( result.hasNext() ) {
@@ -71,18 +115,19 @@ public class GraphManager implements AutoCloseable
 			b.setBookId(Integer.parseInt(tmpRes.get(0).asString()));
 			b.setTitle(tmpRes.get(1).asString());
 			b.setAuthor(tmpRes.get(2).asString());
+			b.setAvgRating(Double.parseDouble(tmpRes.get(3).asString()));
 			tmpBooks.add(b);
 		}
 		return tmpBooks;
 	}
 	
-	public List<Book> getWishList(int userId)
+	public List<Book> getWishList(int userId, int offset)
 	{
 		try (Session session = driver.session()) {
 			return session.readTransaction( new TransactionWork<List<Book>>() {
 				@Override
 				public List<Book> execute(Transaction tx) {
-					return browseWishList(tx, userId);
+					return browseWishList(tx, userId, offset);
 				}
 			} );
 		}
@@ -154,7 +199,7 @@ public class GraphManager implements AutoCloseable
 		tx.run(query);
 		
 		//computes the new avg rating
-		String query2 = "MATCH ()-[r:RATED]->(b:Book {book_id:\""+bookId+"\"}) WITH b, AVG(r.rating) AS new_rating SET b.average_rating=new_rating RETURN b";
+		String query2 = "MATCH ()-[r:RATED]->(b:Book {book_id:\""+bookId+"\"}) WITH b, AVG(r.rating) AS new_rating SET b.average_rating=toString(ROUND(new_rating*100)/100)";
 		tx.run(query2);
 		
 		//removes book from WishList, in case it was there
@@ -189,6 +234,36 @@ public class GraphManager implements AutoCloseable
 				public Boolean execute(Transaction tx)
 				{
 					deleteBook(tx, bookId);
+					return true;
+				}
+			});
+		}
+	}
+	
+	private static void createBook(Transaction tx, String title, String authors) {
+		
+		//computes new ID as MAX_ID +1
+		String query = "MATCH (b:Book) RETURN COUNT(*)+2"; //"MATCH (b:Book) RETURN toInteger(MAX(b.book_id))+2";
+		StatementResult res1 = tx.run(query);
+		
+		if(res1.hasNext())
+		{
+			Record r = res1.next();
+			String bookId = Integer.toString(r.get(0).asInt());
+			String query2 = "CREATE (n:Book {title:\""+title+"\", original_title:\""+title+"\", authors:\""+authors+"\", average_rating:0.0, book_id:\""+bookId+"\"})";
+			System.out.println("Query: "+query2);
+			tx.run(query2);
+		}
+	}
+	
+	public void addBook(String title, String authors) {
+		try (Session session = driver.session()) {
+			session.writeTransaction(new TransactionWork<Boolean>()
+			{
+				@Override
+				public Boolean execute(Transaction tx)
+				{
+					createBook(tx, title, authors);
 					return true;
 				}
 			});
