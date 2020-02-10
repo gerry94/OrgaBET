@@ -19,7 +19,9 @@ public class CatalogueController extends Controller {
 
 	@FXML
 	private Button logout_but, next_but, previous_but, back, mark_but, add_but, view_but, tag_but, remove_but, stats_but;
-
+	
+	@FXML
+	private MenuButton search_filter;
 	
 	@FXML
 	private Label welcome_msg;
@@ -66,7 +68,7 @@ public class CatalogueController extends Controller {
 		page_count.setText("Page " + currentPage + " of " + totalPages);
 	}
 	
-	public void updateTable() {
+	private void updateTable() {
 		List<Book> tmpBooks = Main.gm.getBooks(Main.lm.getIdNode(), viewRated, tableOffset*15);
 		
 		ObservableList<Book> books = FXCollections.observableArrayList();
@@ -75,6 +77,15 @@ public class CatalogueController extends Controller {
 		
 		book_table.setItems(books);
 	}
+	
+	private void updateTable(List<Book> tmpBooks) {
+		ObservableList<Book> books = FXCollections.observableArrayList();
+		for(Book b: tmpBooks)
+			books.add(b);
+		
+		book_table.setItems(books);
+	}
+	
 	
 	@FXML
 	void viewRated(ActionEvent event) {
@@ -172,6 +183,21 @@ public class CatalogueController extends Controller {
 		System.out.println("Selected book: " + selectedBook.getBookId() + ", " + selectedBook.getTitle() + ", " + selectedBook.getAuthor());
 		Main.gm.removeBook(selectedBook.getBookId());
 		updateTable();
+	}
+	
+	@FXML
+	protected void setMenuOption(ActionEvent event) {
+		menuOption = ((MenuItem) event.getSource()).getText();
+		search_filter.setText(menuOption);
+	}
+	
+	@FXML
+	public void search(ActionEvent event) {
+		/*if(menuOption == null || menuOption.equals("Title")) updateTable(Main.gm.searchBooks(0, search_field.getText()));
+		else updateTable(Main.gm.searchBooks(1, search_field.getText()));
+		
+		menuOption = null;
+		search_filter.setText("Title");*/
 	}
 }
 

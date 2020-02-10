@@ -80,8 +80,7 @@ public class GraphManager implements AutoCloseable
 			b.setTitle(tmpRes.get(1).asString());
 			b.setAuthor(tmpRes.get(2).asString());
 			Double avg;
-			try
-			{
+			try { //dataset is corrupted, some avgs are double, others are strings -- not our fault
 				avg = tmpRes.get(3).asDouble();
 			} catch(Exception e) {
 				avg = Double.parseDouble(tmpRes.get(3).asString());
@@ -99,6 +98,44 @@ public class GraphManager implements AutoCloseable
 				@Override
 				public List<Book> execute(Transaction tx) {
 					return browseBooks(tx, userId, rated, offset);
+				}
+			} );
+		}
+	}
+	
+	private static List<Book> findBooks(Transaction tx, int criteria, String text)
+	{
+		List<Book> tmpBooks = new ArrayList<>();
+		String query = "";
+		
+		System.out.println("Query: " + query);
+		StatementResult result = tx.run(query);
+		while (result.hasNext())
+		{
+			Record tmpRes = result.next();
+			Book b = new Book();
+			b.setBookId(Integer.parseInt(tmpRes.get(0).asString()));
+			b.setTitle(tmpRes.get(1).asString());
+			b.setAuthor(tmpRes.get(2).asString());
+			Double avg;
+			try { //dataset is corrupted, some avgs are double, others are strings -- not our fault
+				avg = tmpRes.get(3).asDouble();
+			} catch(Exception e) {
+				avg = Double.parseDouble(tmpRes.get(3).asString());
+			}
+			b.setAvgRating(avg);
+			tmpBooks.add(b);
+		}
+		return tmpBooks;
+	}
+	
+	public List<Book> searchBooks(int criteria, String text) //cirteria=0 for title, 1 for author
+	{
+		try (Session session = driver.session()) {
+			return session.readTransaction( new TransactionWork<List<Book>>() {
+				@Override
+				public List<Book> execute(Transaction tx) {
+					return findBooks(tx, criteria, text);
 				}
 			} );
 		}

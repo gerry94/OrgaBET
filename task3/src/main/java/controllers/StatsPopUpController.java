@@ -58,4 +58,10 @@ public class StatsPopUpController extends Controller {
     public void updateTable(ObservableList<Tag> list) {
         tag_table.setItems(list);
     }
+    
+    @FXML
+    void backToCatalogue(ActionEvent event) throws IOException
+    {
+        Main.changeScene(4);
+    }
 }

@@ -45,6 +45,7 @@ public class Controller implements Initializable {
 
     protected static String userId;
     protected int tableOffset, currentPage, totalPages;
+    protected String menuOption = null;
     
     @FXML
     public void logout(ActionEvent event) throws IOException {

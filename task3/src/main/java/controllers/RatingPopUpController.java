@@ -16,7 +16,6 @@ public class RatingPopUpController extends Controller {
 	@FXML
 	private Button confirm_but;
 	
-	private String menuOption = null;
 	private Book selectedBook;
 	private int returnPage; //specifies which interface I shall return to
 	
