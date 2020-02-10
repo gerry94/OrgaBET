@@ -3,9 +3,9 @@ main/java/Main.class
 main/java/controllers/WishListController.class
 main/java/models/TaggedAs.class
 main/java/models/User.class
-main/java/models/Tag.class
-main/java/models/Rated.class
 main/java/models/Entity.class
+main/java/models/Rated.class
+main/java/models/Tag.class
 main/java/GraphManager$5.class
 main/java/controllers/RatingPopUpController.class
 main/java/GraphManager$2.class

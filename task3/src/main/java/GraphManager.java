@@ -1,5 +1,6 @@
 package main.java;
 
+import main.java.models.Tag;
 import org.neo4j.driver.v1.*;
 import main.java.models.Book;
 import java.util.*;
@@ -156,4 +157,76 @@ public class GraphManager implements AutoCloseable
 			} );
 		}
 	}
+
+
+	private static Integer countTotWish(Transaction tx, int bookId) {
+		String query = "MATCH (:User)-[r:TO_READ]->(b:Book) WHERE b.book_id = '" + bookId + "' RETURN count(r) as totWish";
+		System.out.println("Query: "+query);
+		StatementResult result = tx.run(query);
+		Record tmpRes = result.next();
+		Integer totWish = Integer.parseInt(tmpRes.get(0).toString());
+
+		return totWish;
+	}
+
+	public Integer getTotWish(int bookId) {
+		try (Session session = driver.session()) {
+			return session.writeTransaction( new TransactionWork<Integer>() {
+				@Override
+				public Integer execute(Transaction tx) {
+					return countTotWish(tx, bookId);
+				}
+			} );
+		}
+	}
+
+	private static List<Tag> matchTags(Transaction tx, int bookId) {
+		List<Tag> tag_list = new ArrayList<>();
+		String query = "MATCH (b:Book)-[r:TAGGED_AS]->(t:Tag) WHERE b.book_id = '" + bookId + "' RETURN t.tag_id, t.tag_name";
+		System.out.println("Query: "+query);
+
+		StatementResult result = tx.run(query);
+		while(result.hasNext()) {
+			Record tmpRes = result.next();
+			Tag t = new Tag();
+			t.setTag_id(Integer.parseInt(tmpRes.get(0).asString()));
+			t.setTag_name(tmpRes.get(1).asString());
+			tag_list.add(t);
+		}
+
+		return tag_list;
+	}
+
+	public List<Tag> getTags(int bookId) {
+		try (Session session = driver.session()) {
+			return session.writeTransaction( new TransactionWork<List<Tag>>() {
+				@Override
+				public List<Tag> execute(Transaction tx) {
+					return matchTags(tx, bookId);
+				}
+			} );
+		}
+	}
+
+	private static Integer countTotTag(Transaction tx, int bookId) {
+		String query = "MATCH (b:Book)-[r:TAGGED_AS]->(t:Tag) WHERE b.book_id = '" + bookId + "' RETURN count(r) as totTags";
+		System.out.println("Query: "+query);
+		StatementResult result2 = tx.run(query);
+		Record tmpRes = result2.next();
+		Integer totTags = Integer.parseInt(tmpRes.get(0).toString());
+
+		return totTags;
+	}
+
+	public Integer getTotTag(int bookId) {
+		try (Session session = driver.session()) {
+			return session.writeTransaction( new TransactionWork<Integer>() {
+				@Override
+				public Integer execute(Transaction tx) {
+					return countTotTag(tx, bookId);
+				}
+			} );
+		}
+	}
+
 }

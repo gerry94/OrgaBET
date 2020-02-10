@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="678.0" prefWidth="993.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.CatalogueController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="678.0" prefWidth="993.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.CatalogueController">
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="995.0" style="-fx-background-color: #eeeeff;">
          <children>
@@ -37,6 +32,7 @@
             <Button fx:id="view_but" layoutX="716.0" layoutY="85.0" mnemonicParsing="false" onAction="#viewRated" text="View Rated" />
             <TextField fx:id="tag_field" layoutX="598.0" layoutY="599.0" promptText="insert metadata tag" />
             <Button fx:id="tag_but" layoutX="793.0" layoutY="599.0" mnemonicParsing="false" onAction="#addTag" text="Add Tag" />
+            <Button fx:id="stats_but" layoutX="334.0" layoutY="599.0" mnemonicParsing="false" onAction="#viewStatistics" text="View Statistics" />
          </children>
       </AnchorPane>
    </children>

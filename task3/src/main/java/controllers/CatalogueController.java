@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class CatalogueController extends Controller {
-	
+
 	@FXML
-	private Button logout_but, next_but, previous_but, back, mark_but, add_but, view_but, tag_but;
+	private Button logout_but, next_but, previous_but, back, mark_but, add_but, view_but, tag_but, stats_but;
 	
 	@FXML
 	private Label welcome_msg;
@@ -138,6 +138,21 @@ public class CatalogueController extends Controller {
 		}
 		tag_field.clear();
 	}
-	
+
+	@FXML
+	void viewStatistics(ActionEvent event) throws IOException {
+		Book selectedBook = book_table.getSelectionModel().getSelectedItem();
+
+		if(selectedBook == null) {
+			System.out.println("No book was selected. Please select a book a retry.");
+			return;
+		}
+
+		System.out.println("Selected book: "+selectedBook.getBookId()+", "+ selectedBook.getTitle()+", "+ selectedBook.getAuthor());/*
+		Main.gm.viewTotWish(selectedBook.getBookId());
+		Main.gm.viewTags(selectedBook.getBookId());*/
+		Main.statsPopUp(selectedBook, 4);
+	}
+
 }
 

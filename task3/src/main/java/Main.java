@@ -7,6 +7,7 @@ import javafx.scene.*;
 import javafx.stage.*;
 import javafx.geometry.*;
 import main.java.controllers.RatingPopUpController;
+import main.java.controllers.StatsPopUpController;
 import main.java.models.Book;
 
 import java.io.IOException;
@@ -80,10 +81,28 @@ public class Main extends Application {
         root = loader.load();
         
         RatingPopUpController cvc = loader.getController();
+        System.out.println(cvc);
         cvc.setSelectedBook(b); // Passing the book-object to the other Controller
         cvc.setReturnPage(page); //telling which interface to return to - 3 wish, 4 catalogue
         
         stage.setScene(new Scene(root, 360, 230));
+        stage.show();
+        centerStage(stage);
+    }
+
+    public static void statsPopUp(Book b, int page) throws IOException
+    {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("/StatsPopUp.fxml"));
+        root = loader.load();
+
+        StatsPopUpController cvc = loader.getController();
+        System.out.println(cvc);
+        cvc.setSelectedBook(b); // Passing the book-object to the other Controller
+        cvc.setReturnPage(page); //telling which interface to return to - 3 wish, 4 catalogue
+        cvc.init();
+
+        stage.setScene(new Scene(root, 360, 440));
         stage.show();
         centerStage(stage);
     }

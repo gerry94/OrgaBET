@@ -103,4 +103,5 @@ public class WishListController extends Controller
 		}
 		Main.ratingPopUp(selectedBook, 3); //3 for wish page
 	}
+
 }
