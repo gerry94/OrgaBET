@@ -70,12 +70,12 @@ public class Controller implements Initializable {
             userId = login_code.getText();
             privilege = Integer.parseInt(result.get(2));
 
-            System.out.println("\n LOGGED IN AS: " + username +", " + privilege);
+            System.out.println("\n LOGGED IN AS: " + username +", privilege: " + privilege);
 
             if (privilege == 0) {
                 Main.changeScene(1);
             } else if (privilege == 1)
-                Main.changeScene(2);
+                Main.changeScene(5);
         }
     }
     

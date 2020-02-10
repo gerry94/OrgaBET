@@ -37,6 +37,7 @@
             <Button fx:id="view_but" layoutX="716.0" layoutY="85.0" mnemonicParsing="false" onAction="#viewRated" text="View Rated" />
             <TextField fx:id="tag_field" layoutX="598.0" layoutY="599.0" promptText="insert metadata tag" />
             <Button fx:id="tag_but" layoutX="793.0" layoutY="599.0" mnemonicParsing="false" onAction="#addTag" text="Add Tag" />
+            <Button fx:id="remove_but" layoutX="54.0" layoutY="634.0" mnemonicParsing="false" onAction="#removeBook" text="Remove Selected" visible="false" />
          </children>
       </AnchorPane>
    </children>

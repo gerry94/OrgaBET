@@ -22,10 +22,8 @@ public class GraphManager implements AutoCloseable
 		List<Book> tmpBooks = new ArrayList<>();
 		String query;
 		if(rated) query = "MATCH (p:User {user_id:\""+userId+"\"})-[r:RATED]->(b:Book) RETURN b.book_id, b.original_title, b.authors, r.rating LIMIT 10";
-		else query = "MATCH ()-[r:RATED]->(b:Book) WHERE NOT (:User {user_id:\""+userId+"\"})-[:RATED]->(b) RETURN b.book_id, b.original_title, b.authors, AVG(r.rating) LIMIT 10";
-		
-		// ""MATCH ()-[r:RATED]->(b:Book) RETURN b.book_id, b.original_title, b.authors, AVG(r.rating) LIMIT 10";
-		//"MATCH (p:User {user_id:\""+userId+"\"}),(b:Book) WHERE NOT (p)-[:RATED]->(b) MATCH ()-[r:RATED]->(b) RETURN b.book_id, b.original_title, b.authors, AVG(r.rating) LIMIT 10;";
+		else query = "MATCH (p:User {user_id:\""+userId+"\"}),(b:Book) WHERE NOT (p)-[:RATED]->(b) RETURN b.book_id, b.original_title, b.authors, b.average_rating LIMIT 10;";
+		//"MATCH ()-[r:RATED]->(b:Book) WHERE NOT (:User {user_id:\""+userId+"\"})-[:RATED]->(b) RETURN b.book_id, b.original_title, b.authors, AVG(r.rating) LIMIT 10";
 		
 		System.out.println("Query: "+query);
 		StatementResult result = tx.run(query);
@@ -35,7 +33,15 @@ public class GraphManager implements AutoCloseable
 			b.setBookId(Integer.parseInt(tmpRes.get(0).asString()));
 			b.setTitle(tmpRes.get(1).asString());
 			b.setAuthor(tmpRes.get(2).asString());
-			b.setAvgRating(tmpRes.get(3).asDouble());
+			Double avg;
+			
+			try {
+				avg = tmpRes.get(3).asDouble();
+			} catch(Exception e) {
+				avg = Double.parseDouble(tmpRes.get(3).asString());
+			}
+			
+			b.setAvgRating( (Math.floor(avg*10) /10) );
 			tmpBooks.add(b);
 		}
 		return tmpBooks;
@@ -88,15 +94,17 @@ public class GraphManager implements AutoCloseable
 		tx.run(query);
 	}
 	
-	public boolean addWish(int userId, int bookId) {
+	public void addWish(int userId, int bookId) {
 		try (Session session = driver.session()) {
-			return session.writeTransaction( new TransactionWork<Boolean>() {
+			session.writeTransaction(new TransactionWork<Boolean>()
+			{
 				@Override
-				public Boolean execute(Transaction tx) {
+				public Boolean execute(Transaction tx)
+				{
 					insertWish(tx, userId, bookId);
 					return true;
 				}
-			} );
+			});
 		}
 	}
 	
@@ -106,15 +114,17 @@ public class GraphManager implements AutoCloseable
 		tx.run(query);
 	}
 	
-	public boolean removeWish(int userId, int bookId) {
+	public void removeWish(int userId, int bookId) {
 		try (Session session = driver.session()) {
-			return session.writeTransaction( new TransactionWork<Boolean>() {
+			session.writeTransaction(new TransactionWork<Boolean>()
+			{
 				@Override
-				public Boolean execute(Transaction tx) {
+				public Boolean execute(Transaction tx)
+				{
 					deleteWish(tx, userId, bookId);
 					return true;
 				}
-			} );
+			});
 		}
 	}
 
@@ -124,15 +134,17 @@ public class GraphManager implements AutoCloseable
 		tx.run(query);
 	}
 	
-	public boolean addTag(int bookId, String tag) {
+	public void addTag(int bookId, String tag) {
 		try (Session session = driver.session()) {
-			return session.writeTransaction( new TransactionWork<Boolean>() {
+			session.writeTransaction(new TransactionWork<Boolean>()
+			{
 				@Override
-				public Boolean execute(Transaction tx) {
+				public Boolean execute(Transaction tx)
+				{
 					insertTag(tx, bookId, tag);
 					return true;
 				}
-			} );
+			});
 		}
 	}
 
@@ -141,19 +153,45 @@ public class GraphManager implements AutoCloseable
 		System.out.println("Query: "+query);
 		tx.run(query);
 		
+		//computes the new avg rating
+		String query2 = "MATCH ()-[r:RATED]->(b:Book {book_id:\""+bookId+"\"}) WITH b, AVG(r.rating) AS new_rating SET b.average_rating=new_rating RETURN b";
+		tx.run(query2);
+		
 		//removes book from WishList, in case it was there
 		tx.run("MATCH (u:User {user_id:\""+userId+"\"})-[r:TO_READ]->(b:Book {book_id:\""+bookId+"\"}) DELETE r");
 	}
 	
-	public boolean addRating(int bookId, int userId, int rating) {
+	public void addRating(int bookId, int userId, int rating) {
 		try (Session session = driver.session()) {
-			return session.writeTransaction( new TransactionWork<Boolean>() {
+			session.writeTransaction(new TransactionWork<Boolean>()
+			{
 				@Override
-				public Boolean execute(Transaction tx) {
+				public Boolean execute(Transaction tx)
+				{
 					insertRating(tx, bookId, userId, rating);
 					return true;
 				}
-			} );
+			});
+		}
+	}
+	
+	private static void deleteBook(Transaction tx, int bookId) {
+		String query = "MATCH (b:Book {book_id:\""+bookId+"\"}) DETACH DELETE b";
+		System.out.println("Query: "+query);
+		tx.run(query);
+	}
+	
+	public void removeBook(int bookId) {
+		try (Session session = driver.session()) {
+			session.writeTransaction(new TransactionWork<Boolean>()
+			{
+				@Override
+				public Boolean execute(Transaction tx)
+				{
+					deleteBook(tx, bookId);
+					return true;
+				}
+			});
 		}
 	}
 }

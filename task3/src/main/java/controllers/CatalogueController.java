@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 public class CatalogueController extends Controller {
 	
 	@FXML
-	private Button logout_but, next_but, previous_but, back, mark_but, add_but, view_but, tag_but;
+	private Button logout_but, next_but, previous_but, back, mark_but, add_but, view_but, tag_but, remove_but;
 	
 	@FXML
 	private Label welcome_msg;
@@ -40,7 +40,11 @@ public class CatalogueController extends Controller {
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		welcome_msg.setText("Welcome, " + Controller.getUsername());
 		
+		//admin può taggare, votare ecc i libri?
+		if(Main.lm.getPrivilege()==1) remove_but.setVisible(true);
+		
 		//blocking table column resize
+		idCol.setResizable(false);
 		titleCol.setResizable(false);
 		authorCol.setResizable(false);
 		ratingCol.setResizable(false);
@@ -51,14 +55,8 @@ public class CatalogueController extends Controller {
 		authorCol.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
 		ratingCol.setCellValueFactory(new PropertyValueFactory<Book, Double>("avgRating"));
 		
-		//tableOffset = 0;
-		
-		List<Book> tmpBooks = Main.gm.getBooks(Main.lm.getIdNode(), viewRated);
-		
-		ObservableList<Book> books = FXCollections.observableArrayList();
-		for(Book b: tmpBooks)
-			books.add(b);
-		updateTable(books);
+		tableOffset = 0;
+		updateTable(tableOffset);
 		/*
 		previous_but.setDisable(true);
 		totalPages = ((Main.lm.getNumBooks() + 9)/10);
@@ -67,8 +65,14 @@ public class CatalogueController extends Controller {
 		page_count.setText("Page " + currentPage + " of " + totalPages);*/
 	}
 	
-	public void updateTable(ObservableList<Book> list) {
-		book_table.setItems(list);
+	public void updateTable(int offset) {
+		List<Book> tmpBooks = Main.gm.getBooks(Main.lm.getIdNode(), viewRated);
+		
+		ObservableList<Book> books = FXCollections.observableArrayList();
+		for(Book b: tmpBooks)
+			books.add(b);
+		
+		book_table.setItems(books);
 	}
 	
 	@FXML
@@ -87,12 +91,7 @@ public class CatalogueController extends Controller {
 			add_but.setDisable(false);
 		}
 		
-		List<Book> tmpBooks = Main.gm.getBooks(Main.lm.getIdNode(), viewRated);
-		
-		ObservableList<Book> books = FXCollections.observableArrayList();
-		for(Book b: tmpBooks)
-			books.add(b);
-		updateTable(books);
+		updateTable(tableOffset);
 	}
 	@FXML
 	void addToWishList(ActionEvent event) {
@@ -139,5 +138,16 @@ public class CatalogueController extends Controller {
 		tag_field.clear();
 	}
 	
+	@FXML
+	void removeBook(ActionEvent event) {
+		Book selectedBook = book_table.getSelectionModel().getSelectedItem();
+		
+		if(selectedBook == null) {
+			System.out.println("No book was selected. Please select a book a retry.");
+			return;
+		}
+		Main.gm.removeBook(selectedBook.getBookId());
+		updateTable(tableOffset);
+	}
 }
 
