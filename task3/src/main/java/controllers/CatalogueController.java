@@ -156,15 +156,15 @@ public class CatalogueController extends Controller {
 	@FXML
 	void removeBook(ActionEvent event) {
 		Book selectedBook = book_table.getSelectionModel().getSelectedItem();
-		
-		if(selectedBook == null) {
+
+		if (selectedBook == null) {
 			System.out.println("No book was selected. Please select a book a retry.");
 			return;
 		}
 
-		System.out.println("Selected book: "+selectedBook.getBookId()+", "+ selectedBook.getTitle()+", "+ selectedBook.getAuthor());
+		System.out.println("Selected book: " + selectedBook.getBookId() + ", " + selectedBook.getTitle() + ", " + selectedBook.getAuthor());
 		Main.gm.removeBook(selectedBook.getBookId());
 		updateTable(tableOffset);
-
+	}
 }
 
