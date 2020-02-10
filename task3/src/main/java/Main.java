@@ -58,11 +58,11 @@ public class Main extends Application {
             	root = FXMLLoader.load(Main.class.getResource("/Catalogue.fxml"));
                 stage.setScene(new Scene(root, 1000, 640));
             	break;
-            /*case 5:
-            	root = FXMLLoader.load(Main.class.getResource("/ReadBooks.fxml"));
-                stage.setScene(new Scene(root, 800, 640));
+            case 5:
+            	root = FXMLLoader.load(Main.class.getResource("/AdminHome.fxml"));
+                stage.setScene(new Scene(root, 230, 360));
             	break;
-            case 6:
+            /*case 6:
                 root = FXMLLoader.load(Main.class.getResource("/RatingPopUp.fxml"));
                 stage.setScene(new Scene(root, 360, 230));
                 break;*/
