@@ -55,6 +55,7 @@ public class WishListController extends Controller
 		previous_but.setDisable(true);
 		totalPages = ((Main.gm.getNumWish(Main.lm.getIdNode()) + 14)/15);
 		currentPage = 1;
+		if(totalPages == 1) next_but.setDisable(true);
 		
 		page_count.setText("Page " + currentPage + " of " + totalPages);
 	}

@@ -240,7 +240,6 @@ public class GraphManager implements AutoCloseable
 			});
 		}
 	}
-<<<<<<< HEAD
 	
 	private static void createBook(Transaction tx, String title, String authors) {
 		
@@ -271,8 +270,6 @@ public class GraphManager implements AutoCloseable
 			});
 		}
 	}
-=======
-
 
 	private static Integer countTotWish(Transaction tx, int bookId) {
 		String query = "MATCH (:User)-[r:TO_READ]->(b:Book) WHERE b.book_id = '" + bookId + "' RETURN count(r) as totWish";
@@ -343,6 +340,4 @@ public class GraphManager implements AutoCloseable
 			} );
 		}
 	}
-
->>>>>>> bb278b2c0f519000b2aacf41e6aa09938d4dd97c
 }
