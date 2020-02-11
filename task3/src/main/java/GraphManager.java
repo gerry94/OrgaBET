@@ -379,22 +379,19 @@ public class GraphManager implements AutoCloseable
 		}
 	}
 
-	private static List<Book> browseSuggestion(Transaction tx, int userId, boolean rated)
+	private static List<Book> browseSuggestion(Transaction tx, int userId)
 	{
 		List<Book> tmpBooks = new ArrayList<>();
-		String query;
+		String query = "MATCH (u:User {user_id:\""+userId+"\"})-[r:RATED]->(b:Book)-[ta:TAGGED_AS]->(t:Tag)<-[ta2:TAGGED_AS]-(b2:Book) WHERE r.rating >= 4 AND b <> b2 WITH b,b2,collect(DISTINCT t) as commonTag WHERE size(commonTag) >= 3 RETURN DISTINCT b2.book_id, b2.original_title, b2.authors, b2.average_rating, size(commonTag) ORDER BY size(commonTag) DESC, b2.average_rating DESC LIMIT 10";
 
-		if(rated) query = "MATCH (u:User)-[r:RATED]->(b:Book)-[ta:TAGGED_AS]->(t:Tag)<-[ta2:TAGGED_AS]-(b2:Book)\n" +
-				"WHERE u.user_id='" + userId + "' AND r.rating >= 4 AND ta.count >= 100 AND ta2.count >= 100 AND b <> b2\n";
-		else query ="MATCH (u:User)-[r:TO_READ]->(b:Book)-[ta:TAGGED_AS]->(t:Tag)<-[ta2:TAGGED_AS]-(b2:Book)\n" +
-				"WHERE u.user_id='" + userId + "' AND ta.count >= 100 AND ta2.count >= 100 AND b <> b2\n";
-		query = query + "WITH b,b2,collect(DISTINCT t) as commonTag\n" +
-				"WHERE size(commonTag) >= 5\n" +
-				"RETURN DISTINCT b2.book_id, b2.original_title, b2.authors, b2.average_rating, size(commonTag) \n" +
-				"ORDER BY size(commonTag) DESC, b2.average_rating DESC LIMIT 5";
-
-		System.out.println("Query: "+query);
+		String query2 = "MATCH (u:User {user_id:\""+userId+"\"})-[r:RATED ]->(b:Book)<-[r2:RATED]-(u2:User)-[r3:RATED]->(b2:Book) WHERE r.rating>=4 AND r2.rating>=4 AND r3.rating>=4 AND b <> b2 AND u <> u2 AND NOT EXISTS ((u)-[:RATED]->(b2)) RETURN DISTINCT b2.book_id, b2.original_title, b2.authors, b2.average_rating ORDER BY b2.average_rating DESC LIMIT 10";
+		
+		System.out.println("Query: "+query+"\n");
+		System.out.println("Query: "+query2+"\n");
+		
 		StatementResult result = tx.run(query);
+		StatementResult result2 = tx.run(query2);
+		
 		while ( result.hasNext() )
 		{
 			Record tmpRes = result.next();
@@ -411,16 +408,33 @@ public class GraphManager implements AutoCloseable
 			b.setAvgRating(avg);
 			tmpBooks.add(b);
 		}
+		
+		while ( result2.hasNext() )
+		{
+			Record tmpRes = result2.next();
+			Book b = new Book();
+			b.setBookId(Integer.parseInt(tmpRes.get(0).asString()));
+			b.setTitle(tmpRes.get(1).asString());
+			b.setAuthor(tmpRes.get(2).asString());
+			Double avg;
+			try { //dataset is corrupted, some avgs are double, others are strings -- not our fault
+				avg = tmpRes.get(3).asDouble();
+			} catch(Exception e) {
+				avg = Double.parseDouble(tmpRes.get(3).asString());
+			}
+			b.setAvgRating(avg);
+			if(!tmpBooks.contains(b)) tmpBooks.add(b);
+		}
 		return tmpBooks;
 	}
 
-	public List<Book> getSuggestion(int userId, boolean rated) //rated indica se voglio le suggestion per rating o per wishlist
+	public List<Book> getSuggestion(int userId) //rated indica se voglio le suggestion per rating o per wishlist
 	{
 		try (Session session = driver.session()) {
 			return session.readTransaction( new TransactionWork<List<Book>>() {
 				@Override
 				public List<Book> execute(Transaction tx) {
-					return browseSuggestion(tx, userId, rated);
+					return browseSuggestion(tx, userId);
 				}
 			} );
 		}

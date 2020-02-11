@@ -48,7 +48,7 @@ public class Main extends Application {
                 break;
             case 2:
             	root = FXMLLoader.load(Main.class.getResource("/Suggestions.fxml"));
-                stage.setScene(new Scene(root, 800, 640));
+                stage.setScene(new Scene(root, 1000, 640));
             	break;
             case 3:
             	root = FXMLLoader.load(Main.class.getResource("/WishList.fxml"));

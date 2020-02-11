@@ -51,12 +51,12 @@ public class SuggestionsController extends Controller {
 	}
 
 	private void updateTable() {
-		List<Book> tmpBooksR = Main.gm.getSuggestion(Main.lm.getIdNode(), true);
-		List<Book> tmpBooksW = Main.gm.getSuggestion(Main.lm.getIdNode(), false);
+		List<Book> tmpBooksR = Main.gm.getSuggestion(Main.lm.getIdNode());
+		//List<Book> tmpBooksW = Main.gm.getSuggestion(Main.lm.getIdNode(), false);
 
 		ObservableList<Book> books = FXCollections.observableArrayList();
 		books.addAll(tmpBooksR);
-		books.addAll(tmpBooksW);
+		//books.addAll(tmpBooksW);
 
 		book_table.setItems(books);
 	}

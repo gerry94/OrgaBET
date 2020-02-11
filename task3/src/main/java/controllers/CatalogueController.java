@@ -44,7 +44,10 @@ public class CatalogueController extends Controller {
 		welcome_msg.setText("Welcome, " + Controller.getUsername());
 		
 		//admin può taggare, votare ecc i libri?
-		if(Main.lm.getPrivilege()==1) remove_but.setVisible(true);
+		if(Main.lm.getPrivilege()==1) {
+			remove_but.setVisible(true);
+			stats_but.setVisible(true);
+		}
 		
 		//blocking table column resize
 		//idCol.setResizable(false);
@@ -183,21 +186,6 @@ public class CatalogueController extends Controller {
 		System.out.println("Selected book: " + selectedBook.getBookId() + ", " + selectedBook.getTitle() + ", " + selectedBook.getAuthor());
 		Main.gm.removeBook(selectedBook.getBookId());
 		updateTable();
-	}
-	
-	@FXML
-	protected void setMenuOption(ActionEvent event) {
-		menuOption = ((MenuItem) event.getSource()).getText();
-		search_filter.setText(menuOption);
-	}
-	
-	@FXML
-	public void search(ActionEvent event) {
-		/*if(menuOption == null || menuOption.equals("Title")) updateTable(Main.gm.searchBooks(0, search_field.getText()));
-		else updateTable(Main.gm.searchBooks(1, search_field.getText()));
-		
-		menuOption = null;
-		search_filter.setText("Title");*/
 	}
 }
 

@@ -28,8 +28,7 @@
             </TableView>
 
             <Button fx:id="back" layoutX="38.0" layoutY="111.0" mnemonicParsing="false" onAction="#back" text="Back to Menu" />
-            <Button fx:id="add_but" layoutX="194.0" layoutY="599.0" mnemonicParsing="false" onAction="#addToWishList" text="Add to Wish List" />
-            <Button fx:id="stats_but" layoutX="334.0" layoutY="599.0" mnemonicParsing="false" onAction="#viewStatistics" text="View Statistics" />
+            <Button fx:id="add_but" layoutX="41.0" layoutY="595.0" mnemonicParsing="false" onAction="#addToWishList" text="Add to Wish List" />
             <Label layoutX="445.0" layoutY="34.0" text="Suggestions Page" />
          </children>
       </AnchorPane>
