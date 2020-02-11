@@ -63,6 +63,7 @@ public class GraphManager implements AutoCloseable
 			} );
 		}
 	}
+
 	private static List<Book> browseBooks(Transaction tx, int userId, boolean rated, int offset)
 	{
 		List<Book> tmpBooks = new ArrayList<>();
@@ -373,6 +374,53 @@ public class GraphManager implements AutoCloseable
 				@Override
 				public Integer execute(Transaction tx) {
 					return countTotTag(tx, bookId);
+				}
+			} );
+		}
+	}
+
+	private static List<Book> browseSuggestion(Transaction tx, int userId, boolean rated)
+	{
+		List<Book> tmpBooks = new ArrayList<>();
+		String query;
+
+		if(rated) query = "MATCH (u:User)-[r:RATED]->(b:Book)-[ta:TAGGED_AS]->(t:Tag)<-[ta2:TAGGED_AS]-(b2:Book)\n" +
+				"WHERE u.user_id='" + userId + "' AND r.rating >= 4 AND ta.count >= 100 AND ta2.count >= 100 AND b <> b2\n";
+		else query ="MATCH (u:User)-[r:TO_READ]->(b:Book)-[ta:TAGGED_AS]->(t:Tag)<-[ta2:TAGGED_AS]-(b2:Book)\n" +
+				"WHERE u.user_id='" + userId + "' AND ta.count >= 100 AND ta2.count >= 100 AND b <> b2\n";
+		query = query + "WITH b,b2,collect(DISTINCT t) as commonTag\n" +
+				"WHERE size(commonTag) >= 5\n" +
+				"RETURN DISTINCT b2.book_id, b2.original_title, b2.authors, b2.average_rating, size(commonTag) \n" +
+				"ORDER BY size(commonTag) DESC, b2.average_rating DESC LIMIT 5";
+
+		System.out.println("Query: "+query);
+		StatementResult result = tx.run(query);
+		while ( result.hasNext() )
+		{
+			Record tmpRes = result.next();
+			Book b = new Book();
+			b.setBookId(Integer.parseInt(tmpRes.get(0).asString()));
+			b.setTitle(tmpRes.get(1).asString());
+			b.setAuthor(tmpRes.get(2).asString());
+			Double avg;
+			try { //dataset is corrupted, some avgs are double, others are strings -- not our fault
+				avg = tmpRes.get(3).asDouble();
+			} catch(Exception e) {
+				avg = Double.parseDouble(tmpRes.get(3).asString());
+			}
+			b.setAvgRating(avg);
+			tmpBooks.add(b);
+		}
+		return tmpBooks;
+	}
+
+	public List<Book> getSuggestion(int userId, boolean rated) //rated indica se voglio le suggestion per rating o per wishlist
+	{
+		try (Session session = driver.session()) {
+			return session.readTransaction( new TransactionWork<List<Book>>() {
+				@Override
+				public List<Book> execute(Transaction tx) {
+					return browseSuggestion(tx, userId, rated);
 				}
 			} );
 		}

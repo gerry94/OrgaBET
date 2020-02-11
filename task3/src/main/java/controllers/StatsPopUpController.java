@@ -60,8 +60,8 @@ public class StatsPopUpController extends Controller {
     }
     
     @FXML
-    void backToCatalogue(ActionEvent event) throws IOException
+    void backTo(ActionEvent event) throws IOException
     {
-        Main.changeScene(4);
+        Main.changeScene(this.returnPage);
     }
 }
