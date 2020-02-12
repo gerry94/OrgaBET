@@ -47,6 +47,12 @@ public class CatalogueController extends Controller {
 		if(Main.lm.getPrivilege()==1) {
 			remove_but.setVisible(true);
 			stats_but.setVisible(true);
+
+			mark_but.setVisible(false);
+			add_but.setVisible(false);
+			tag_but.setVisible(false);
+			tag_field.setVisible(false);
+			view_but.setVisible(false);
 		}
 		
 		//blocking table column resize
