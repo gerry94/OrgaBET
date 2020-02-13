@@ -382,9 +382,9 @@ public class GraphManager implements AutoCloseable
 	private static List<Book> browseSuggestion(Transaction tx, int userId)
 	{
 		List<Book> tmpBooks = new ArrayList<>();
-		String query = "MATCH (u:User {user_id:\""+userId+"\"})-[r:RATED]->(b:Book)-[ta:TAGGED_AS]->(t:Tag)<-[ta2:TAGGED_AS]-(b2:Book) WHERE r.rating >= 4 AND b <> b2 WITH b,b2,collect(DISTINCT t) as commonTag WHERE size(commonTag) >= 3 RETURN DISTINCT b2.book_id, b2.original_title, b2.authors, b2.average_rating, size(commonTag) ORDER BY size(commonTag) DESC, b2.average_rating DESC LIMIT 5";
+		String query = "MATCH (u:User {user_id:\""+userId+"\"})-[r:RATED]->(b:Book)-[ta:TAGGED_AS]->(t:Tag)<-[ta2:TAGGED_AS]-(b2:Book) WHERE r.rating >= 4 AND b <> b2 WITH u,b2,collect(DISTINCT t) as commonTag WHERE size(commonTag) >= 3 AND NOT EXISTS ((u)-[:TO_READ]->(b2)) RETURN DISTINCT b2.book_id, b2.original_title, b2.authors, b2.average_rating, size(commonTag) ORDER BY size(commonTag) DESC, b2.average_rating DESC LIMIT 5";
 
-		String query2 = "MATCH (u:User {user_id:\""+userId+"\"})-[r:RATED ]->(b:Book)<-[r2:RATED]-(u2:User)-[r3:RATED]->(b2:Book) WHERE r.rating>=4 AND r2.rating>=4 AND r3.rating>=4 AND b <> b2 AND u <> u2 AND NOT EXISTS ((u)-[:RATED]->(b2)) RETURN DISTINCT b2.book_id, b2.original_title, b2.authors, b2.average_rating ORDER BY b2.average_rating DESC LIMIT 5";
+		String query2 = "MATCH (u:User {user_id:\""+userId+"\"})-[r:RATED ]->(b:Book)<-[r2:RATED]-(u2:User)-[r3:RATED]->(b2:Book) WHERE r.rating>=4 AND r2.rating>=4 AND r3.rating>=4 AND b <> b2 AND u <> u2 AND NOT EXISTS ((u)-[:RATED]->(b2)) AND NOT EXISTS ((u)-[:TO_READ]->(b2)) RETURN DISTINCT b2.book_id, b2.original_title, b2.authors, b2.average_rating ORDER BY b2.average_rating DESC LIMIT 5";
 		
 		System.out.println("Query: "+query+"\n");
 		System.out.println("Query: "+query2+"\n");
